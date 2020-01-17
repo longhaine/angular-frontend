@@ -1,0 +1,37 @@
+.cus-container{
+    padding-top: 3rem;
+    padding-left: 5rem;
+    padding-right:5rem;
+    padding-bottom: 7rem;
+}
+.close{
+    padding: 1rem;
+}
+.cus-header-modal{
+    margin-bottom: 1.5rem;
+}
+p{
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+.cus-header-modal p{
+    font-size: 1.5rem;
+}
+.cus-content-modal p{
+    color: #4c4c4b;
+    font-size:0.9rem;
+}
+.cus-footer-modal p{
+    color: #4c4c4b;
+    font-size:0.9rem;
+    font-weight: lighter;
+}
+span{
+    text-decoration: underline;
+    cursor: pointer;
+}
+.social-img{
+    width: 160px;
+    height: auto;
+    cursor: pointer;
+}

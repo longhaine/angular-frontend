@@ -1,0 +1,25 @@
+<div>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="container cus-container">
+    <div class="cus-header-modal text-center">
+        <p>Good to see you again.</p>
+        <p>Please log in.</p>
+    </div>
+    <div class="cus-content-modal">
+        <p>EMAIL ADDRESS</p>
+        <input type="text" class="form-control mb-2" placeholder="annie@gmail.com" aria-label="Username" aria-describedby="basic-addon1">
+        <button type="button" class="btn btn-secondary btn-lg w-100 mb-2">CONTINUE</button>
+        <p class="text-center mb-2">Or continue with</p>
+        <div class="d-flex justify-content-between mb-3">
+            <img class="social-img" src="assets/images/facebook-login.jpg" alt="">
+            <img class="social-img" src="assets/images/google-login.jpg" alt="">
+        </div>
+    </div>
+    <div class="cus-footer-modal text-center">
+        <p>By providing your email address, you agree to our</p>
+        <p><span>Privacy Policy</span> and <span>Terms of Service.</span></p>
+    </div>
+</div>

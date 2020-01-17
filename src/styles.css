@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+body{
+    font-family: 'Nunito', sans-serif;
+}
+.btn{
+    border-radius: 0;
+}
+.btn-secondary:hover{
+    background-color: black;
+}
+p{
+    margin-block-start: 0;
+    margin-block-end: 0;
+    color:#4c4c4b;
+}
+input{
+    border-radius: 0 !important;
+}

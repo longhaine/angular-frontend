@@ -1,1 +1,21 @@
-<h1>Header works!</h1>
+<div class="d-flex justify-content-between header-banner">
+    <div class="left-banner d-flex justify-content-start">
+        <div class="header-item mr-5">
+            Women
+        </div>
+        <div class="header-item mr-5">
+            Men
+        </div>
+        <div class="header-item">
+            About
+        </div>
+    </div>
+    <div class="middle-banner">
+        <img src="assets/images/logo-banner.png" alt="">
+    </div>
+    <div class="right-banner d-flex justify-content-start">
+        <div class="header-item" (click)="openLoginComponent()">Log In</div>
+        <div class="header-item ml-5" (click)="openSignupComponent()">Sign Up</div>
+        <div class="header-item ml-5"><i class="las la-shopping-bag la-2x"></i></div>
+    </div>
+</div>

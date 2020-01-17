@@ -1,0 +1,35 @@
+<div>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="container cus-container">
+        <div class="cus-header-modal text-center">
+            <i class="las la-bell la-3x"></i>
+            <h3>Get a sneak peek.</h3>
+            <p>Sign up to see what we’ve been working on and claim first dibs on all new product launches.</p>
+            <p>Stay in the know, on the go.</p>
+        </div>
+        <div class="cus-content-modal">
+            <p>EMAIL ADDRESS</p>
+            <input type="text" class="form-control mb-2" placeholder="annie@gmail.com" aria-label="Username" aria-describedby="basic-addon1">
+            <p>PASSWORD</p>
+            <input type="text" class="form-control mb-2" aria-label="Password" aria-describedby="basic-addon1">
+            <p>FULL NAME</p>
+            <input type="text" class="form-control mb-2" aria-label="Fullname" aria-describedby="basic-addon1">
+            <p>WHAT STYLES ARE YOU INTERESTED IN?</p>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                <label class="form-check-label" for="exampleRadios1">WOMEN</label>
+            </div>
+            <div class="form-check mb-3">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                    <label class="form-check-label" for="exampleRadios1">MEN</label>
+            </div>
+            <button type="button" class="btn btn-secondary btn-lg w-100 mb-2">CONTINUE</button>
+        </div>
+        <div class="cus-footer-modal text-center">
+            <p>By providing your email address, you agree to our</p>
+            <p><span>Privacy Policy</span> and <span>Terms of Service.</span></p>
+        </div>
+    </div>
