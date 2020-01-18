@@ -1,12 +1,38 @@
 <div class="d-flex justify-content-between header-banner dropdown">
     <div class="left-banner d-flex justify-content-start">
-        <div class="header-item underline-item mr-5" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="header-item underline-item mr-5" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Women
         </div>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu">
+            <div class="d-flex flex-row">
+                <div class="menu-item">
+                    <div class="menu-header-item">
+                        Featured
+                    </div>
+                    <div class="menu-sub-item"><a>The Glove Boot</a></div>
+                    <div class="menu-sub-item"><a>New Arrivals</a></div>
+                    <div class="menu-sub-item"><a>Best-Sellers</a></div>
+                    <div class="menu-sub-item"><a>Coming Soon</a></div>
+                    <div class="menu-sub-item"><a>Back in Stock</a></div>
+                    <div class="menu-sub-item"><a>Choose What You Pay</a></div>
+                    <div class="menu-sub-item"><a>Final Sale</a></div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-header-item">
+                        Apparel
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-header-item">
+                        Shoes
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-header-item">
+                        Accessories
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="header-item underline-item mr-5">
             Men
@@ -21,8 +47,40 @@
     <div class="right-banner d-flex justify-content-start">
         <div class="header-item" (click)="openLoginComponent()">Log In</div>
         <div class="header-item signup-button ml-5" (click)="openSignupComponent()">Sign Up</div>
-        <div class="header-item bag-button ml-5">
-            <i class="las la-shopping-bag la-2x"></i>
+        <div class="header-item bag-button ml-5 dropdown-menu-right">
+            <i class="las la-shopping-bag la-2x" id="dropdownBag" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+            <div class="dropdown-menu cus-dropdown-menu" aria-labelledby="dropdownBag">
+                <div class="bag-menu-header">
+                    Your Bag
+                </div>
+                <div class="dropdown-divider"></div>
+                <div class="bag-menu-content container">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <img class="img-fluid" src="https://res.cloudinary.com/everlane/image/upload/c_scale/c_fill,dpr_1.0,f_auto,q_auto,w_auto:100:1200/v1/i/d797606d_5938.jpg" alt="">
+                        </div>
+                        <div class="col-md-5 item-info">
+                            <p>The Re:Down® Sleeping Bag Puffer</p>
+                            <p>Size: Extra Large</p>
+                            <p>Color: Bone</p>
+                            <div class="d-flex justify-content-between">
+                                <p><i class="las la-minus"></i>1<i class="las la-plus"></i></p>
+                                <p>300$</p>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" class="close" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="dropdown-divider"></div>
+                <div class="bag-menu-footer">
+                    Free shipping on your first order over $100.
+                    <button type="button" class="btn btn-secondary btn-sm w-100 h-50">CONTINUE TO CHECKOUT</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
