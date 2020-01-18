@@ -1,21 +1,28 @@
-<div class="d-flex justify-content-between header-banner">
+<div class="d-flex justify-content-between header-banner dropdown">
     <div class="left-banner d-flex justify-content-start">
-        <div class="header-item mr-5">
+        <div class="header-item underline-item mr-5" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Women
         </div>
-        <div class="header-item mr-5">
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+        <div class="header-item underline-item mr-5">
             Men
         </div>
-        <div class="header-item">
+        <div class="header-item underline-item">
             About
         </div>
     </div>
     <div class="middle-banner">
-        <img src="assets/images/logo-banner.png" alt="">
+        <div class="header-item"><img src="assets/images/logo-banner.png" alt=""></div>
     </div>
     <div class="right-banner d-flex justify-content-start">
         <div class="header-item" (click)="openLoginComponent()">Log In</div>
-        <div class="header-item ml-5" (click)="openSignupComponent()">Sign Up</div>
-        <div class="header-item ml-5"><i class="las la-shopping-bag la-2x"></i></div>
+        <div class="header-item signup-button ml-5" (click)="openSignupComponent()">Sign Up</div>
+        <div class="header-item bag-button ml-5">
+            <i class="las la-shopping-bag la-2x"></i>
+        </div>
     </div>
 </div>

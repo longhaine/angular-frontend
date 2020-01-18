@@ -8,7 +8,8 @@ import {SignupComponent} from '../signup/signup.component';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
+  men:boolean = false;
+  women:boolean = false;
   constructor(private modalService: NgbModal) { }
   openLoginComponent(){
     const modalRef = this.modalService.open(LoginComponent);
