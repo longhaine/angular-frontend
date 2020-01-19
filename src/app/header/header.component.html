@@ -1,45 +1,41 @@
 <div class="d-flex justify-content-between header-banner dropdown">
     <div class="left-banner d-flex justify-content-start">
-        <div class="header-item underline-item mr-5" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="header-item underline-item mr-5" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (mouseover)="bannerHover('women')">
             Women
         </div>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenu">
-            <div class="d-flex flex-row">
-                <div class="menu-item">
-                    <div class="menu-header-item">
-                        Featured
-                    </div>
-                    <div class="menu-sub-item"><a>The Glove Boot</a></div>
-                    <div class="menu-sub-item"><a>New Arrivals</a></div>
-                    <div class="menu-sub-item"><a>Best-Sellers</a></div>
-                    <div class="menu-sub-item"><a>Coming Soon</a></div>
-                    <div class="menu-sub-item"><a>Back in Stock</a></div>
-                    <div class="menu-sub-item"><a>Choose What You Pay</a></div>
-                    <div class="menu-sub-item"><a>Final Sale</a></div>
-                </div>
-                <div class="menu-item">
-                    <div class="menu-header-item">
-                        Apparel
-                    </div>
-                </div>
-                <div class="menu-item">
-                    <div class="menu-header-item">
-                        Shoes
-                    </div>
-                </div>
-                <div class="menu-item">
-                    <div class="menu-header-item">
-                        Accessories
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="header-item underline-item mr-5">
+        <div class="header-item underline-item mr-5" (mouseover)="bannerHover('men')">
             Men
         </div>
         <div class="header-item underline-item">
             About
         </div>
+
+
+        <div *ngIf="content.women" class="dropdown-menu" aria-labelledby="dropdownMenu">
+            <div class="d-flex flex-row">
+                <div class="menu-item" *ngFor="let category of categoriesOfWomen">
+                    <div class="menu-header-item">
+                        {{category.name}}
+                    </div>
+                    <div class="menu-sub-item" *ngFor="let subcategory of category.subCategories">
+                        <a>{{subcategory.name}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="content.men" class="dropdown-menu" aria-labelledby="dropdownMenu">
+            <div class="d-flex flex-row">
+                <div class="menu-item" *ngFor="let category of categoriesOfMen">
+                    <div class="menu-header-item">
+                        {{category.name}}
+                    </div>
+                    <div class="menu-sub-item" *ngFor="let subcategory of category.subCategories">
+                        <a>{{subcategory.name}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
     <div class="middle-banner">
         <div class="header-item"><img src="assets/images/logo-banner.png" alt=""></div>
