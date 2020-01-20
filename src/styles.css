@@ -17,6 +17,9 @@ body{
 .p-item{
     color:#808284;
 }
+a{
+    color:#808284;
+}
 a:hover{
     text-decoration: none;
 }
@@ -27,4 +30,10 @@ p{
 }
 input{
     border-radius: 0 !important;
+}
+app-header{
+    position: fixed;
+}
+.app-below-header{
+    padding-top: 55px;
 }

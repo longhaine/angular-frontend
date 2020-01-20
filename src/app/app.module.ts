@@ -10,6 +10,7 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { HomeComponent } from './home/home.component';
 import { HttpClientModule} from '@angular/common/http';
+import { ShopComponent } from './shop/shop.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,7 +18,8 @@ import { HttpClientModule} from '@angular/common/http';
     FooterComponent,
     LoginComponent,
     SignupComponent,
-    HomeComponent
+    HomeComponent,
+    ShopComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +27,7 @@ import { HttpClientModule} from '@angular/common/http';
     NgbModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [HeaderComponent],
   bootstrap: [AppComponent],
   entryComponents:[LoginComponent,SignupComponent]
 })

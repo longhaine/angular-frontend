@@ -5,14 +5,15 @@
     padding-right:3rem;
     font-size: 14px;
     font-weight: 456;
+    width: 100%;
 }
 .left-banner,.right-banner,.middle-banner{
     line-height: 42px;
-    cursor: pointer;
 }
 .header-item{
     padding-top:6px;
     padding-bottom:6px;
+    cursor: pointer;
 }
 .middle-banner img{
     height: 30px;
@@ -25,7 +26,7 @@
     color:black;
 }
 .underline-item{
-    border-bottom: 0.5px solid white;
+    border-bottom: 0.5px solid rgba(76,76,75,.1);
 }
 .underline-item:hover{
     border-bottom: 0.5px solid #8e8e8e;
@@ -33,6 +34,77 @@
 .left-banner:hover>.dropdown-menu {
     display: block;
     top: 100%;
+    -webkit-animation: fadeIn 0.5s ease-out;
+    -moz-animation: fadeIn 0.5s ease-out;
+    -o-animation: fadeIn 0.5s ease-out;
+    animation: fadeIn 0.5s ease-out;
+}
+@-webkit-keyframes fadeIn {
+    0% {
+        display: block;
+        opacity: 0;
+    }
+
+    1% {
+        display: block;
+        opacity: 0;
+    }
+
+    100% {
+        display: block;
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes fadeIn {
+    0% {
+        display: block;
+        opacity: 0;
+    }
+
+    1% {
+        display: block;
+        opacity: 0;
+    }
+
+    100% {
+        display: block;
+        opacity: 1;
+    }
+}
+
+@-o-keyframes fadeIn {
+    0% {
+        display: block;
+        opacity: 0;
+    }
+
+    1% {
+        display: block;
+        opacity: 0;
+    }
+
+    100% {
+        display: block;
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        display: block;
+        opacity: 0;
+    }
+
+    1% {
+        display: block;
+        opacity: 0;
+    }
+
+    100% {
+        display: block;
+        opacity: 1;
+    }
 }
 .dropdown-menu{
     margin-top:0px!important;
@@ -41,6 +113,7 @@
     padding-bottom:1.5rem;
     padding-left: 3rem;
     padding-right:3rem;
+    z-index: 1;
 }
 i.la-shopping-bag{
     font-size: 1.3rem;
@@ -78,4 +151,26 @@ i.la-shopping-bag{
 }
 button{
     font-size: 20px;
+}
+.img-container{
+    position: relative;
+    height: 180px;
+    width: auto;
+}
+.middle-img{
+    font-weight: bold;
+    color:white!important;
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.middle-img p{
+    font-weight: bold;
+    color:white!important;
+}
+.elliana-banner{
+    transition: background-color 0.5s ease-out;
+    width: 100vw;
+    background-color: white;
 }

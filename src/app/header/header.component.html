@@ -1,9 +1,10 @@
+<div class="elliana-banner" id="elliana-banner" (mouseover)="headerOnHover()" (mouseout)="headerOutHover()">
 <div class="d-flex justify-content-between header-banner dropdown">
     <div class="left-banner d-flex justify-content-start">
-        <div class="header-item underline-item mr-5" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (mouseover)="bannerHover('women')">
+        <div class="header-item underline-item mr-5" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (mouseover)="leftsOfHeaderOnHover('women')">
             Women
         </div>
-        <div class="header-item underline-item mr-5" (mouseover)="bannerHover('men')">
+        <div class="header-item underline-item mr-5" (mouseover)="leftsOfHeaderOnHover('men')">
             Men
         </div>
         <div class="header-item underline-item">
@@ -18,8 +19,11 @@
                         {{category.name}}
                     </div>
                     <div class="menu-sub-item" *ngFor="let subcategory of category.subCategories">
-                        <a>{{subcategory.name}}</a>
+                        <a href="#">{{subcategory.name}}</a>
                     </div>
+                </div>
+                <div class="menu-item img-container">
+                    <img src="{{img+'/header/women-header.jpg'}}" alt="">
                 </div>
             </div>
         </div>
@@ -30,15 +34,22 @@
                         {{category.name}}
                     </div>
                     <div class="menu-sub-item" *ngFor="let subcategory of category.subCategories">
-                        <a>{{subcategory.name}}</a>
+                        <a href="#">{{subcategory.name}}</a>
                     </div>
+                </div>
+                <div class="menu-item img-container text-center">
+                    <div class="middle-img">
+                        <p>Introducing</p>
+                        <h1>UNIFORM</h1>
+                    </div>
+                    <img src="{{img+'/header/men-header.png'}}" alt="">
                 </div>
             </div>
         </div>
 
     </div>
     <div class="middle-banner">
-        <div class="header-item"><img src="assets/images/logo-banner.png" alt=""></div>
+        <div class="header-item"><img src="assets/images/logo-transparent.png" alt="" id="logo"></div>
     </div>
     <div class="right-banner d-flex justify-content-start">
         <div class="header-item" (click)="openLoginComponent()">Log In</div>
@@ -79,4 +90,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>
