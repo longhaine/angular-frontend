@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
+import { DataService } from '../service/data.service';
 @Component({
   selector: 'app-shop',
   templateUrl: './shop.component.html',
@@ -7,12 +8,18 @@ import { HeaderComponent } from '../header/header.component';
 })
 export class ShopComponent implements OnInit {
 
-  constructor(private headerComponent:HeaderComponent) { }
+  constructor(private headerComponent:HeaderComponent,
+              private dataService: DataService) { }
 
   ngOnInit() {
     
   }
   ngAfterViewInit(){
-    this.headerComponent.transparentTriggeringOff();
+    this.dataService.headerMessageSubcriber.subscribe(message =>{
+      if(message === "ready"){
+        console.log("received");
+        this.dataService.changeMessage("received");
+      }
+    })
   }
 }

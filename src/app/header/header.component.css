@@ -31,6 +31,15 @@
 .underline-item:hover{
     border-bottom: 0.5px solid #8e8e8e;
 }
+.dropdown-menu{
+    margin-top:0px!important;
+    width: 100vw;
+    padding-top:1.5rem;
+    padding-bottom:1.5rem;
+    padding-left: 3rem;
+    padding-right:3rem;
+    z-index: 1;
+}
 .left-banner:hover>.dropdown-menu {
     display: block;
     top: 100%;
@@ -106,15 +115,7 @@
         opacity: 1;
     }
 }
-.dropdown-menu{
-    margin-top:0px!important;
-    width: 100vw;
-    padding-top:1.5rem;
-    padding-bottom:1.5rem;
-    padding-left: 3rem;
-    padding-right:3rem;
-    z-index: 1;
-}
+
 i.la-shopping-bag{
     font-size: 1.3rem;
 }
@@ -136,6 +137,7 @@ i.la-shopping-bag{
     height: auto;
     padding-left:1rem;
     padding-right:1rem;
+    cursor: default!important;
 }
 .cus-dropdown-menu p{
     line-height: 20px;

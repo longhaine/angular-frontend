@@ -33,7 +33,12 @@ input{
 }
 app-header{
     position: fixed;
+    z-index: 2;
 }
 .app-below-header{
     padding-top: 55px;
+    z-index: 0;
+}
+.click-able{
+    cursor: pointer;
 }

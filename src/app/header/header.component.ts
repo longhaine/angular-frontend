@@ -1,4 +1,5 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from '../login/login.component';
 import { SignupComponent } from '../signup/signup.component';
@@ -7,6 +8,7 @@ import { Category } from '../class/category';
 import { Subcategory } from '../class/subcategory';
 import { globals } from '../globals';
 import { HostListener } from '@angular/core';
+import { DataService } from '../service/data.service';
 
 @Component({
   selector: 'app-header',
@@ -20,11 +22,15 @@ export class HeaderComponent implements OnInit {
   private categoriesOfMen: Category[] = [];
   content = {women:false,men:false,about:false};
   private banner:Element;
-  constructor(private modalService: NgbModal,
-              private categoryService: CategoryService){
+  constructor(private router: Router,
+              private modalService: NgbModal,
+              private categoryService: CategoryService,
+              private dataSerice: DataService){
   }
-  @Output() headerIsReady: EventEmitter<boolean> = new EventEmitter();
-
+  navigateToHome(){
+    this.transparentTriggeringOn();
+    this.router.navigate(['/']);
+  }
   openLoginComponent(){
     const modalRef = this.modalService.open(LoginComponent);
   }
@@ -33,7 +39,7 @@ export class HeaderComponent implements OnInit {
   }
   getCategory(){
     this.categoryService.getCategory().subscribe(results =>{
-      // (results.body)[0] is women
+      // (results.body)[0] is women [1] is men
       this.categoriesOfWomen = JSON.parse(JSON.stringify((results.body)[0].categories));
       this.categoriesOfMen = JSON.parse(JSON.stringify((results.body)[1].categories));
     })
@@ -103,6 +109,16 @@ export class HeaderComponent implements OnInit {
   ngAfterViewInit(){
     this.banner = document.getElementById("elliana-banner");
     this.transparentTriggeringOn();
-    this.headerIsReady.emit(true);
+    this.dataSerice.changeMessage('ready'); //alert for another component that the header component is ready.
+    /*
+    if another component already received message and send back,
+    the header component sets default message to dataService
+    */
+    this.dataSerice.headerMessageSubcriber.subscribe(message=>{
+      if(message === "received"){
+        this.dataSerice.changeMessage("default");
+        this.transparentTriggeringOff();
+      }
+    })
   }
 }
