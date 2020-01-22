@@ -36,6 +36,9 @@
 .carousel{
     position: static;
 }
+#carousel{
+    transition: opacity 0.3s ease-in;
+}
 ::ng-deep .carousel-control-prev{
     width: auto;
     display: inline;
@@ -50,6 +53,13 @@
     left: 40px;
     bottom: 0;
     right: auto;
+}
+
+::ng-deep .carousel-control-prev:active .carousel{
+    -webkit-animation: fadeIn 0.5s ease-out;
+    -moz-animation: fadeIn 0.5s ease-out;
+    -o-animation: fadeIn 0.5s ease-out;
+    animation: fadeIn 0.5s ease-out;
 }
 ::ng-deep .carousel-control-prev span{
     background-image: url('/assets/images/prev-icon.svg')!important;

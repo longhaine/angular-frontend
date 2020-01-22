@@ -14,7 +14,7 @@
             <div class="image-container" style="position: relative;">
                 <img class="img-fluid" src="{{img+'/home/choose-section1.jpg'}}" alt="">
                 <div class="coming-soon"></div>
-                <p class="text-on-image">Coming soon</p>
+                <p class="text-on-image not-select-able">Coming soon</p>
             </div>
             <h4 class="mt-4">The Perform Legging</h4>
             <p>You asked, We listened.</p>
@@ -41,10 +41,10 @@
             <div class="col-md-7 pl-0">
                 
             </div>
-            <div class="col-md-5 position-static">
+            <div class="col-md-5 position-static" id="carousel">
                 <ngb-carousel *ngIf="carousels" [showNavigationArrows]="showNavigationArrows" [showNavigationIndicators]="showNavigationIndicators">
                     <ng-template ngbSlide *ngFor="let carousel of carousels">
-                        <div class="carousel-caption col-md-7">
+                        <div class="carousel-caption col-md-7 not-select-able">
                             <p class="mb-5"style="font-weight: bolder;">FROM THE PEOPLE-CUSTOMER REVIEWS</p>
                             <img class="mb-3"src="assets/images/stars.svg" alt="">
                             <h1 class="mb-5">{{carousel.caption}}</h1>
