@@ -11,7 +11,7 @@ body{
     background-color: black;
 }
 .p-header,.p-item{
-    font-size:14px;
+    font-size:0.9rem;
     display: block;
 }
 .p-item{

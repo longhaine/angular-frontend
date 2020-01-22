@@ -1,4 +1,90 @@
-<div class="container app-below-header">
-    <p>shop works!</p>
+<div class="container-fluid app-below-header">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="#">Home</a></li>
+                  <li class="breadcrumb-item"><a href="#">Library</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Data</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <div class="row position-relative">
+        <div class="col-md-2">
+            <div class="side-menu">
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="#">Women's all</a></li>
+                    <li class="list-group-item"><a href="#">New Arrivals</a></li>
+                    <li class="list-group-item"><a href="#">Final Sale</a></li>
+                </ul>
+                <div class="dropdown-divider"></div>
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="#">Women's all</a></li>
+                    <li class="list-group-item"><a href="#">New Arrivals</a></li>
+                    <li class="list-group-item"><a href="#">Final Sale</a></li>
+                    <li class="list-group-item"><a href="#">Women's all</a></li>
+                    <li class="list-group-item"><a href="#">New Arrivals</a></li>
+                    <li class="list-group-item"><a href="#">Final Sale</a></li>
+                    <li class="list-group-item"><a href="#">Women's all</a></li>
+                    <li class="list-group-item"><a href="#">New Arrivals</a></li>
+                    <li class="list-group-item"><a href="#">Final Sale</a></li>
+                    <li class="list-group-item"><a href="#">Women's all</a></li>
+                    <li class="list-group-item"><a href="#">New Arrivals</a></li>
+                    <li class="list-group-item"><a href="#">Final Sale</a></li>
+                    <li class="list-group-item"><a href="#">Women's all</a></li>
+                    <li class="list-group-item"><a href="#">New Arrivals</a></li>
+                    <li class="list-group-item"><a href="#">Final Sale</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <img class="img-fluid" src="{{img+'/shop/women-loafers-intro.jpg'}}" alt="">
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <button type="button" class="filter-btn btn btn-lg float-left" (click)="filterDropdown = !filterDropdown">
+                            <span>Filter</span>
+                            <i *ngIf="!filterDropdown" class="las la-angle-down"></i>
+                            <i *ngIf="filterDropdown" class="las la-angle-up"></i>
+                        </button>
+                        <span class="float-right">21 products</span>
+                    </div>
+                    <div *ngIf="filterDropdown" class="filter-dropdown col-md-12">
+                        <div class="row">
+                            <div class="filter-dropdown-item col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Style</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="filter-dropdown-item col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Color</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="filter-dropdown-item col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Size</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class=""></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 

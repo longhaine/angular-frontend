@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { globals } from '../globals';
 import {NgbCarouselConfig} from '@ng-bootstrap/ng-bootstrap';
+import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -31,7 +32,8 @@ export class HomeComponent implements OnInit {
   carouselNextBtn:Element; // next button
   
 
-  constructor(config: NgbCarouselConfig) {
+  constructor(config: NgbCarouselConfig,
+              private title: Title) {
   }
   carouselOnInit(){
     this.caroulselSection = document.getElementById("carousel");
@@ -56,6 +58,7 @@ export class HomeComponent implements OnInit {
       }, 300);
   }
   ngOnInit() {
+    this.title.setTitle("Elliana | Mordern Basics");
   }
   ngAfterViewInit(){
     this.carouselOnInit();

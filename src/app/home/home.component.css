@@ -6,7 +6,7 @@
 }
 .text-on-image{
     color:#F8F8FF;
-    font-size:29px;
+    font-size:1.8rem;
     position: absolute;
     top:50%;
     left: 50%;
@@ -29,7 +29,7 @@
 }
 .carousel-section{
     position: relative;
-    padding: 75px;
+    padding: 4.5rem;
     background-color: #F1E8DF;
 }
 
@@ -50,7 +50,7 @@
     width: auto;
     display:inline;
     top:auto;
-    left: 40px;
+    left: 2.5rem;
     bottom: 0;
     right: auto;
 }
@@ -78,8 +78,22 @@
     text-align: left;
     left:0;
 }
-@media only screen and (max-width: 900px){
+@media only screen and (max-width: 767px){
     .carousel-caption{
         position: relative;
+    }
+    .carousel-section{
+        padding:30px;
+    }
+    ::ng-deep .carousel-control-next{
+        display: none;
+    }
+    ::ng-deep .carousel-control-prev{
+        display:none;
+    }
+    .carousel-caption h1,p,img{
+        margin-top:10px!important;
+        margin-bottom: 10px!important;
+        font-size:20px;
     }
 }

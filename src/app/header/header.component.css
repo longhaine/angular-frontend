@@ -1,9 +1,12 @@
+.container-fluid{
+    padding: 0;
+}
 .header-banner{
     color: #4c4c4b;
     box-shadow: 0 2px 4px 0 rgba(76,76,75,.1);
     padding-left: 3rem;
     padding-right:3rem;
-    font-size: 14px;
+    font-size:0.8rem;
     font-weight: 456;
     width: 100%;
 }
@@ -53,7 +56,7 @@ i.la-shopping-bag{
 }
 .menu-item{
     padding:0;
-    font-size:14px;
+    font-size:0.9rem;
     margin-right: 3rem;
 }
 .menu-sub-item{
