@@ -11,6 +11,7 @@ import { SignupComponent } from './signup/signup.component';
 import { HomeComponent } from './home/home.component';
 import { HttpClientModule} from '@angular/common/http';
 import { ShopComponent } from './shop/shop.component';
+import { Handle404Component } from './handle404/handle404.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +20,8 @@ import { ShopComponent } from './shop/shop.component';
     LoginComponent,
     SignupComponent,
     HomeComponent,
-    ShopComponent
+    ShopComponent,
+    Handle404Component
   ],
   imports: [
     BrowserModule,

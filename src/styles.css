@@ -33,7 +33,7 @@ input{
 }
 app-header{
     position: fixed;
-    z-index: 2;
+    z-index: 5;
 }
 @-webkit-keyframes fadeIn {
     0% {
@@ -108,4 +108,7 @@ app-header{
 }
 .not-select-able{
     user-select: none;
+}
+.list-group-item{
+    text-transform: capitalize;
 }

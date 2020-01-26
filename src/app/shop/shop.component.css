@@ -6,7 +6,9 @@
     position: sticky;
     top: 70px;
     height: auto;
-    overflow:auto;
+    height: calc(100vh - 70px);
+    overflow-y: auto;
+    padding-bottom: 100px;
 }
 .list-group{
     overflow: auto;
@@ -31,6 +33,9 @@
     padding-right: 0;
     border-bottom: 2px solid rgba(76,76,75,.1);
 }
+.product-section{
+    padding-bottom: 10rem;
+}
 .filter-btn{
     padding-top:5px;
     padding-bottom: 5px;
@@ -47,4 +52,49 @@
 }
 .filter-dropdown-item .card{
     height: 300px;
+}
+.product-image-container{
+    position: relative;
+    text-align: center;
+    cursor: pointer;
+}
+.product-image{
+    position: block;
+    z-index: 1;
+}
+.product-image-container.hover >.product-image{
+    opacity: 0;
+}
+.product-image-container:hover >.product-image-hover{
+    display: block;
+    opacity: 1;
+    z-index: 2;
+}
+.product-image-container:hover >.product-add-button{
+    opacity: 1;
+}
+.product-image-hover{
+    top: 0;
+    left: 0;
+    position: absolute;
+    opacity: 0;
+    transition: opacity 0.3s linear;
+}
+.product-add-button{
+    background-color:white;
+    border: none;
+    color: #6c757d;
+    padding:8px;
+    opacity: 0;
+    text-align: center;
+    z-index: 3;
+    left: 3%;
+    bottom: 2%;
+    position: absolute;
+    display: block;
+    margin: auto;
+    width:94%;
+}
+.product-description{
+    font-size:14px;
 }
