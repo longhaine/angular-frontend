@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { globals } from '../globals';
+import { globals } from '../environtments';
 import {NgbCarouselConfig} from '@ng-bootstrap/ng-bootstrap';
 import { Title } from '@angular/platform-browser';
 @Component({

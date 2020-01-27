@@ -109,6 +109,6 @@ app-header{
 .not-select-able{
     user-select: none;
 }
-.list-group-item{
+.list-group-item, .breadcrumb-item{
     text-transform: capitalize;
 }

@@ -6,7 +6,7 @@ import { SignupComponent } from '../signup/signup.component';
 import { CategoryService } from '../service/category.service';
 import { Category } from '../class/category';
 import { Subcategory } from '../class/subcategory';
-import { globals } from '../globals';
+import { globals } from '../environtments';
 import { HostListener } from '@angular/core';
 import { DataService } from '../service/data.service';
 

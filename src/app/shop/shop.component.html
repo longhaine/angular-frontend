@@ -9,9 +9,9 @@
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item"><a href="#">Library</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Data</li>
+                  <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
+                  <li class="breadcrumb-item"><a [routerLink]="['/collections',gender,'']">{{gender}}</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">{{subCategoryName}}</li>
                 </ol>
             </nav>
         </div>
@@ -20,14 +20,14 @@
         <div class="col-md-2">
             <div class="side-menu">
                 <ul class="list-group">
-                    <li class="list-group-item"><a href="#">{{gender}}'s all</a></li>
-                    <li class="list-group-item"><a href="#">New Arrivals</a></li>
-                    <li class="list-group-item"><a href="#">Final Sale</a></li>
+                    <li class="list-group-item"><a [routerLink]="['/collections',gender,'']">{{gender}}'s all</a></li>
+                    <li class="list-group-item"><a [routerLink]="['/collections',gender,'']">New Arrivals</a></li>
+                    <li class="list-group-item"><a [routerLink]="['/collections',gender,'']">Final Sale</a></li>
                 </ul>
                 <div class="dropdown-divider"></div>
                 <ul class="list-group">
                     <ng-container *ngFor="let subCategory of subCategories">
-                        <li class="list-group-item"><a href="#">{{subCategory.name}}</a></li>
+                        <li class="list-group-item"><a [routerLink]="['/collections',gender,subCategory.name]">{{subCategory.name}}</a></li>
                     </ng-container>
                 </ul>
             </div>
@@ -35,8 +35,12 @@
         <div class="col-md-10 product-section">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-12 mb-3">
+                    <div class="col-md-12 mb-3 position-relative">
                         <img class="img-fluid" src="{{img+'/intro/'+gender+'-'+subCategoryName+'-intro.jpg'}}" alt="">
+                        <div class="col-md-6 {{introTemplate.position}}">
+                            <p *ngIf="introTemplate.title" class="title-intro {{introTemplate.color}}">{{introTemplate.title}}</p>
+                            <p class="content-intro {{introTemplate.color}}">{{introTemplate.content}}</p>
+                        </div>
                     </div>
                     <div class="col-md-12 mb-3">
                         <button type="button" class="filter-btn btn btn-lg float-left" (click)="filterDropdown = !filterDropdown">
@@ -77,16 +81,16 @@
                     <p class="product-name col-md-12 mb-2">{{product.name}}</p>
                     <div class="col-md-4 product-option mb-4" *ngFor="let productOption of product.productOptions">
                         <div class="product-image-container">
-                            <img class="product-image img-fluid" src="{{img+'/collections/'+productOption.image+'-first.jpg'}}">
-                            <img class="product-image-hover img-fluid" src="{{img+'/collections/'+productOption.image+'-second.jpg'}}" alt="">
+                            <img class="product-image img-fluid" src="{{collections + productOption.image+'-first.jpg'}}">
+                            <img class="product-image-hover img-fluid" src="{{collections +productOption.image+'-second.jpg'}}" alt="">
                             <button class="product-add-button">+ Quick Add</button>
                         </div>
                         <div class="product-description click-able">
                             <div class="d-flex d-flex justify-content-between">
-                                <p class="product-name">{{product.name}}</p>
-                                <p aclass="product-price">{{productOption.price}}$</p>
+                                <p class="product-name">{{productOption.name}}</p>
+                                <p class="product-price">{{productOption.price}}$</p>
                             </div>
-                            <p class="product-option-name text-secondary" style="display:block;">{{productOption.name}}</p>
+                            <p class="product-option-name text-secondary" style="display:block;">{{productOption.color}}</p>
                             <p class="product-option-quantity" style="display:block;">{{product.productOptions.length}} colors available</p>
                         </div>
                     </div>

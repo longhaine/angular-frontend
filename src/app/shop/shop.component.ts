@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { DataService } from '../service/data.service';
-import { globals } from '../globals';
+import { globals} from '../environtments';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ShopService } from '../service/shop.service';
 import { StatusService } from '../service/status.service';
@@ -21,7 +21,9 @@ export class ShopComponent implements OnInit {
               private statusService: StatusService) { }
   private load:boolean = false;
   private img = globals.server+"/img";
-  private filterDropdown:boolean = false;
+  private collections:string; // used in html template
+  private filterDropdown:boolean = false; // used in html template
+  private introTemplate:Object; // init introLine in environtments.ts
   private gender:string;
   private subCategoryName:string;
   private subCategories: Subcategory[] = [];
@@ -29,9 +31,11 @@ export class ShopComponent implements OnInit {
   private numberOfProduct:number = 0;
   ngOnInit() {
     this.routeHandler();
+    
   }
   routeHandler(){
     this.route.paramMap.subscribe(params =>{
+      this.load = false;
       this.gender = params.get("gender");
       this.subCategoryName = params.get("subCategoryName");
       if(this.gender === "men" || this.gender === "women"){
@@ -59,6 +63,9 @@ export class ShopComponent implements OnInit {
     .subscribe(res =>{
       this.products = JSON.parse(JSON.stringify(res.body));
       this.addUpProducts(this.products);
+      this.collections = this.img+"/collections/"+this.gender+"/"+this.subCategoryName+"/";
+      this.introTemplate = this.dataService.getSubcategoryByGender(this.gender, this.subCategoryName);
+      console.log(this.introTemplate);
       this.load = true;
     },err=>{
       this.load = false;

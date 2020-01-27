@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 export class ProductOption {
     private _id: number;
     private _name: String;
+    private _color: String;
     private _price: number;
     private _image: String;
     private _numberOfImage: number;
@@ -21,6 +22,13 @@ export class ProductOption {
     }
     public set name(value: String) {
         this._name = value;
+    }
+
+    public get color(): String {
+        return this._color;
+    }
+    public set color(value: String) {
+        this._color = value;
     }
     
     public get price(): number {
