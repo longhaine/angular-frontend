@@ -20,7 +20,7 @@
                         {{category.name}}
                     </div>
                     <div class="menu-sub-item" *ngFor="let subcategory of category.subCategories">
-                        <a href="#">{{subcategory.name}}</a>
+                        <a [routerLink]="['/collections','women',subcategory.name | replaceLineBreaks]" href="#">{{subcategory.name}}</a>
                     </div>
                 </div>
                 <div class="menu-item img-container">
@@ -35,7 +35,7 @@
                         {{category.name}}
                     </div>
                     <div class="menu-sub-item" *ngFor="let subcategory of category.subCategories">
-                        <a href="#">{{subcategory.name}}</a>
+                        <a [routerLink]="['/collections','men',subcategory.name | replaceLineBreaks]" href="#">{{subcategory.name}}</a>
                     </div>
                 </div>
                 <div class="menu-item img-container text-center">

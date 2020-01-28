@@ -12,10 +12,11 @@ export class DataService {
     this.headerMessage.next(message);
   }
   getSubcategoryByGender(gender:string, subCategoryName:string){
+    console.log(subCategoryName);
     for(const [genderKey, genderValue] of Object.entries(introLine)){
-        if(genderKey === gender){
+        if(genderKey === gender.toLowerCase()){
           for(const [subcateKey,subcateValue] of Object.entries(genderValue)){
-            if(subcateKey === subCategoryName){
+            if(subcateKey === subCategoryName.toLowerCase()){
               return subcateValue; 
             }
           }

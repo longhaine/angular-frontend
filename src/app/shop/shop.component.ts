@@ -21,6 +21,7 @@ export class ShopComponent implements OnInit {
               private statusService: StatusService) { }
   private load:boolean = false;
   private img = globals.server+"/img";
+  private breadCrumbInformation:{gender:string, subCategoryName:string} = {gender:'', subCategoryName:''};
   private collections:string; // used in html template
   private filterDropdown:boolean = false; // used in html template
   private introTemplate:Object; // init introLine in environtments.ts
@@ -33,12 +34,28 @@ export class ShopComponent implements OnInit {
     this.routeHandler();
     
   }
+  replaceLineBreaks(value:string){
+    return value.replace(/\s/g,'-');
+  }
+  reset(){
+    this.load = false;
+    this.numberOfProduct = 0;
+  }
+  scrollToElement(idName:string){
+    let element:Element = document.getElementById(idName);
+    element.scrollIntoView({behavior:"smooth",block:"start"});
+  }
+  initBreadCrumb(gender:string, subCategoryName:string){
+    this.breadCrumbInformation.gender = gender;
+    this.breadCrumbInformation.subCategoryName = subCategoryName;
+  }
   routeHandler(){
     this.route.paramMap.subscribe(params =>{
-      this.load = false;
+      this.reset();
       this.gender = params.get("gender");
       this.subCategoryName = params.get("subCategoryName");
       if(this.gender === "men" || this.gender === "women"){
+        this.initBreadCrumb(this.gender,this.subCategoryName);
         this.sideSubCategoryHander(this.gender);
         this.productHandler(this.gender,this.subCategoryName);
       }
@@ -52,7 +69,6 @@ export class ShopComponent implements OnInit {
     this.shopService.sideSubCategoryByGender(gender)
     .subscribe(res =>{
       this.subCategories = JSON.parse(JSON.stringify(res.body));
-      console.log(this.subCategories);
     }, err=>{
       this.statusService.statusHandler(err.status);
     })
@@ -62,10 +78,9 @@ export class ShopComponent implements OnInit {
     this.shopService.productByGenderAndSubCategory(gender,subCategoryName)
     .subscribe(res =>{
       this.products = JSON.parse(JSON.stringify(res.body));
-      this.addUpProducts(this.products);
-      this.collections = this.img+"/collections/"+this.gender+"/"+this.subCategoryName+"/";
+      this.productCount(this.products);
+      this.collections = this.img+"/collections/"+this.gender+"/"+this.replaceLineBreaks(this.subCategoryName)+"/";
       this.introTemplate = this.dataService.getSubcategoryByGender(this.gender, this.subCategoryName);
-      console.log(this.introTemplate);
       this.load = true;
     },err=>{
       this.load = false;
@@ -73,7 +88,7 @@ export class ShopComponent implements OnInit {
     })
   }
 
-  addUpProducts(products:Product[]){
+  productCount(products:Product[]){
     products.forEach((product:Product)=>{
       this.numberOfProduct = this.numberOfProduct + product.productOptions.length;
     });
