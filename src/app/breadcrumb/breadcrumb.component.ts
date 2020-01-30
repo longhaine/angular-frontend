@@ -14,7 +14,6 @@ export class BreadcrumbComponent implements OnInit {
 
   ngOnInit() {
     this.gender = this.breadCrumbInformation.gender;
-    this.subCategoryName = this.breadCrumbInformation.subCategoryName;
+    this.subCategoryName = this.breadCrumbInformation.subCategoryName.replace(/\-/g,' ');
   }
-
 }

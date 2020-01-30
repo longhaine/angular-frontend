@@ -9,47 +9,56 @@
         <div class="col-md-12">
             <app-breadcrumb [breadCrumbInformation] = "breadCrumbInformation"></app-breadcrumb>
         </div>
-        <div *ngIf="introTemplate.heading" class="col-md-12 mb-3 heading-image position-relative" style="margin-top: -1em;">
-            <div class="row">
-                <div class="col-md-12">
-                    <img class="img-fluid" src="{{img+'/intro/'+gender+'-'+ (subCategoryName | replaceLineBreaks) +'-intro.jpg'}}" alt="">
-                </div>
-                <div class="heading-content">
-                    <p>{{introTemplate.content}}</p>
-                </div>
-                <div class="col-md-12 heading-menu text-center">
-                    <div class="row">
-                        <div class="col-md-3 heading-item">
-                            <a (click)="scrollToElement(introTemplate.heading[0])">{{introTemplate.heading[0]}}</a>
-                        </div>
-                        <div class="col-md-3 heading-item">
-                            <a (click)="scrollToElement(introTemplate.heading[1])">{{introTemplate.heading[1]}}</a>
-                        </div>
-                        <div class="col-md-3 heading-item">
-                            <a (click)="scrollToElement(introTemplate.heading[2])">{{introTemplate.heading[2]}}</a>
-                        </div>
-                        <div class="col-md-3 heading-item">
-                            <a (click)="scrollToElement(introTemplate.heading[3])">{{introTemplate.heading[3]}}</a>
+        <ng-template [ngIf]="introTemplate">
+            <div *ngIf="introTemplate.heading" class="col-md-12 mb-3 heading-image position-relative" style="margin-top: -1em;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <img class="img-fluid" src="{{img+'/intro/'+gender+'-'+ (subCategoryName | spaceToLineBreak) +'-intro.jpg'}}" alt="">
+                    </div>
+                    <div class="heading-content">
+                        <p>{{introTemplate.content}}</p>
+                    </div>
+                    <div class="col-md-12 heading-menu text-center">
+                        <div class="row">
+                            <div class="col-md-3 heading-item">
+                                <a (click)="scrollToElement(introTemplate.heading[0])">{{introTemplate.heading[0]}}</a>
+                            </div>
+                            <div class="col-md-3 heading-item">
+                                <a (click)="scrollToElement(introTemplate.heading[1])">{{introTemplate.heading[1]}}</a>
+                            </div>
+                            <div class="col-md-3 heading-item">
+                                <a (click)="scrollToElement(introTemplate.heading[2])">{{introTemplate.heading[2]}}</a>
+                            </div>
+                            <div class="col-md-3 heading-item">
+                                <a (click)="scrollToElement(introTemplate.heading[3])">{{introTemplate.heading[3]}}</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </ng-template>
 
-
-        </div>
     </div>
     <div class="row position-relative">
         <div class="col-md-2">
             <div class="side-menu">
                 <ul class="list-group">
-                    <li class="list-group-item"><a [routerLink]="['/collections',gender,'']">{{gender}}'s all</a></li>
-                    <li class="list-group-item"><a [routerLink]="['/collections',gender,'']">New Arrivals</a></li>
-                    <li class="list-group-item"><a [routerLink]="['/collections',gender,'']">Final Sale</a></li>
+                    <li class="list-group-item" [routerLink]="['/collections',gender,'']">
+                        <a>{{gender}}'s all</a>
+                    </li>
+                    <li class="list-group-item" [routerLink]="['/collections',gender,'']">
+                        <a>New Arrivals</a>
+                    </li>
+                    <li class="list-group-item" [routerLink]="['/collections',gender,'']">
+                        <a>Final Sale</a>
+                    </li>
                 </ul>
                 <div class="dropdown-divider"></div>
                 <ul class="list-group">
                     <ng-container *ngFor="let subCategory of subCategories">
-                        <li class="list-group-item"><a [routerLink]="['/collections',gender,subCategory.name | replaceLineBreaks]">{{subCategory.name}}</a></li>
+                        <li class="list-group-item" [routerLink]="['/collections',gender,subCategory.name | spaceToLineBreak]">
+                            <a>{{subCategory.name}}</a>
+                        </li>
                     </ng-container>
                 </ul>
             </div>
@@ -57,13 +66,15 @@
         <div class="col-md-10 product-section">
             <div class="container">
                 <div class="row">
-                    <div *ngIf="!introTemplate.heading" class="col-md-12 mb-3 position-relative">
-                        <img class="img-fluid" src="{{img+'/intro/'+gender+'-'+ (subCategoryName | replaceLineBreaks) +'-intro.jpg'}}" alt="">
-                        <div class="col-md-6 {{introTemplate.position}}">
-                            <p *ngIf="introTemplate.title" class="title-intro {{introTemplate.color}}">{{introTemplate.title}}</p>
-                            <p class="content-intro {{introTemplate.color}}">{{introTemplate.content}}</p>
+                    <ng-template [ngIf]="introTemplate">
+                        <div *ngIf="!introTemplate.heading" class="col-md-12 mb-3 position-relative">
+                            <img class="img-fluid" src="{{img+'/intro/'+gender+'-'+ (subCategoryName | spaceToLineBreak) +'-intro.jpg'}}" alt="">
+                            <div class="col-md-6 {{introTemplate.position}}">
+                                <p *ngIf="introTemplate.title" class="title-intro {{introTemplate.color}}">{{introTemplate.title}}</p>
+                                <p class="content-intro {{introTemplate.color}}">{{introTemplate.content}}</p>
+                            </div>
                         </div>
-                    </div>
+                    </ng-template>
                     <div class="col-md-12 mb-3">
                         <button type="button" class="filter-btn btn btn-lg float-left" (click)="filterDropdown = !filterDropdown">
                             <span>Filter</span>
@@ -98,27 +109,31 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="row mb-4" *ngFor="let product of products">
-                    <div class="col-md-12 mb-5 pt-2" id="{{product.name}}"></div>
-                    <div class="product-name col-md-12 mb-3"><p>{{product.name}}</p></div>
-                    <div class="col-md-4 product-option mb-4" *ngFor="let productOption of product.productOptions">
-                        <div class="product-image-container">
-                            <img class="product-image img-fluid" src="{{collections + productOption.image+'-first.jpg'}}">
-                            <img class="product-image-hover img-fluid" src="{{collections +productOption.image+'-second.jpg'}}" alt="">
-                            <button class="product-add-button">+ Quick Add</button>
-                        </div>
-                        <div class="product-description click-able">
-                            <div class="d-flex d-flex justify-content-between">
-                                <p class="product-name">{{productOption.name}}</p>
-                                <p class="product-price">{{productOption.price}}$</p>
+                <ng-template [ngIf]="numberOfProduct == 0">
+                    <div>There is no products, please visit later</div>
+                </ng-template>
+                <ng-template [ngIf]="numberOfProduct > 0">
+                    <div class="row mb-4" *ngFor="let product of products">
+                        <div class="col-md-12 mb-5 pt-2" id="{{product.name}}"></div>
+                        <div class="product-name col-md-12 mb-3"><p>{{product.name}}</p></div>
+                        <div class="{{introTemplate.productPerColumn}} product-option mb-4" *ngFor="let productOption of product.productOptions">
+                            <div class="product-image-container">
+                                <img class="product-image img-fluid" src="{{collections + productOption.image+'-first.jpg'}}">
+                                <img class="product-image-hover img-fluid" src="{{collections +productOption.image+'-second.jpg'}}" alt="">
+                                <button class="product-add-button">+ Quick Add</button>
                             </div>
-                            <p class="product-option-name text-secondary" style="display:block;">{{productOption.color}}</p>
-                            <p class="product-option-quantity" style="display:block;">{{product.productOptions.length}} colors available</p>
+                            <div class="product-description click-able">
+                                <div class="d-flex d-flex justify-content-between">
+                                    <p class="product-name">{{productOption.name}}</p>
+                                    <p class="product-price">${{productOption.price}}</p>
+                                </div>
+                                <p class="product-option-name text-secondary" style="display:block;">{{productOption.color}}</p>
+                                <p class="product-option-quantity" style="display:block;">{{product.productOptions.length}} colors available</p>
+                            </div>
                         </div>
                     </div>
-                    
-                </div>
+                </ng-template>
+
             </div>
         </div>
     </div>

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { globals } from '../environtments';
 import {NgbCarouselConfig} from '@ng-bootstrap/ng-bootstrap';
 import { Title } from '@angular/platform-browser';
+import { DataService } from '../service/data.service'
+import { Observable, Subscription } from 'rxjs';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -9,9 +11,14 @@ import { Title } from '@angular/platform-browser';
   providers: [NgbCarouselConfig]
 })
 export class HomeComponent implements OnInit {
-  img = globals.server+"/img";  
-  showNavigationArrows = true;
-  transition:boolean = false;
+  constructor(config: NgbCarouselConfig,
+              private title: Title,
+              private dataService: DataService) {
+}
+  private headerSubscription:Subscription;
+  private img = globals.server+"/img";  
+  private showNavigationArrows = true;
+  private transition:boolean = false;
   //carousel init
   cap1 = "\"Sleek, comfortable and I feel so powerful in them.\"";
   cap2 = "\"Really love the cut. Perfect length. Good amount of strecth.\"";
@@ -32,9 +39,7 @@ export class HomeComponent implements OnInit {
   carouselNextBtn:Element; // next button
   
 
-  constructor(config: NgbCarouselConfig,
-              private title: Title) {
-  }
+
   carouselOnInit(){
     this.caroulselSection = document.getElementById("carousel");
     let carouselBtns:HTMLCollectionOf<Element> = this.caroulselSection.getElementsByTagName("a");
@@ -58,9 +63,21 @@ export class HomeComponent implements OnInit {
       }, 300);
   }
   ngOnInit() {
-    this.title.setTitle("Elliana | Mordern Basics");
+    this.title.setTitle("Everlane | Mordern Basics");
   }
-  ngAfterViewInit(){
+  triggerHeaderComponent(status:string){
+    this.dataService.changeMessage("knock");
+    this.headerSubscription = this.dataService.headerMessageSubcriber.subscribe(message =>{
+      if(message === "ready"){
+        this.dataService.changeMessage(status);
+      }
+    });
+  }
+  ngAfterViewInit(){ 
     this.carouselOnInit();
+    this.triggerHeaderComponent("on");
+  }
+  ngOnDestroy(){
+    this.headerSubscription.unsubscribe();
   }
 }

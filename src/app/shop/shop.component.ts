@@ -7,6 +7,8 @@ import { ShopService } from '../service/shop.service';
 import { StatusService } from '../service/status.service';
 import { Product } from '../class/product';
 import { Subcategory } from '../class/subcategory';
+import { Subscription } from 'rxjs';
+import { HttpResponse } from '@angular/common/http';
 @Component({
   selector: 'app-shop',
   templateUrl: './shop.component.html',
@@ -20,6 +22,7 @@ export class ShopComponent implements OnInit {
               private shopService: ShopService,
               private statusService: StatusService) { }
   private load:boolean = false;
+  private headerSubscription:Subscription;
   private img = globals.server+"/img";
   private breadCrumbInformation:{gender:string, subCategoryName:string} = {gender:'', subCategoryName:''};
   private collections:string; // used in html template
@@ -74,13 +77,16 @@ export class ShopComponent implements OnInit {
     })
   }
 
+  initProductInformation(res:HttpResponse<Object>){
+    this.products = JSON.parse(JSON.stringify(res.body));
+    this.productCount(this.products);
+    this.collections = globals.collections+this.gender+"/"+this.replaceLineBreaks(this.subCategoryName)+"/";
+    this.introTemplate = this.dataService.getSubcategoryByGender(this.gender, this.subCategoryName);
+  }
   productHandler(gender:string, subCategoryName:string){
     this.shopService.productByGenderAndSubCategory(gender,subCategoryName)
     .subscribe(res =>{
-      this.products = JSON.parse(JSON.stringify(res.body));
-      this.productCount(this.products);
-      this.collections = this.img+"/collections/"+this.gender+"/"+this.replaceLineBreaks(this.subCategoryName)+"/";
-      this.introTemplate = this.dataService.getSubcategoryByGender(this.gender, this.subCategoryName);
+      this.initProductInformation(res);
       this.load = true;
     },err=>{
       this.load = false;
@@ -93,15 +99,18 @@ export class ShopComponent implements OnInit {
       this.numberOfProduct = this.numberOfProduct + product.productOptions.length;
     });
   }
-  triggerHeaderComponent(){
-    this.dataService.headerMessageSubcriber.subscribe(message =>{
+  triggerHeaderComponent(status:string){
+    this.dataService.changeMessage("knock");
+    this.headerSubscription = this.dataService.headerMessageSubcriber.subscribe(message =>{
       if(message === "ready"){
-        console.log("received");
-        this.dataService.changeMessage("received");
+        this.dataService.changeMessage(status);
       }
-    })
+    });
   }
   ngAfterViewInit(){
-    this.triggerHeaderComponent();
+    this.triggerHeaderComponent("off");
+  }
+  ngOnDestroy(){
+    this.headerSubscription.unsubscribe();
   }
 }

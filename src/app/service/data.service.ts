@@ -11,16 +11,22 @@ export class DataService {
   changeMessage(message:string){
     this.headerMessage.next(message);
   }
+  triggerHeaderComponent(component:string){
+    this.headerMessageSubcriber.subscribe(message =>{
+      if(message === "ready"){
+        this.changeMessage(component);
+      }
+    });
+  }
   getSubcategoryByGender(gender:string, subCategoryName:string){
-    console.log(subCategoryName);
     for(const [genderKey, genderValue] of Object.entries(introLine)){
         if(genderKey === gender.toLowerCase()){
           for(const [subcateKey,subcateValue] of Object.entries(genderValue)){
             if(subcateKey === subCategoryName.toLowerCase()){
               return subcateValue; 
             }
-          }
         }
       }
     }
+  }
 }

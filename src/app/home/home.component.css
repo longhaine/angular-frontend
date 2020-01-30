@@ -1,5 +1,16 @@
 .home-image{
     padding:0!important;
+    position: relative;
+}
+.home-btn{
+    border: 1px solid black;
+}
+.home-btn:focus{
+    box-shadow: none;
+    outline: none;
+}
+.home-btn:hover{
+    background-color: #fff;
 }
 .choose-section, .dropdown-divider{
     padding-bottom: 80px;

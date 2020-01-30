@@ -12,8 +12,8 @@ import { HomeComponent } from './home/home.component';
 import { HttpClientModule} from '@angular/common/http';
 import { ShopComponent } from './shop/shop.component';
 import { Handle404Component } from './handle404/handle404.component';
-import { ReplaceLineBreaksPipe } from './pipe/replace-line-breaks.pipe';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
+import { SpaceToLineBreakPipe } from './pipe/space-to-line-break.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,8 +24,8 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
     HomeComponent,
     ShopComponent,
     Handle404Component,
-    ReplaceLineBreaksPipe,
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    SpaceToLineBreakPipe
   ],
   imports: [
     BrowserModule,

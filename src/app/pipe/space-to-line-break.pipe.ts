@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'replaceLineBreaks'
+  name: 'spaceToLineBreak'
 })
-export class ReplaceLineBreaksPipe implements PipeTransform {
+export class SpaceToLineBreakPipe implements PipeTransform {
 
   transform(value: string): string {
     return value.replace(/\s/g,'-');

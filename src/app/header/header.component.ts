@@ -30,6 +30,7 @@ export class HeaderComponent implements OnInit {
   navigateToHome(){
     this.transparentTriggeringOn();
     this.router.navigate(['/']);
+    window.scrollTo(0,0);
   }
   openLoginComponent(){
     const modalRef = this.modalService.open(LoginComponent);
@@ -111,12 +112,17 @@ export class HeaderComponent implements OnInit {
     this.transparentTriggeringOn();
     this.dataSerice.changeMessage('ready'); //alert for another component that the header component is ready.
     /*
-    if another component already received message and send back,
+    if another component's already received message and send back,
     the header component sets default message to dataService
     */
     this.dataSerice.headerMessageSubcriber.subscribe(message=>{
-      if(message === "received"){
-        this.dataSerice.changeMessage("default");
+      if(message === "knock"){
+        this.dataSerice.changeMessage("ready");
+      }
+      if(message === "on"){
+        this.transparentTriggeringOn();
+      }
+      if(message === "off"){
         this.transparentTriggeringOff();
       }
     })

@@ -1,4 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+.logo{
+    color: #808284;
+    fill: #808284;
+    height: 14px;
+    width: auto;
+    line-height: 42px;
+}
 body{
     padding: 0;
     margin:0;
@@ -111,4 +118,37 @@ app-header{
 }
 .list-group-item, .breadcrumb-item{
     text-transform: capitalize;
+}
+.title-intro{
+    font-size: 1rem;
+}
+.content-intro{
+    font-size:1.8rem;
+}
+.white-text-intro{
+    user-select: none;
+    color: white;
+}
+.black-text-intro{
+    user-select: none;
+    color:#4c4c4b;
+}
+.left-intro{
+    left: 0;
+    text-align: center;
+    padding:0 3rem;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+.right-intro{
+    right: 0;
+    text-align: center;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
 }
