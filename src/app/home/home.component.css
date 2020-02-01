@@ -2,8 +2,44 @@
     padding:0!important;
     position: relative;
 }
+
+@media(min-width:768px){
+    .desktop-home-image{
+        display: unset;
+    }
+    .mobile-home-image{
+        display: none;
+    }
+    .home-image-text{
+        user-select: none;
+        color:#4c4c4b;
+        font-size:3.7rem;
+    }
+}
+@media(max-width:768px){
+    .desktop-home-image{
+        display: none;
+    }
+    .mobile-home-image{
+        display: unset;
+    }
+    .home-image-text{
+        color:white;
+        user-select: none;
+        font-size: 2.2rem;
+    }
+    .home-btn{
+        border:2px solid white!important;
+    }
+    .home-btn a{
+        color: white!important;
+    }
+}
 .home-btn{
     border: 1px solid black;
+}
+.home-btn a{
+    color:#4c4c4b;
 }
 .home-btn:focus{
     box-shadow: none;

@@ -52,6 +52,38 @@ export const introLine = {
             color: "white-text-intro",
             position: "right-intro",
             productPerColumn:"col-md-6"
+        },
+        "t-shirts":{
+            heading:null,
+            title: "Prima Micro Rib",
+            content: "Trust us, it feels as good as it looks.",
+            color: "black-text-intro",
+            position: "right-intro",
+            productPerColumn:"col-md-4"
+        },
+        tops:{
+            heading:null,
+            title:null,
+            content: "A cozy cotton button-up in our easieast, best-selling shape.",
+            color: "black-text-intro",
+            position: "right-intro",
+            productPerColumn:"col-md-4"
+        },
+        "dresses-&-jumpsuits":{
+            heading:null,
+            title:null,
+            content: "Dress & Jumpsuits",
+            color: "black-text-intro",
+            position: "left-intro",
+            productPerColumn:"col-md-4"
+        },
+        "skirts-&-shorts":{
+            heading:null,
+            title:null,
+            content: "Skirts & Shorts",
+            color: "black-text-intro",
+            position: "left-intro",
+            productPerColumn:"col-md-4"
         }
     }
 }

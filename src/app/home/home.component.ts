@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { globals } from '../environtments';
 import {NgbCarouselConfig} from '@ng-bootstrap/ng-bootstrap';
 import { Title } from '@angular/platform-browser';
@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   private img = globals.server+"/img";  
   private showNavigationArrows = true;
   private transition:boolean = false;
+  private screenWidth:number;
   //carousel init
   cap1 = "\"Sleek, comfortable and I feel so powerful in them.\"";
   cap2 = "\"Really love the cut. Perfect length. Good amount of strecth.\"";
@@ -62,6 +63,10 @@ export class HomeComponent implements OnInit {
       this.transition = false;  
       }, 300);
   }
+  // @HostListener("window:resize", ["$event"])
+  // onWindowResize() {
+  //   this.screenWidth = window.innerWidth;
+  // }
   ngOnInit() {
     this.title.setTitle("Everlane | Mordern Basics");
   }

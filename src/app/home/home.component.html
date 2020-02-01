@@ -1,17 +1,18 @@
-<div class="container-fluid text-center">
+<div class="container text-center">
     <div class="row">
         <div class="col-md-12 home-image">
-            <img class="img-fluid" src="{{img+'/home/home-shop.jpg'}}" alt="">
+            <img class="img-fluid desktop-home-image" src="{{img+'/home/home-shop.jpg'}}" alt="">
+            <img class="img-fluid mobile-home-image" src="{{img+'/home/m-home-shop.jpg'}}" alt="">
             <div class="right-intro col-md-6" style="top:45%">
-                <p class="black-text-intro" style="font-size: 3.8rem;">The cord's back in stock</p>
-                <button [routerLink]="['/collections','women','pants']"class="btn btn-lg home-btn">Shop Now</button>
+                <p class="home-image-text">The cord's back in stock</p>
+                <button class="btn btn-lg home-btn"><a [routerLink]="['/collections','women','pants']">Shop Now</a></button>
             </div>
         </div>
         
     </div>
 </div>
 
-<div class="container pt-5">
+<div class="container-md pt-5">
     <div class="row choose-section text-center">
         <div class="col-md-4">
             <div class="image-container" style="position: relative;">
@@ -23,14 +24,16 @@
             <p>You asked, We listened.</p>
         </div>
         <div class="col-md-4">
-            <div class="click-able" [routerLink]="['/collections','women','sweaters']">
+            <div class="click-able">
+                <a [routerLink]="['/collections','women','sweaters']" class="link"></a>
                 <img class="img-fluid" src="{{img+'/home/choose-section2.jpg'}}" alt="">
                 <h4 class="mt-4">Sweaters: Choose Your Price.</h4>
                 <p>Our best-selling sweaters are selling fast.</p>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="click-able" [routerLink]="['/collections','women','loafers']">
+            <div class="click-able">
+                <a [routerLink]="['/collections','women','loafers']" class="link"></a>
                 <img class="img-fluid" src="{{img+'/home/choose-section3.jpg'}}" alt="">
                 <h4 class="mt-4">Farewell to Mordern Loafer</h4>
                 <p>Get yours before it's gone for good. Only $90</p>
@@ -39,7 +42,7 @@
     </div>
 </div>
 <div class="container-fluid carousel-section">
-    <div class="container">
+    <div class="container-md">
         <div class="row position-relative">
             <div class="col-md-7 pl-0">
                 

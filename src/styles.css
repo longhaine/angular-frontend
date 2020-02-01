@@ -1,4 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+@Media(min-width: 1200px){
+    .container{
+        max-width: 1400px!important;
+    }
+    .space{
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+}
 .logo{
     color: #808284;
     fill: #808284;
@@ -34,6 +43,8 @@ p{
     margin-block-start: 0;
     margin-block-end: 0;
     color:#4c4c4b;
+    width: inherit;
+    white-space: pre-wrap;
 }
 input{
     border-radius: 0 !important;
@@ -151,4 +162,12 @@ app-header{
     top: 50%;
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
+}
+.link{
+    left: 0;
+    top: 0;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 5;
 }

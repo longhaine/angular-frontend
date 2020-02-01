@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { TitleService} from '../service/title.service';
 import { HeaderComponent } from '../header/header.component';
 import { DataService } from '../service/data.service';
 import { globals} from '../environtments';
@@ -15,7 +17,9 @@ import { HttpResponse } from '@angular/common/http';
   styleUrls: ['./shop.component.css']
 })
 export class ShopComponent implements OnInit {
-  constructor(private headerComponent:HeaderComponent,
+  constructor(private title: Title,
+              private titleService: TitleService,
+              private headerComponent:HeaderComponent,
               private dataService: DataService,
               private route: ActivatedRoute,
               private router: Router,
@@ -35,8 +39,11 @@ export class ShopComponent implements OnInit {
   private numberOfProduct:number = 0;
   ngOnInit() {
     this.routeHandler();
-    
   }
+  setTitle(gender:string, subCategoryName: string){
+    this.title.setTitle(this.titleService.shopComponentTitleHandler(gender,subCategoryName));
+  }
+
   replaceLineBreaks(value:string){
     return value.replace(/\s/g,'-');
   }
@@ -67,7 +74,6 @@ export class ShopComponent implements OnInit {
       }
     })
   }
-
   sideSubCategoryHander(gender:string){
     this.shopService.sideSubCategoryByGender(gender)
     .subscribe(res =>{
@@ -76,7 +82,6 @@ export class ShopComponent implements OnInit {
       this.statusService.statusHandler(err.status);
     })
   }
-
   initProductInformation(res:HttpResponse<Object>){
     this.products = JSON.parse(JSON.stringify(res.body));
     this.productCount(this.products);
@@ -86,6 +91,7 @@ export class ShopComponent implements OnInit {
   productHandler(gender:string, subCategoryName:string){
     this.shopService.productByGenderAndSubCategory(gender,subCategoryName)
     .subscribe(res =>{
+      this.setTitle(gender, subCategoryName);
       this.initProductInformation(res);
       this.load = true;
     },err=>{
@@ -93,7 +99,6 @@ export class ShopComponent implements OnInit {
       this.statusService.statusHandler(err.status);
     })
   }
-
   productCount(products:Product[]){
     products.forEach((product:Product)=>{
       this.numberOfProduct = this.numberOfProduct + product.productOptions.length;
@@ -109,6 +114,7 @@ export class ShopComponent implements OnInit {
   }
   ngAfterViewInit(){
     this.triggerHeaderComponent("off");
+    
   }
   ngOnDestroy(){
     this.headerSubscription.unsubscribe();

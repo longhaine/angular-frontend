@@ -1,10 +1,10 @@
-<div *ngIf="!load" class="container-fluid text-center" style="padding-top: 100px;">
+<div *ngIf="!load" class="container text-center space" style="padding-top: 100px;">
     <div class="spinner-border text-secondary" role="status">
         <span class="sr-only">Loading...</span>
     </div>
 </div>
 
-<div *ngIf="load" class="container-fluid app-below-header">
+<div *ngIf="load" class="container space app-below-header">
     <div class="row">
         <div class="col-md-12">
             <app-breadcrumb [breadCrumbInformation] = "breadCrumbInformation"></app-breadcrumb>
@@ -113,20 +113,22 @@
                     <div>There is no products, please visit later</div>
                 </ng-template>
                 <ng-template [ngIf]="numberOfProduct > 0">
-                    <div class="row mb-4" *ngFor="let product of products">
+                    <div class="row mb-4 product-container" *ngFor="let product of products">
                         <div class="col-md-12 mb-5 pt-2" id="{{product.name}}"></div>
-                        <div class="product-name col-md-12 mb-3"><p>{{product.name}}</p></div>
-                        <div class="{{introTemplate.productPerColumn}} product-option mb-4" *ngFor="let productOption of product.productOptions">
+                        <div class="product-title col-md-12 mb-3"><p>{{product.name}}</p></div>
+                        <div class="{{introTemplate.productPerColumn}} col-8 product-option mb-4" *ngFor="let productOption of product.productOptions">
                             <div class="product-image-container">
+                                <a class="link" href="#"></a>
                                 <img class="product-image img-fluid" src="{{collections + productOption.image+'-first.jpg'}}">
                                 <img class="product-image-hover img-fluid" src="{{collections +productOption.image+'-second.jpg'}}" alt="">
                                 <button class="product-add-button">+ Quick Add</button>
                             </div>
                             <div class="product-description click-able">
-                                <div class="d-flex d-flex justify-content-between">
+                                <div class="d-flex justify-content-between">
                                     <p class="product-name">{{productOption.name}}</p>
                                     <p class="product-price">${{productOption.price}}</p>
                                 </div>
+
                                 <p class="product-option-name text-secondary" style="display:block;">{{productOption.color}}</p>
                                 <p class="product-option-quantity" style="display:block;">{{product.productOptions.length}} colors available</p>
                             </div>
