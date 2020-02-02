@@ -107,8 +107,93 @@ button{
     font-weight: bold;
     color:white!important;
 }
-.elliana-banner{
+#desktop-banner{
     transition: background-color 0.5s ease-out;
     width: 100vw;
     background-color: white;
+}
+#mobile-banner{
+    width: 100vw;
+    background-color: white;
+}
+@Media(min-width:768px){
+    #mobile-banner{
+        display: none;
+    }
+    #desktop-banner{
+        display: block;
+    }
+}
+@Media(min-width:1px) and (max-width:767px){
+    .container{
+        max-width: 767px;
+    }
+    #mobile-banner{
+        display: block;
+    }
+    #desktop-banner{
+        display: none;
+    }
+    .header-banner{
+        padding-left: 1.5rem!important;
+        padding-right: 1.5rem!important;
+    }
+    .left-banner,.right-banner,.middle-banner{
+        position: relative;
+    }
+    i.la-bars,i.la-times, i.la-shopping-bag{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .mobile-dropdown-menu{
+        background-color: white;
+        width: 100vw;
+        overflow: hidden;
+        line-height: 0;
+        height: 0;
+        transition: all 0.3s ease-in-out;
+    }
+    .open-dropdown-menu{
+        line-height: 1.5;
+        height: 100vh;
+        overflow-y: auto;
+        z-index: 10;
+    }
+    .category-menu{
+        padding:0.8rem 0;
+        background-color:#ede7f6;
+    }
+    .sub-category-menu{
+        padding-top: 1rem;
+        padding-left: 3rem;
+        padding-right: 3rem;
+        padding-bottom: 10rem;
+    }
+    .btn-close-container{
+        position: fixed;
+        left: 50%;
+        bottom: 5%;
+        transform: translate(-50%, -5%);
+    }
+    .btn-circle {
+        position: relative;
+        width: 60px;
+        height: 60px;
+        padding: 6px 0px;
+        border-radius: 50%;
+        box-shadow: 0 2px 4px 0 rgba(76,76,75,.1);
+        border: 1px #ede7f6 solid;
+        text-align: center;
+        font-size: 12px;
+        line-height: 1.42857;
+    }
+    .btn-circle span{
+        font-size: 3rem;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 }

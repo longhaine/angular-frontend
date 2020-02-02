@@ -116,7 +116,7 @@
                     <div class="row mb-4 product-container" *ngFor="let product of products">
                         <div class="col-md-12 mb-5 pt-2" id="{{product.name}}"></div>
                         <div class="product-title col-md-12 mb-3"><p>{{product.name}}</p></div>
-                        <div class="{{introTemplate.productPerColumn}} col-8 product-option mb-4" *ngFor="let productOption of product.productOptions">
+                        <div class="{{introTemplate.productPerColumn}} col-sm-4 col-8 product-option mb-4" *ngFor="let productOption of product.productOptions">
                             <div class="product-image-container">
                                 <a class="link" href="#"></a>
                                 <img class="product-image img-fluid" src="{{collections + productOption.image+'-first.jpg'}}">

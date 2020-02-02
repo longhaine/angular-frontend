@@ -104,11 +104,41 @@ export class HeaderComponent implements OnInit {
       this.unsetTransparentBanner();
     }
   }
+  // End Desktop banner header
+  // Mobile banner header
+  private openDropdown:Element;
+  private closeDropdown:Element;
+  private dropdownStatus:boolean = false;
+  private mobileDropdownMenu:Element;
+  private btnCloseDropdown:Element;
+  initMobileMenu(){
+    this.openDropdown = document.getElementById("openDropdown");
+    this.closeDropdown = document.getElementById("closeDropdown");
+    this.mobileDropdownMenu = document.getElementById("mobileDropdownMenu");
+    this.btnCloseDropdown = document.getElementById("btnCloseDropdown");
+  }
+  interactMobileMenu(status:boolean){
+    //d-none is display:none
+    if(status){
+      this.openDropdown.classList.add("d-none");
+      this.closeDropdown.classList.remove("d-none");
+      this.mobileDropdownMenu.classList.add("open-dropdown-menu");
+      setTimeout(() => {
+        this.btnCloseDropdown.classList.remove("d-none");
+      }, 300);
+    }
+    else{
+      this.openDropdown.classList.remove("d-none");
+      this.closeDropdown.classList.add("d-none");
+      this.mobileDropdownMenu.classList.remove("open-dropdown-menu");
+      this.btnCloseDropdown.classList.add("d-none");
+    }
+  }
   ngOnInit() {
     this.getCategory();
   }
   ngAfterViewInit(){
-    this.banner = document.getElementById("elliana-banner");
+    this.banner = document.getElementById("desktop-banner");
     this.transparentTriggeringOn();
     this.dataSerice.changeMessage('ready'); //alert for another component that the header component is ready.
     /*
@@ -126,5 +156,8 @@ export class HeaderComponent implements OnInit {
         this.transparentTriggeringOff();
       }
     })
+
+    //Mobile banner header
+    this.initMobileMenu();
   }
 }

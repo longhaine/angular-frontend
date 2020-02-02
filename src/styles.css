@@ -51,7 +51,7 @@ input{
 }
 app-header{
     position: fixed;
-    z-index: 5;
+    z-index: 10;
 }
 @-webkit-keyframes fadeIn {
     0% {

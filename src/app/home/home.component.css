@@ -16,7 +16,13 @@
         font-size:3.7rem;
     }
 }
-@media(max-width:768px){
+@media(min-width:1px) and (max-width:767px){
+    .container{
+        max-width: 767px;
+    }
+    .home-image-container{
+        padding-top: 42px; /*because of the mobile-banner*/ 
+    }
     .desktop-home-image{
         display: none;
     }
@@ -138,7 +144,7 @@
     ::ng-deep .carousel-control-prev{
         display:none;
     }
-    .carousel-caption h1,p,img{
+    .carousel-caption > h1,.carousel-caption > p, .carousel-caption > img{
         margin-top:10px!important;
         margin-bottom: 10px!important;
         font-size:20px;
