@@ -1,7 +1,7 @@
 <div class="footer-banner">
     <div class="container">
     <div class="row">
-        <div class="col-md-7">
+        <div class="desktop-footer col-md-7">
             <div class="container">
                 <div class="row">
                     <div class="col-md-3">
@@ -38,6 +38,7 @@
                 </div>
             </div>
         </div>
+
         <div class="col-md-5">
             <p class="p-header mb-5">Exceptional quality. Ethical factories. Radical Transparency. Sign up to enjoy free U.S. shipping and returns on your first order.</p>
             <div class="input-group mb-3">
@@ -46,6 +47,49 @@
                   <button class="btn btn-outline-secondary" type="button"><i class="las la-arrow-right"></i></button>
                 </div>
               </div>
+        </div>
+
+        <div class="mobile-footer col-12">
+            <ul class="mobile-footer__list">
+                <li #account class="mobile-footer__item mobile-footer__item--active"
+                (click)="openDropdown(account)">
+                    <a href="javascript:void(0);">Account</a>
+                    <p>-</p>
+                </li>
+                <li class="mobile-footer__sub-item mobile-footer__sub-item--active">
+                    <a href="javascript:void(0);">Login</a>
+                    <a href="javascript:void(0);">Sign up</a>
+                    <a href="javascript:void(0);">Orders & Returns</a>
+                    <a href="javascript:void(0);">Redeem a Gift card</a>
+                </li>
+            </ul>
+            <ul class="mobile-footer__list">
+                <li #stores class="mobile-footer__item"
+                (click)="openDropdown(stores)">
+                    <a href="javascript:void(0);">Stores</a>
+                    <p>+</p>
+                </li>
+                <li class="mobile-footer__sub-item">
+                    <a href="javascript:void(0);">Valencia Street</a>
+                    <a href="javascript:void(0);">Stanford Shopping Center</a>
+                    <a href="javascript:void(0);">Abbot Kinney</a>
+                    <a href="javascript:void(0);">Prince Street</a>
+                    <a href="javascript:void(0);">Williamsburg</a>
+                </li>
+            </ul>
+            <ul class="mobile-footer__list">
+                <li #connect class="mobile-footer__item"
+                (click)="openDropdown(connect)">
+                    <a href="javascript:void(0);">Connect</a>
+                    <p>+</p>
+                </li>
+                <li class="mobile-footer__sub-item">
+                    <a href="javascript:void(0);">Instagram</a>
+                    <a href="javascript:void(0);">Twitter</a>
+                    <a href="javascript:void(0);">Affiliates</a>
+                    <a href="javascript:void(0);">Bulk Orders</a>
+                </li>
+            </ul>
         </div>
     </div>
     </div>

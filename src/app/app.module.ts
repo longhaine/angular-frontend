@@ -14,6 +14,7 @@ import { ShopComponent } from './shop/shop.component';
 import { Handle404Component } from './handle404/handle404.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { SpaceToLineBreakPipe } from './pipe/space-to-line-break.pipe';
+import { ModalComponent } from './modal/modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +26,8 @@ import { SpaceToLineBreakPipe } from './pipe/space-to-line-break.pipe';
     ShopComponent,
     Handle404Component,
     BreadcrumbComponent,
-    SpaceToLineBreakPipe
+    SpaceToLineBreakPipe,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
@@ -35,6 +37,6 @@ import { SpaceToLineBreakPipe } from './pipe/space-to-line-break.pipe';
   ],
   providers: [HeaderComponent],
   bootstrap: [AppComponent],
-  entryComponents:[LoginComponent,SignupComponent]
+  entryComponents:[ModalComponent]
 })
 export class AppModule { }

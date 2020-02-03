@@ -1,0 +1,8 @@
+<ng-container [ngSwitch]="component">
+    <ng-template [ngSwitchCase]="'login'">
+        <app-login></app-login>
+    </ng-template>
+    <ng-template [ngSwitchCase]="'signup'">
+        <app-signup></app-signup>       
+    </ng-template>
+</ng-container>

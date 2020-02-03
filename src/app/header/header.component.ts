@@ -1,8 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { LoginComponent } from '../login/login.component';
-import { SignupComponent } from '../signup/signup.component';
+import {ModalComponent} from '../modal/modal.component';
 import { CategoryService } from '../service/category.service';
 import { Category } from '../class/category';
 import { Subcategory } from '../class/subcategory';
@@ -20,23 +19,25 @@ export class HeaderComponent implements OnInit {
   private img = globals.server+"/img";
   private categoriesOfWomen: Category[] = [];
   private categoriesOfMen: Category[] = [];
-  content = {women:false,men:false,about:false};
+  private contentMenu = "women"; //default is always women
+  private contentModal:string
   private banner:Element;
   constructor(private router: Router,
               private modalService: NgbModal,
               private categoryService: CategoryService,
               private dataSerice: DataService){
   }
+  setContentMenu(value:string){
+    this.contentMenu = value;
+  }
   navigateToHome(){
     this.transparentTriggeringOn();
     this.router.navigate(['/']);
     window.scrollTo(0,0);
   }
-  openLoginComponent(){
-    const modalRef = this.modalService.open(LoginComponent);
-  }
-  openSignupComponent(){
-    const modalRef = this.modalService.open(SignupComponent);
+  openModal(component:string){
+    const modalRef = this.modalService.open(ModalComponent);
+    modalRef.componentInstance.component = component;
   }
   getCategory(){
     this.categoryService.getCategory().subscribe(results =>{
@@ -44,22 +45,6 @@ export class HeaderComponent implements OnInit {
       this.categoriesOfWomen = JSON.parse(JSON.stringify((results.body)[0].categories));
       this.categoriesOfMen = JSON.parse(JSON.stringify((results.body)[1].categories));
     })
-  }
-  leftsOfHeaderOnHover(content:String){
-    if(content ==="women")
-    {
-      this.content.women=true;
-      this.content.men = false;
-      this.content.about = false;
-    }else if(content ==="men"){
-      this.content.women=false;
-      this.content.men = true;
-      this.content.about = false;
-    }else{
-      this.content.women=false;
-      this.content.men = false;
-      this.content.about = true;
-    }
   }
   headerOnHover(){
     this.unsetTransparentBanner();
@@ -111,11 +96,13 @@ export class HeaderComponent implements OnInit {
   private dropdownStatus:boolean = false;
   private mobileDropdownMenu:Element;
   private btnCloseDropdown:Element;
+  private currentForcusContent:Element;
   initMobileMenu(){
     this.openDropdown = document.getElementById("openDropdown");
     this.closeDropdown = document.getElementById("closeDropdown");
     this.mobileDropdownMenu = document.getElementById("mobileDropdownMenu");
     this.btnCloseDropdown = document.getElementById("btnCloseDropdown");
+    this.currentForcusContent = document.getElementById("women"); //default active content Menu;
   }
   interactMobileMenu(status:boolean){
     //d-none is display:none
@@ -133,6 +120,12 @@ export class HeaderComponent implements OnInit {
       this.mobileDropdownMenu.classList.remove("open-dropdown-menu");
       this.btnCloseDropdown.classList.add("d-none");
     }
+  }
+  setMobileContentMenu(value:string, target:Element){
+    this.setContentMenu(value);
+    this.currentForcusContent.classList.remove("category-item--active");
+    this.currentForcusContent = target; // set new current forcus content
+    this.currentForcusContent.classList.add("category-item--active");
   }
   ngOnInit() {
     this.getCategory();
