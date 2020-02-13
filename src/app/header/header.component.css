@@ -68,21 +68,41 @@ i.la-shopping-bag{
     width:auto;
 }
 .cus-dropdown-menu{
-    line-height: 50px;
+    line-height: 28px;
     width: 350px!important;
     height: auto;
     padding-left:1rem;
     padding-right:1rem;
     cursor: default!important;
+    overflow:hidden;
+}
+.cus-dropdown-menu--body{
+    max-height: calc(100vh - 250px);
+    overflow-y: scroll;
+}
+.cus-dropdown-menu--account{
+    width: 200px!important;
 }
 .cus-dropdown-menu p{
     line-height: 20px;
+}
+.cus-dropdown-menu-header{
+    font-size: 14px;
+    line-height: 28px;
 }
 .dropdown-menu-right:hover .cus-dropdown-menu {
     display: block;
     top: 100%;
     right: 0;
     left: auto;
+}
+.list-group{
+    padding: 0;
+}
+.list-group-item{
+    padding: 0;
+    border: none;
+    font-size: 14px;
 }
 .item-info{
     font-size:12px;

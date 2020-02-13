@@ -11,7 +11,7 @@ export class CategoryService {
               private tokenService: TokenService) { }
   private server = globals.serverPermit;
   private headers = this.tokenService.getHeader();
-  getCategory(){
-    return this.http.get(this.server+"/category",{headers: this.headers,observe: 'response'});
+  getHeader(){
+    return this.http.get(this.server+"/header",{headers: this.headers,observe: 'response'});
   }
 }

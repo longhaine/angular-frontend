@@ -9,19 +9,51 @@
         <p>Please log in.</p>
     </div>
     <div class="cus-content-modal">
-        <p>EMAIL ADDRESS</p>
-        <input type="text" class="form-control mb-2" placeholder="annie@gmail.com" aria-label="Username" aria-describedby="basic-addon1">
-        <button type="button" class="btn btn-secondary btn-lg w-100 mb-2">CONTINUE</button>
-        <p class="text-center mb-2">Or continue with</p>
-        <div class="row">
-            <div class="col-md-6">
-                <img class="img-fluid" src="assets/images/facebook-login.jpg" alt="">
-            </div>
-            <div class="col-md-6">
-                <img class="img-fluid" src="assets/images/google-login.jpg" alt="">
-            </div>
-        </div>
-
+        <ng-container [ngSwitch]="formContent">
+            <ng-template [ngSwitchCase]="'email'">
+                <p>EMAIL ADDRESS</p>
+                <form  [formGroup]="emailForm" (ngSubmit)="findEmail(emailForm.value)">
+                    <input type="email" class="form-control mb-2" placeholder="annie@gmail.com" aria-label="email" aria-describedby="basic-addon1"
+                    id="email" formControlName="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required
+                    [ngClass]="{'is-invalid': submitted && fEmail.email.errors}"
+                    [(ngModel)]="email">
+                    <div class="invalid-feedback">
+                        Invalid Email
+                    </div>
+                    <button type="submit" class="btn btn-submit btn-lg w-100 mb-2">CONTINUE</button>
+                </form>
+                <p class="text-center mb-2">Or continue with</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <img class="img-fluid" src="assets/images/facebook-login.jpg" alt="">
+                    </div>
+                    <div class="col-md-6">
+                        <img class="img-fluid" src="assets/images/google-login.jpg" alt="">
+                    </div>
+                </div>   
+            </ng-template>
+            <ng-template [ngSwitchCase]="'login'">
+                <form  [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
+                    <div *ngIf="alert" class="invalid-template">{{alert}}</div>
+                    <p>EMAIL ADDRESS</p>
+                    <input type="email" class="form-control mb-2" placeholder="annie@gmail.com" aria-label="email" aria-describedby="basic-addon1"
+                    id="email" formControlName="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+                    [ngClass]="{'is-invalid': submitted && fLogin.email.errors}" required
+                    [(ngModel)]="email">
+                    <div class="invalid-feedback">
+                        Invalid Email
+                    </div>
+                    <p>PASSWORD</p>
+                    <input type="password" class="form-control mb-2" placeholder="Enter password" aria-label="password" aria-describedby="basic-addon1"
+                    id="password" formControlName="password"  pattern=".{3,}" required
+                    [ngClass]="{'is-invalid': submitted && fLogin.password.errors}">
+                    <div class="invalid-feedback">
+                        Password must be at least 4 characters long.
+                    </div>
+                    <button type="submit" class="btn btn-submit btn-lg w-100 mb-2">CONTINUE</button>
+                </form>
+            </ng-template>            
+        </ng-container>
     </div>
     <div class="cus-footer-modal text-center">
         <p>By providing your email address, you agree to our</p>

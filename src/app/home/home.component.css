@@ -4,6 +4,9 @@
 }
 
 @media(min-width:768px){
+    .container{
+        max-width: 1400px;
+    }
     .desktop-home-image{
         display: unset;
     }
@@ -148,5 +151,18 @@
         margin-top:10px!important;
         margin-bottom: 10px!important;
         font-size:20px;
+    }
+}
+@media(min-width:768px) and (max-width:1090px){
+    .carousel-caption > h1,.carousel-caption > p, .carousel-caption > img{
+        margin-top:10px!important;
+        margin-bottom: 10px!important;
+        font-size:3vw;
+    }
+    ::ng-deep .carousel-control-prev{
+        bottom: -3rem;
+    }
+    ::ng-deep .carousel-control-next{
+        bottom: -3rem;
     }
 }

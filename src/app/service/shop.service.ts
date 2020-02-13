@@ -21,9 +21,4 @@ export class ShopService {
       this.server+"/sideSubCategoryByGender/"+gender
       ,{headers: this.headers,observe: 'response'});
   }
-  subCategoryByGender(gender:string){
-    return this.http.get(
-      this.server+"/subCategoryByGender/"+gender+""
-    ,{headers: this.headers,observe: 'response'});
-  }
 }

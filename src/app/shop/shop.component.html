@@ -121,7 +121,7 @@
                                 <a class="link" href="#"></a>
                                 <img class="product-image img-fluid" src="{{collections + productOption.image+'-first.jpg'}}">
                                 <img class="product-image-hover img-fluid" src="{{collections +productOption.image+'-second.jpg'}}" alt="">
-                                <button class="product-add-button">+ Quick Add</button>
+                                <button (click)="addCart(productOption.id)"class="product-add-button">+ Quick Add</button>
                             </div>
                             <div class="product-description click-able">
                                 <div class="d-flex justify-content-between">

@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges} from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {ModalComponent} from '../modal/modal.component';
@@ -8,13 +8,16 @@ import { Subcategory } from '../class/subcategory';
 import { globals } from '../environtments';
 import { HostListener } from '@angular/core';
 import { DataService } from '../service/data.service';
-
+import {User} from '../class/user';
+import { CartService } from '../service/cart.service';
+import { Cart } from '../class/cart';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  
   public transparentTrigger:boolean = false;
   private img = globals.server+"/img";
   private categoriesOfWomen: Category[] = [];
@@ -22,11 +25,18 @@ export class HeaderComponent implements OnInit {
   private contentMenu = "women"; //default is always women
   private contentModal:string
   private banner:Element;
+  private requireLogin:boolean = false;
+  private cartLoading:boolean = false;
+  private collections = globals.collections;
+  private numberOfCarts:number = 0;
   constructor(private router: Router,
               private modalService: NgbModal,
               private categoryService: CategoryService,
-              private dataSerice: DataService){
+              private dataService: DataService,
+              private cartService: CartService){
   }
+  @Input() userName:string;
+  @Input() carts:Cart[] = null;
   setContentMenu(value:string){
     this.contentMenu = value;
   }
@@ -35,15 +45,35 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/']);
     window.scrollTo(0,0);
   }
+  navigateTo(path:string){
+    this.router.navigate([path]);
+    window.scrollTo(0,0);
+  }
+  logOut(){
+    this.dataService.deleteAllCookies();
+    window.location.reload();
+  }
+  // component login and signup
   openModal(component:string){
     const modalRef = this.modalService.open(ModalComponent);
     modalRef.componentInstance.component = component;
+    modalRef.result.then(res=>{
+      if(res === "success"){
+        // when login and signup success
+        window.location.reload();
+      }
+    },reason=>{
+      if(this.requireLogin){
+        this.requireLogin = false; // set to default variable
+        this.router.navigate(['/']);
+      }
+    });
   }
-  getCategory(){
-    this.categoryService.getCategory().subscribe(results =>{
-      // (results.body)[0] is women [1] is men
-      this.categoriesOfWomen = JSON.parse(JSON.stringify((results.body)[0].categories));
-      this.categoriesOfMen = JSON.parse(JSON.stringify((results.body)[1].categories));
+  getHeader(){
+    this.categoryService.getHeader().subscribe(results =>{
+      var json = JSON.parse(JSON.stringify(results.body));
+      this.categoriesOfWomen = json.women;
+      this.categoriesOfMen = json.men;
     })
   }
   headerOnHover(){
@@ -110,9 +140,7 @@ export class HeaderComponent implements OnInit {
       this.openDropdown.classList.add("d-none");
       this.closeDropdown.classList.remove("d-none");
       this.mobileDropdownMenu.classList.add("open-dropdown-menu");
-      setTimeout(() => {
-        this.btnCloseDropdown.classList.remove("d-none");
-      }, 300);
+      this.btnCloseDropdown.classList.remove("d-none");
     }
     else{
       this.openDropdown.classList.remove("d-none");
@@ -128,19 +156,54 @@ export class HeaderComponent implements OnInit {
     this.currentForcusContent.classList.add("category-item--active");
   }
   ngOnInit() {
-    this.getCategory();
+    this.getHeader();
+  }
+  increaseCart(id:number){
+    this.cartService.add(id).subscribe(res=>{
+      this.InitCarts(res.body);
+    });
+  }
+  decreaseCart(id:number){
+    this.cartService.remove(id).subscribe(res=>{
+      this.InitCarts(res.body);
+    })
+  }
+  removeAllQuantityCart(id:number){
+    this.cartService.removeAllQuantity(id).subscribe(res=>{
+      this.InitCarts(res.body);
+    });
+  }
+  InitCarts(body:any){
+    if(body == ""){
+      this.carts = null;
+    }
+    else
+    this.carts = JSON.parse(JSON.stringify(body));
+    this.cartCount(this.carts);
+  }
+  cartCount(carts:Cart[]){
+    this.numberOfCarts = 0; //reset when ever the user adding cart
+    if(carts !== null){
+      let length = carts.length;
+      for(let i = 0; i < carts.length; i++){
+        this.numberOfCarts = this.numberOfCarts + carts[i].quantity;
+      }
+    }
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    this.cartCount(this.carts);
   }
   ngAfterViewInit(){
     this.banner = document.getElementById("desktop-banner");
     this.transparentTriggeringOn();
-    this.dataSerice.changeMessage('ready'); //alert for another component that the header component is ready.
+    this.dataService.changeMessage('ready'); //alert for another component that the header component is ready.
     /*
     if another component's already received message and send back,
     the header component sets default message to dataService
     */
-    this.dataSerice.headerMessageSubcriber.subscribe(message=>{
+    this.dataService.headerMessageSubcriber.subscribe(message=>{
       if(message === "knock"){
-        this.dataSerice.changeMessage("ready");
+        this.dataService.changeMessage("ready");
       }
       if(message === "on"){
         this.transparentTriggeringOn();
@@ -148,8 +211,19 @@ export class HeaderComponent implements OnInit {
       if(message === "off"){
         this.transparentTriggeringOff();
       }
-    })
-
+      if(message === "require login"){
+        this.requireLogin = true;
+        this.openModal("login");
+      }
+      if(message === "update carts"){
+        this.cartService.getCarts().subscribe(res=>{
+          this.InitCarts(res.body);
+        })
+      }
+      if(message === "cart loading"){
+        this.cartLoading = !this.cartLoading;
+      }
+    });
     //Mobile banner header
     this.initMobileMenu();
   }

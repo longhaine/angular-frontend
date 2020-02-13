@@ -11,6 +11,8 @@ import { Product } from '../class/product';
 import { Subcategory } from '../class/subcategory';
 import { Subscription } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
+import { CartService } from '../service/cart.service';
+import { TokenService } from '../service/token.service';
 @Component({
   selector: 'app-shop',
   templateUrl: './shop.component.html',
@@ -24,7 +26,9 @@ export class ShopComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private shopService: ShopService,
-              private statusService: StatusService) { }
+              private statusService: StatusService,
+              private cartService: CartService,
+              private tokenService: TokenService) { }
   private load:boolean = false;
   private headerSubscription:Subscription;
   private img = globals.server+"/img";
@@ -111,6 +115,13 @@ export class ShopComponent implements OnInit {
         this.dataService.changeMessage(status);
       }
     });
+  }
+  addCart(id:number){
+    this.dataService.changeMessage("cart loading");
+    this.cartService.add(id).subscribe(res=>{
+      this.dataService.changeMessage("update carts");
+      this.dataService.changeMessage("cart loading");
+    })
   }
   ngAfterViewInit(){
     this.triggerHeaderComponent("off");

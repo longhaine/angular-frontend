@@ -171,3 +171,39 @@ app-header{
     width: 100%;
     z-index: 5;
 }
+.btn-submit{
+    background-color: #4c4c4b;
+    color: #fff;
+}
+.btn-submit:hover{
+    background-color:#171717;
+    color: #fff;
+}
+.invalid-template{
+    margin: 20px 0;
+    padding: 15px;
+    color: #bb8b7d;
+    border: 1px solid #bb8b7d;
+    font-size: 13px;
+    line-height: 21.034px;
+    text-align: center;
+}
+.close{
+    padding: 1rem!important;
+}
+.close:focus{
+    outline: none;
+}
+.close span{
+    text-decoration: none!important;
+}
+.side-list{
+    list-style-type: none;
+}
+.side-list__item{
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+.side-list__item--active{
+    font-weight: lighter;
+}

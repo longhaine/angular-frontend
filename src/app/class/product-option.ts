@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Product } from './product';
 @Injectable({
     providedIn: 'root'
 })
@@ -9,7 +10,14 @@ export class ProductOption {
     private _price: number;
     private _image: String;
     private _numberOfImage: number;
-    
+    private _product: Product;
+    public get product(): Product {
+        return this._product;
+    }
+    public set product(value: Product) {
+        this._product = value;
+    }
+
     public get id(): number {
         return this._id;
     }

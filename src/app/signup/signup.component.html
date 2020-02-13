@@ -4,29 +4,60 @@
         </button>
     </div>
     <div class="container cus-container">
-        <div class="cus-header-modal text-center">
-            <i class="las la-bell la-3x"></i>
-            <h3>Get a sneak peek.</h3>
-            <p>Sign up to see what we’ve been working on and claim first dibs on all new product launches.</p>
-            <p>Stay in the know, on the go.</p>
-        </div>
+        <ng-container [ngSwitch]="typeOfHeader">
+            <ng-template [ngSwitchCase]="'transfer'">
+                <div class="cus-header-modal text-center">
+                    <h3>Looks like you’re new.
+                        Please create an account.</h3>
+                </div>
+            </ng-template>
+            <ng-template [ngSwitchCase]="'default'">
+                <div class="cus-header-modal text-center">
+                    <i class="las la-bell la-3x"></i>
+                    <h3>Get a sneak peek.</h3>
+                    <p>Sign up to see what we’ve been working on and claim first dibs on all new product launches.</p>
+                    <p>Stay in the know, on the go.</p>
+                </div>
+            </ng-template>
+            
+        </ng-container>
+
         <div class="cus-content-modal">
+            <div *ngIf="alert" class="invalid-template">{{alert}}</div>
+            <form [formGroup]="signUpForm" (ngSubmit)="signUp(signUpForm.value)">
             <p>EMAIL ADDRESS</p>
-            <input type="text" class="form-control mb-2" placeholder="annie@gmail.com" aria-label="Username" aria-describedby="basic-addon1">
+            <input type="text" class="form-control mb-2" placeholder="annie@gmail.com" 
+            aria-label="email" aria-describedby="basic-addon1"
+            id="email" formControlName="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required
+            [ngClass]="{'is-invalid': submitted && fSignUp.email.errors}">
+            <div class="invalid-feedback">
+                Invalid Email
+            </div>
             <p>PASSWORD</p>
-            <input type="text" class="form-control mb-2" aria-label="Password" aria-describedby="basic-addon1">
+            <input type="password" class="form-control mb-2" placeholder="Enter password" aria-label="password" aria-describedby="basic-addon1"
+            id="password" formControlName="password"  pattern=".{3,}" required
+            [ngClass]="{'is-invalid': submitted && fSignUp.password.errors}">
+            <div class="invalid-feedback">
+                Password must be at least 3 characters long.
+            </div>
             <p>FULL NAME</p>
-            <input type="text" class="form-control mb-2" aria-label="Fullname" aria-describedby="basic-addon1">
+            <input type="text" class="form-control mb-2"  aria-label="fullname" aria-describedby="basic-addon1"
+            id="fullname" formControlName="fullname"  pattern=".{3,}" required
+            [ngClass]="{'is-invalid': submitted && fSignUp.fullname.errors}">
+            <div class="invalid-feedback">
+                Name must be at least 3 characters long.
+            </div>
             <p>WHAT STYLES ARE YOU INTERESTED IN?</p>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
                 <label class="form-check-label" for="exampleRadios1">WOMEN</label>
             </div>
             <div class="form-check mb-3">
-                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option1" checked>
                     <label class="form-check-label" for="exampleRadios1">MEN</label>
             </div>
-            <button type="button" class="btn btn-secondary btn-lg w-100 mb-2">CONTINUE</button>
+            <button type="submit" class="btn btn-secondary btn-lg w-100 mb-2">CONTINUE</button>
+            </form>
         </div>
         <div class="cus-footer-modal text-center">
             <p>By providing your email address, you agree to our</p>

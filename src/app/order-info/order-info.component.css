@@ -1,0 +1,16 @@
+.app-below-header{
+    padding-top: 100px;
+    padding-bottom: 500px;
+}
+.side-list-container{
+    background:#f7f7f8;
+}
+.side-list{
+    padding-top: 10px;
+    
+}
+.side-list__item--active a{
+    color:#4c4c4b;
+    fill: #4c4c4b;
+    font-weight: 700;
+}

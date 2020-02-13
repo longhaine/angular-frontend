@@ -55,47 +55,87 @@
         <svg class="logo" alt="Everlane" viewBox="0 0 432 40.6"><path d="M0,40.6V0H32.5V8.1H8.1v8.1H24.3v8.2H8.1v8.1H32.5v8.1H0Z"></path><path d="M67.7,40.6L51.4,0h8.7L71.8,28.9,83.3,0H92L75.8,40.6H67.7Z"></path><path d="M113.1,40.6V0h32.5V8.1H121.2v8.1h16.2v8.2H121.2v8.1h24.4v8.1H113.1Z"></path><path d="M199.3,22.8l5.8,17.8h-8.5l-5.3-16.2H177.1V40.6H169V0h24.3A12.16,12.16,0,0,1,202,3.5a11.61,11.61,0,0,1,3.5,8.7A11.68,11.68,0,0,1,199.3,22.8Zm-22.2-6.6h16.2a4,4,0,0,0,2.9-1.2,3.85,3.85,0,0,0,1.2-2.9A4.1,4.1,0,0,0,193.3,8H177.1v8.2Z"></path><path d="M229.6,40.6V0h8.1V32.5H258v8.1H229.6Z"></path><path d="M306.8,32.5H290.1l-3.3,8.1h-8.7L294.4,0h8.1l16.3,40.6h-8.7Zm-3.3-8.1-5.1-12.7-5.1,12.7h10.2Z"></path><path d="M375,0V40.6h-8.1l-20.3-27v27h-8.1V0h8.1l20.3,27V0H375Z"></path><path d="M399.5,40.6V0H432V8.1H407.6v8.1h16.2v8.2H407.6v8.1H432v8.1H399.5Z"></path></svg>
     </div>
     <div class="right-banner d-flex justify-content-start">
-        <div class="header-item" (click)="openModal('login')">Log In</div>
-        <div class="header-item signup-button ml-5" (click)="openModal('signup')">Sign Up</div>
+        <div *ngIf="!userName"class="header-item" (click)="openModal('login')">Log In</div>
+        <div *ngIf="userName" class="header-item dropdown-menu-right">
+            <div id="dropdownUser">Hi, {{userName}}</div>
+            <div class="dropdown-menu cus-dropdown-menu cus-dropdown-menu--account" aria-labelledby="dropdownUser">
+                <div class="cus-dropdown-menu-header">
+                    Your Account
+                </div>
+                <div class="dropdown-divider"></div>
+                <div class="container">
+                    <div class="row">
+                        <ul class="list-group">
+                            <li class="list-group-item"><a (click)="navigateTo('/account/info')" href="javascript:void(0);">Account</a></li>
+                            <li class="list-group-item"><a (click)="navigateTo('/account/orders')"href="javascript:void(0);">Orders Info</a></li>
+                            <li class="list-group-item"><a (click)="navigateTo('/account/shipping')"href="javascript:void(0);">Shipping Info</a></li>
+                            <li class="list-group-item"><a (click)="logOut();"href="javascript:void(0);">Log Out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!userName" class="header-item signup-button ml-5" (click)="openModal('signup')">Sign Up</div>
         <div class="header-item bag-button ml-5 dropdown-menu-right">
-            <i class="las la-shopping-bag la-2x" id="dropdownBag" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+            <ng-template [ngIf]="!cartLoading">
+                <i class="las la-shopping-bag la-2x" id="dropdownBag" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <ng-template [ngIf]="numberOfCarts > 0">
+                        {{numberOfCarts}}
+                    </ng-template>
+                </i>
+            </ng-template>
+            <ng-template [ngIf]="cartLoading">
+                <div class="spinner-border spinner-border-sm text-dark" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </ng-template>
+
             <div class="dropdown-menu cus-dropdown-menu" aria-labelledby="dropdownBag">
-                <div class="bag-menu-header">
+                <div class="cus-dropdown-menu-header">
                     Your Bag
                 </div>
                 <div class="dropdown-divider"></div>
-                <div class="bag-menu-content container">
-                    <div class="row">
-                        <div class="col-md-5">
-                            <img class="img-fluid" src="https://res.cloudinary.com/everlane/image/upload/c_scale/c_fill,dpr_1.0,f_auto,q_auto,w_auto:100:1200/v1/i/d797606d_5938.jpg" alt="">
-                        </div>
-                        <div class="col-md-5 item-info">
-                            <p>The Re:Down® Sleeping Bag Puffer</p>
-                            <p>Size: Extra Large</p>
-                            <p>Color: Bone</p>
-                            <div class="d-flex justify-content-between">
-                                <p><i class="las la-minus"></i>1<i class="las la-plus"></i></p>
-                                <p>300$</p>
+                <div class="container cus-dropdown-menu--body">
+                    <ng-template [ngIf]="!carts">
+                        <p class="mb-5 mt-5">There is no products in your bag.</p>
+                    </ng-template>
+                    <ng-template [ngIf]="carts">
+                            <div class="row mb-2" *ngFor="let cart of carts">
+                                <div class="col-md-5">
+                                    <img class="img-fluid"
+                                    src="{{collections + cart.productOption.product.gender +'/'+ (cart.productOption.product.subCategory.name | spaceToLineBreak) +'/'+ cart.productOption.image + '-first.jpg'}}" alt="">
+                                </div>
+                                <div class="col-md-5 item-info">
+                                    <p>{{cart.productOption.name}}</p>
+                                    <p>{{cart.productOption.color}}</p>
+                                    <div class="d-flex justify-content-between">
+                                        <p>
+                                            <i (click)="decreaseCart(cart.productOption.id)" class="las la-minus click-able"></i>
+                                            {{cart.quantity}}
+                                            <i (click)="increaseCart(cart.productOption.id)" class="las la-plus click-able"></i>
+                                        </p>
+                                        <p>${{cart.price}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <button (click)="removeAllQuantityCart(cart.id)" type="button" class="close" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-1">
-                            <button type="button" class="close" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    </div>
+                    </ng-template>
                 </div>
                 <div class="dropdown-divider"></div>
-                <div class="bag-menu-footer">
+                <div>
                     Free shipping on your first order over $100.
-                    <button type="button" class="btn btn-secondary btn-sm w-100 h-50">CONTINUE TO CHECKOUT</button>
+                    <button *ngIf="carts" type="button" class="btn btn-secondary btn-sm w-100 h-50">CONTINUE TO CHECKOUT</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 </div>
-
+<!-------------------Mobile Section ---------------------->
 <div id="mobile-banner">
     <div class="header-banner d-flex justify-content-between">
         <div class="left-banner">

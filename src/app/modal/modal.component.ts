@@ -7,8 +7,13 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 })
 export class ModalComponent implements OnInit {
   @Input() component;
+  private signUpTypeOfHeader = "default";
   constructor(private activeModal:NgbActiveModal) { }
 
+  setComponent(component:string){
+    this.component = component;
+    this.signUpTypeOfHeader = "transfer";
+  }
   ngOnInit() {
   }
 

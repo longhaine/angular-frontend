@@ -15,6 +15,11 @@ import { Handle404Component } from './handle404/handle404.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { SpaceToLineBreakPipe } from './pipe/space-to-line-break.pipe';
 import { ModalComponent } from './modal/modal.component';
+import {FormsModule,ReactiveFormsModule} from '@angular/forms'
+import {CookieService} from 'ngx-cookie-service';
+import { InfoComponent } from './info/info.component';
+import { OrderInfoComponent } from './order-info/order-info.component';
+import { AddressComponent } from './address/address.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,15 +32,20 @@ import { ModalComponent } from './modal/modal.component';
     Handle404Component,
     BreadcrumbComponent,
     SpaceToLineBreakPipe,
-    ModalComponent
+    ModalComponent,
+    InfoComponent,
+    OrderInfoComponent,
+    AddressComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
-  providers: [HeaderComponent],
+  providers: [HeaderComponent,CookieService],
   bootstrap: [AppComponent],
   entryComponents:[ModalComponent]
 })
