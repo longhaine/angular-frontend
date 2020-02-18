@@ -38,7 +38,6 @@ export class DataService {
   }
   deleteAllCookies(){
     // sometimes deleteAll not working properly
-    // so this is my solution
     this.cookieService.deleteAll("/");
   }
   setTokenCookie(token:string){
@@ -53,6 +52,7 @@ export class DataService {
     this.setFullNameCookie(body.user.fullName);
     this.setTokenCookie(body.token);
     this.changeMessage(message);
+    // when login and signup success
   }
   getSubcategoryByGender(gender:string, subCategoryName:string){
     for(const [genderKey, genderValue] of Object.entries(introLine)){

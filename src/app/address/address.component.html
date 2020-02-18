@@ -1,1 +1,93 @@
-<p>address works!</p>
+<div class="container app-below-header">
+    <div class="row justify-content-center">
+        <div class="col-md-2">
+            <div class="dropdown-divider mb-3"></div>
+            <ul class="side-list">
+                <li class="side-list__item"><a href="javascript:void(0);">Account</a></li>
+                <li class="side-list__item"><a href="javascript:void(0);">Orders Info</a></li>
+                <li class="side-list__item side-list__item--active"><a href="javascript:void(0);">Shipping Info</a></li>
+                <li class="side-list__item"><a (click)="logOut();"href="javascript:void(0);">Log Out</a></li>
+            </ul>
+        </div>
+        <div class="col-md-7">
+            <h5 class="mb-4" style="font-weight: lighter;">Shipping Information.</h5>
+            <div class="mb-3 d-flex flex-row justify-content-between">
+                <p>Manage and add new shipping addresses.</p>
+                <button (click)="open(content)" class="btn btn-secondary btn-sm mr-2">ADD NEW ADDRESS</button>
+            </div>
+            <ng-template [ngIf]="loading == true">
+                <div class="d-flex justify-content-center mt-5">
+                    <div class="spinner-border text-secondary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template [ngIf]="loading == false">
+                <ul class="normal-list">
+                    <ng-template [ngIf]="selectedAddress">
+                        <li class="normal-list__item normal-list__item--selected">
+                            <div class="address-info-container">
+                                <p class="address-selected mb-2">Selected</p>
+                                <p>name: {{selectedAddress.fullName}}</p>
+                                <p>address: {{selectedAddress.address}}</p>
+                                <p>phone: {{selectedAddress.phone}}</p>
+                                <button (click)="deleteAddress(selectedAddress.id)" type="button" class="close remove-address" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </li>
+                    </ng-template>
+                    <ng-template [ngIf]="addresses.length > 0">
+                        <li class="normal-list__item" *ngFor="let address of addresses">
+                            <div class="address-info-container">
+                                <p class="address-select" (click)="selectAddress(address.id)">Select</p>
+                                <p>name: {{address.fullName}}</p>
+                                <p>address: {{address.address}}</p>
+                                <p>phone: {{address.phone}}</p>
+                                <button (click)="deleteAddress(address.id)" type="button" class="close remove-address" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </li>
+                    </ng-template>
+                </ul>
+            </ng-template>
+        </div>
+    </div>
+</div>
+<ng-template #content let-modal>
+    <button type="button" class="close close-modal" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <div class="container cus-container">
+        <div class="cus-header-modal text-center">
+            <p>Add New Shipping Address</p>
+        </div>
+        <div class="cus-content-modal">
+            <form  [formGroup]="addressForm" (ngSubmit)="onSubmit(addressForm.value)">
+                <p>FULL NAME*</p>
+                <input type="text" class="form-control mb-2" placeholder="Annie Clark" aria-label="fullname" aria-describedby="basic-addon1"
+                id="fullname" formControlName="fullname" pattern=".{1,}" required
+                [ngClass]="{'is-invalid': submitted && f.fullname.errors}">
+                <div class="invalid-feedback">
+                    REQUIRED
+                </div>
+                <p>ADDRESS*</p>
+                <input type="text" class="form-control mb-2" placeholder="Your Address" aria-label="address" aria-describedby="basic-addon1"
+                id="address" formControlName="address" pattern=".{1,}" required
+                [ngClass]="{'is-invalid': submitted && f.address.errors}">
+                <div class="invalid-feedback">
+                    REQUIRED
+                </div>
+                <p>PHONE NUMBER*</p>
+                <input type="number" class="form-control mb-2" placeholder="Phone Number" aria-label="phone" aria-describedby="basic-addon1"
+                id="phone" formControlName="phone" pattern=".{1,}" required
+                [ngClass]="{'is-invalid': submitted && f.phone.errors}">
+                <div class="invalid-feedback">
+                    REQUIRED
+                </div>
+                <button type="submit" class="btn btn-submit btn-lg w-100 mb-2">SUBMIT</button>
+            </form>
+        </div>
+    </div>
+</ng-template>

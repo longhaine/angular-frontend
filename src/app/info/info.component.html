@@ -4,8 +4,8 @@
             <div class="dropdown-divider mb-3"></div>
             <ul class="side-list">
                 <li class="side-list__item side-list__item--active"><a href="javascript:void(0);">Account</a></li>
-                <li class="side-list__item"><a href="javascript:void(0);">Orders Info</a></li>
-                <li class="side-list__item"><a href="javascript:void(0);">Shipping Info</a></li>
+                <li class="side-list__item"><a [routerLink]="['/account/orders']" href="javascript:void(0);">Orders Info</a></li>
+                <li class="side-list__item"><a [routerLink]="['/account/shipping']" href="javascript:void(0);">Shipping Info</a></li>
                 <li class="side-list__item"><a (click)="logOut();"href="javascript:void(0);">Log Out</a></li>
             </ul>
         </div>

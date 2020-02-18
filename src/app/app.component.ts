@@ -11,7 +11,7 @@ import { Cart } from './class/cart';
 export class AppComponent {
   title = 'Everlane';
   userName:string;
-  carts : Cart[] = null;
+  carts : Cart[] = [];
   constructor(private dataService:DataService,
     private router:Router,
     private cartService:CartService){
@@ -20,7 +20,7 @@ export class AppComponent {
     this.userName = this.dataService.getFullNameCookie();
     this.cartService.getCarts().subscribe(res=>{
       if(res.body == ""){
-        this.carts = null;
+        this.carts = [];
       }
       else
       this.carts = JSON.parse(JSON.stringify(res.body));

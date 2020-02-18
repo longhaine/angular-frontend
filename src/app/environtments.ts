@@ -1,7 +1,8 @@
 export const globals = {
     serverPermit : "http://localhost:8080/api/permit",
     server: "http://localhost:8080/api",
-    collections: "http://localhost:8080/api/img/collections/"
+    collections: "http://localhost:8080/api/img/collections/",
+    origin: "http://localhost:4200"
 }
 export const introLine = {
     women:{

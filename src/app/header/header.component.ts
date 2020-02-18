@@ -36,9 +36,14 @@ export class HeaderComponent implements OnInit {
               private cartService: CartService){
   }
   @Input() userName:string;
-  @Input() carts:Cart[] = null;
+  @Input() carts:Cart[] = [];
   setContentMenu(value:string){
     this.contentMenu = value;
+  }
+  reload(){
+    setTimeout(function(){
+      window.location.reload();
+    },1000);
   }
   navigateToHome(){
     this.transparentTriggeringOn();
@@ -53,14 +58,19 @@ export class HeaderComponent implements OnInit {
     this.dataService.deleteAllCookies();
     window.location.reload();
   }
-  // component login and signup
+  // open modal for component login or signup based on component variable
   openModal(component:string){
     const modalRef = this.modalService.open(ModalComponent);
     modalRef.componentInstance.component = component;
     modalRef.result.then(res=>{
-      if(res === "success"){
-        // when login and signup success
-        window.location.reload();
+      // if guest has carts then merge the guest carts into user carts when user logins succesfully
+      if(res === "success" && this.numberOfCarts > 0){
+        this.cartService.merge().subscribe(res=>{
+          this.reload()
+        });
+      }
+      else{
+        this.reload();
       }
     },reason=>{
       if(this.requireLogin){
@@ -164,30 +174,30 @@ export class HeaderComponent implements OnInit {
     });
   }
   decreaseCart(id:number){
-    this.cartService.remove(id).subscribe(res=>{
+    this.cartService.minusCart(id).subscribe(res=>{
       this.InitCarts(res.body);
     })
   }
   removeAllQuantityCart(id:number){
-    this.cartService.removeAllQuantity(id).subscribe(res=>{
+    this.cartService.deleteAllQuantityCart(id).subscribe(res=>{
+      console.log(res.body);
       this.InitCarts(res.body);
     });
   }
   InitCarts(body:any){
     if(body == ""){
-      this.carts = null;
+      this.carts = [];
     }
-    else
-    this.carts = JSON.parse(JSON.stringify(body));
+    else{
+      this.carts = JSON.parse(JSON.stringify(body));
+    }
     this.cartCount(this.carts);
   }
   cartCount(carts:Cart[]){
-    this.numberOfCarts = 0; //reset when ever the user adding cart
-    if(carts !== null){
-      let length = carts.length;
-      for(let i = 0; i < carts.length; i++){
-        this.numberOfCarts = this.numberOfCarts + carts[i].quantity;
-      }
+    this.numberOfCarts = 0; //reset whenever the user adds cart
+    let length = carts.length;
+    for(let i = 0; i < length; i++){
+      this.numberOfCarts = this.numberOfCarts + carts[i].quantity;
     }
   }
   ngOnChanges(changes: SimpleChanges) {
@@ -197,10 +207,9 @@ export class HeaderComponent implements OnInit {
     this.banner = document.getElementById("desktop-banner");
     this.transparentTriggeringOn();
     this.dataService.changeMessage('ready'); //alert for another component that the header component is ready.
-    /*
-    if another component's already received message and send back,
-    the header component sets default message to dataService
-    */
+
+    // listen to another component
+
     this.dataService.headerMessageSubcriber.subscribe(message=>{
       if(message === "knock"){
         this.dataService.changeMessage("ready");
@@ -224,6 +233,8 @@ export class HeaderComponent implements OnInit {
         this.cartLoading = !this.cartLoading;
       }
     });
+
+
     //Mobile banner header
     this.initMobileMenu();
   }

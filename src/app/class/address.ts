@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
-
+import { User } from './user';
 @Injectable({
     providedIn: 'root'
 })
 export class Address {
     private _id: number;
+    private _fullName: String;
     private _address: String;
     private _phone: number;
-    private _user_id: number;
+    private _selected: number;
+    private _user: User;
+
     public get id(): number {
         return this._id;
     }
@@ -28,11 +31,25 @@ export class Address {
     public set phone(value: number) {
         this._phone = value;
     }
-    
-    public get user_id(): number {
-        return this._user_id;
+
+    public get fullName(): String {
+        return this._fullName;
     }
-    public set user_id(value: number) {
-        this._user_id = value;
+    public set fullName(value: String) {
+        this._fullName = value;
+    }
+
+    public get selected(): number {
+        return this._selected;
+    }
+    public set selected(value: number) {
+        this._selected = value;
+    }
+
+    public get user(): User {
+        return this._user;
+    }
+    public set user(value: User) {
+        this._user = value;
     }
 }

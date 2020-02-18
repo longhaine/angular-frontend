@@ -74,11 +74,10 @@ i.la-shopping-bag{
     padding-left:1rem;
     padding-right:1rem;
     cursor: default!important;
-    overflow:hidden;
+    max-height: calc(100vh - 70px)!important;
 }
 .cus-dropdown-menu--body{
-    max-height: calc(100vh - 250px);
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 .cus-dropdown-menu--account{
     width: 200px!important;
@@ -91,7 +90,8 @@ i.la-shopping-bag{
     line-height: 28px;
 }
 .dropdown-menu-right:hover .cus-dropdown-menu {
-    display: block;
+    display: flex;
+    flex-direction: column;
     top: 100%;
     right: 0;
     left: auto;

@@ -1,0 +1,23 @@
+.app-below-header{
+    padding-top: 100px;
+    padding-bottom: 500px;
+}
+.checkout-container{
+    position: sticky;
+    top: 100px;
+}
+.checkout-list{
+    background-color: #f7f7f8;
+    list-style-type: none;
+    padding-inline-start: 0;
+    color: #4c4c4b;
+}
+.checkout-list__header{
+    padding: 15px;
+}
+.checkout-list__item{
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

@@ -17,35 +17,23 @@ export class CartService {
     private headers;
 
     add(id:number){
-      if(this.dataSerivce.getTokenCookie() !== null){
-        this.headers = this.tokenService.getHeadersContainToken();
-      }else{
-        this.headers = this.tokenService.getHeader();
-      }
-      return this.http.get(this.cartPath+"/add/"+id,{headers: this.headers,observe: 'response'});
+      this.headers = this.tokenService.getHeadersByAuthorization();
+      return this.http.put(this.cartPath+"/"+id,"",{headers: this.headers,observe: 'response'});
     }
-    remove(id:number){
-      if(this.dataSerivce.getTokenCookie() !== null){
-        this.headers = this.tokenService.getHeadersContainToken();
-      }else{
-        this.headers = this.tokenService.getHeader();
-      }
-      return this.http.get(this.cartPath+"/remove/"+id,{headers: this.headers,observe: 'response'});
+    minusCart(id:number){
+      this.headers = this.tokenService.getHeadersByAuthorization();
+      return this.http.delete(this.cartPath+"/minus-quantity/"+id,{headers: this.headers,observe: 'response'});
     }
     getCarts(){
-      if(this.dataSerivce.getTokenCookie() !== null){
-        this.headers = this.tokenService.getHeadersContainToken();
-      }else{
-        this.headers = this.tokenService.getHeader();
-      }
+      this.headers = this.tokenService.getHeadersByAuthorization();
       return this.http.get(this.cartPath,{headers: this.headers,observe: 'response'});
     }
-    removeAllQuantity(id:number){
-      if(this.dataSerivce.getTokenCookie() !== null){
-        this.headers = this.tokenService.getHeadersContainToken();
-      }else{
-        this.headers = this.tokenService.getHeader();
-      }
-      return this.http.get(this.cartPath+"/remove-all/"+id,{headers: this.headers,observe: 'response'})
+    deleteAllQuantityCart(id:number){
+      this.headers = this.tokenService.getHeadersByAuthorization();
+      return this.http.delete(this.cartPath+"/"+id,{headers: this.headers,observe: 'response'})
+    }
+    merge(){
+      this.headers = this.tokenService.getHeadersByAuthorization();
+      return this.http.put(this.cartPath+"/merge","",{headers: this.headers,observe: 'response'});
     }
 }

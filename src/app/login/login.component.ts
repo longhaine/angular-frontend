@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     if(!this.emailForm.invalid){
       this.loginService.findEmail(value.email).subscribe(res =>{
         let message = (JSON.parse(JSON.stringify(res.body))).message;
-        // "yes" mean email already be used
+        // "yes" mean email already in used
         if(message === "yes"){
           this.submitted = false;
           this.formContent="login"
@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
         let body = JSON.parse(JSON.stringify(res.body));
         let message = "user login";
         this.dataService.setAuthorizationInfo(body,message);
-        this.activeModal.close('success');
+        this.activeModal.close('success'); // send to header component
       },error=>{
         if(error.status === 401){
           this.alert = "Your email or password is invalid";

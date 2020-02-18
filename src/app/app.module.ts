@@ -20,6 +20,7 @@ import {CookieService} from 'ngx-cookie-service';
 import { InfoComponent } from './info/info.component';
 import { OrderInfoComponent } from './order-info/order-info.component';
 import { AddressComponent } from './address/address.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +36,8 @@ import { AddressComponent } from './address/address.component';
     ModalComponent,
     InfoComponent,
     OrderInfoComponent,
-    AddressComponent
+    AddressComponent,
+    CheckoutComponent
   ],
   imports: [
     BrowserModule,

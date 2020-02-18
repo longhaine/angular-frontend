@@ -118,6 +118,7 @@ export class ShopComponent implements OnInit {
   }
   addCart(id:number){
     this.dataService.changeMessage("cart loading");
+
     this.cartService.add(id).subscribe(res=>{
       this.dataService.changeMessage("update carts");
       this.dataService.changeMessage("cart loading");

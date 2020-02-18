@@ -10,20 +10,23 @@ export class TokenService {
   getHeadersContainToken(){
     return new HttpHeaders({
       'Content-type' : 'application/json',
-      'Authorization': this.getAuthorization(),
+      'Authorization': 'Bearer '+this.dataService.getTokenCookie(),
       'Accept':'application/json'
     });
-  }
-  getAuthorization(){
-    if(this.dataService.getTokenCookie())
-    return 'Bearer '+this.dataService.getTokenCookie();
-    else
-    return "";
   }
   getHeader(){
     return new HttpHeaders({
       'Content-type' : 'application/json',
-      'Accept':'application/json'
+      'Accept':'application/json',
+      'Authorization': ''
     });
+  }
+  getHeadersByAuthorization(){
+    if(this.dataService.checkCookieObject("token")){
+      return this.getHeadersContainToken();
+    }
+    else{
+      return this.getHeader();
+    }
   }
 }

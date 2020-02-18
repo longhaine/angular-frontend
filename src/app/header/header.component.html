@@ -96,10 +96,10 @@
                 </div>
                 <div class="dropdown-divider"></div>
                 <div class="container cus-dropdown-menu--body">
-                    <ng-template [ngIf]="!carts">
+                    <ng-template [ngIf]="numberOfCarts == 0 ">
                         <p class="mb-5 mt-5">There is no products in your bag.</p>
                     </ng-template>
-                    <ng-template [ngIf]="carts">
+                    <ng-template [ngIf]="numberOfCarts > 0">
                             <div class="row mb-2" *ngFor="let cart of carts">
                                 <div class="col-md-5">
                                     <img class="img-fluid"
@@ -128,7 +128,7 @@
                 <div class="dropdown-divider"></div>
                 <div>
                     Free shipping on your first order over $100.
-                    <button *ngIf="carts" type="button" class="btn btn-secondary btn-sm w-100 h-50">CONTINUE TO CHECKOUT</button>
+                    <button *ngIf="numberOfCarts > 0" type="button" class="btn btn-secondary btn-sm w-100 h-50">CONTINUE TO CHECKOUT</button>
                 </div>
             </div>
         </div>
