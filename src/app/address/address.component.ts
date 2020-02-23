@@ -52,10 +52,8 @@ export class AddressComponent implements OnInit {
     });
   }
   getSelectedAddress(addresses:Address[]){
+    this.selectedAddress = null;
     let length: number = addresses.length;
-    if(length == 0){
-      this.selectedAddress = null; // because there is no addresses => no selected address
-    }
     for(let i = 0 ; i < length ; i ++){
       if(addresses[i].selected === 1){
         this.selectedAddress = addresses[i];

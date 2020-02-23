@@ -1,0 +1,185 @@
+<div class="container app-below-header pb-1">
+    <div class="row mt-3">
+        <div class="col-1 postion-relative">
+            <div class="d-flex flex-column side-image-container">
+                <ng-container *ngFor="let image of images; let i = index">
+                    <div class="mb-3 position-relative"
+                    [ngClass]="colorHover ? 'invisible' : 'visible'">
+                        <a (click)="scrollToElement(i)"class="side-image-item-link click-able"></a>
+                        <img class="img-fluid" src="{{image}}" alt="">
+                    </div>
+                </ng-container>
+                <ng-template [ngIf]="unselecteds.length > 0">
+                    <div class="unselected-container">
+                        <ng-container *ngFor="let unselected of unselecteds; let i = index">
+                            <ng-template [ngIf]="unselected !== undefined">
+                                <div class="unselected-item" [ngClass]="handleHover(i)">
+                                    <ng-container *ngFor="let image of unselected.images; let i = index">
+                                        <div class="mb-3 position-relative">
+                                            <a (click)="scrollToElement(i)"class="side-image-item-link click-able"></a>
+                                            <img class="img-fluid" src="{{image}}" alt="">
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </ng-template>
+                        </ng-container>                    
+                    </div>       
+                </ng-template>
+            </div>
+        </div>
+        <div class="col-7 main-image-container">
+            <ng-container *ngFor="let image of images; let i = index;">
+                <div class="mb-3" [ngClass]="colorHover ? 'invisible' : 'visible'">
+                    <img class="img-fluid" src="{{image}}" id="{{i}}">
+                </div>
+            </ng-container>
+            <ng-template [ngIf]="unselecteds.length > 0 ">
+                <div class="unselected-container">
+                    <ng-container *ngFor="let unselected of unselecteds; let i = index">
+                        <ng-template [ngIf]="unselected !== undefined">
+                            <div class="unselected-item" [ngClass]="handleHover(i)">
+                                <ng-container *ngFor="let image of unselected.images">
+                                    <div class="mb-3">
+                                        <img class="img-fluid" src="{{image}}">
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </ng-template>
+                    </ng-container>
+                </div>
+            </ng-template>
+        </div>
+        <div class="col-4 mb-3">
+            <ng-template [ngIf]="product">
+                <div class="product-description-container">
+                    <h4 class="font-weight-lighter">{{selected.name}} — ${{selected.price}}</h4>
+                    <p class="secondary-info">Traditional Retail: ${{selected.price * 2 }}</p>
+                    <div class="dropdown-divider"></div>
+                    <div class="product-color position-relative mb-1">
+                        <p [ngClass]="colorHover ? 'invisible' : 'visible'">{{selected.color}}</p>
+                        <ng-template [ngIf]="unselecteds.length > 0">
+                            <p class="unselected-container"
+                            [ngClass]="handleHover(indexHover)">{{unselecteds[indexHover].color}}</p>
+                        </ng-template>
+
+                    </div>
+                    <ul class="color-list">
+                        <ng-container *ngFor="let productOption of product.productOptions; let i = index">
+                            <ng-template [ngIf]="productOption.id == selected.id">
+                                <li class="color-item-lg mr-3 click-able --select-item">
+                                    <a class="btn-color-lg {{productOption.color | color}}"></a>                                
+                                </li>
+                            </ng-template>
+                            <ng-template [ngIf]="productOption.id != selected.id">
+                                <li class="color-item-lg mr-3 click-able"
+                                (mouseover)="hoverColor(i,productOption);"
+                                (mouseout)="colorHover = false"
+                                (click)="navigateTo(productOption.link)">
+                                    <a class="btn-color-lg {{productOption.color | color}}"></a>                                
+                                </li>
+                            </ng-template>
+                        </ng-container>
+                    </ul>
+                    <div class="dropdown-divider"></div>
+                    <div class="size-picking-container position-relative">
+
+                        <div class="size-picking-selected" [ngClass]=" colorHover ? 'd-none': 'd-block'">
+                            <p class="secondary-info" style="font-style: italic;"
+                            [ngClass]=" !selectedSize ? 'visible' : 'invisible'"
+                            [ngClass]=" colorHover ? 'd-none' : 'd-block'">
+                                Select a size
+                            </p>
+                            <ng-template [ngIf]="selectedSize">
+                                <p class="absolute-left-top-0">
+                                    <span [ngClass]="{'--sold-out' :selectedSize.quantity <= 0}">
+                                        Size: {{selectedSize.size.name}}
+                                    </span>
+                                    <span class="alert-message"
+                                    *ngIf="selectedSize.quantity == 0">
+                                    (Sold Out)
+                                    </span>
+                                    <span class="secondary-info" 
+                                    *ngIf="selectedSize.quantity > 0 && selectedSize.quantity < 5">
+                                    (Only a few left!)
+                                    </span>
+                                    <span class="secondary-info" 
+                                    *ngIf="selectedSize.quantity >= 5 && selectedSize.quantity < 20">
+                                    (Only {{selectedSize.quantity}} left in stock)
+                                    </span>
+                                </p>
+                            </ng-template>
+                            
+                            <ul class="size-list">
+                                <ng-container *ngFor="let optionWithSize of selected.optionWithSizes; let i = index">
+                                    <li class="size-item"
+                                    (click)="selectedSize = optionWithSize;sizePosition = i"
+                                    [ngClass]="handleSize(optionWithSize)">
+                                        <p class="size-item-text" [ngClass]="{'--sold-out' :optionWithSize.quantity <= 0}">
+                                            {{optionWithSize.size.code}}
+                                        </p>
+                                    </li>
+                                </ng-container>
+                            </ul>
+                        </div>
+                        <!----------size Hover section--------->
+                        <div class="size-picking-unselected" [ngClass]="colorHover ? 'd-block' : 'd-none' ">
+                            <ng-template [ngIf]="unselecteds.length > 0">
+                                <div>
+                                    <ng-container *ngFor="let unselected of unselecteds; let i = index">
+                                        <ng-template [ngIf]="unselected !== undefined">
+                                            <div class="unselected-item" [ngClass]="handleHover(i)">
+                                                <p class="secondary-info" style="font-style: italic;"
+                                                [ngClass]=" !selectedSize ? 'visible' : 'invisible'"
+                                                [ngClass]=" colorHover ? 'd-none' : 'd-block'">
+                                                    Select a size
+                                                </p>
+                                                <ng-template [ngIf]="selectedSize">
+                                                    <p class="absolute-left-top-0">
+                                                        <span [ngClass]="{'--sold-out' :unselected.optionWithSizes[sizePosition].quantity <= 0}">
+                                                            Size: {{unselected.optionWithSizes[sizePosition].size.name}}
+                                                        </span>
+                                                        <span class="alert-message"
+                                                        *ngIf="unselected.optionWithSizes[sizePosition].quantity == 0">
+                                                        (Sold Out)
+                                                        </span>
+                                                        <span class="secondary-info" 
+                                                        *ngIf="unselected.optionWithSizes[sizePosition].quantity > 0 && unselected.optionWithSizes[sizePosition].quantity < 5">
+                                                        (Only a few left!)
+                                                        </span>
+                                                        <span class="secondary-info" 
+                                                        *ngIf="unselected.optionWithSizes[sizePosition].quantity >= 5 && unselected.optionWithSizes[sizePosition].quantity < 20">
+                                                        (Only {{unselected.optionWithSizes[sizePosition].quantity}} left in stock)
+                                                        </span>
+                                                    </p>
+                                                </ng-template>
+    
+                                                <ul class="size-list">
+                                                    <ng-container *ngFor="let optionWithSize of unselected.optionWithSizes">
+                                                        <li class="size-item"
+                                                        (click)="selectedSize = optionWithSize"
+                                                        [ngClass]="handleSize(optionWithSize)">
+                                                            <p class="size-item-text" 
+                                                            [ngClass]="{'--sold-out' :optionWithSize.quantity <= 0}">
+                                                                {{optionWithSize.size.code}}
+                                                            </p>
+                                                        </li>
+                                                    </ng-container>
+                                                </ul>
+                                            </div>
+                                        </ng-template>
+                                    </ng-container>
+                                </div>
+                            </ng-template>
+                        </div>
+ 
+                    </div>
+                    <button class="btn btn-secondary btn-lg w-100">ADD TO BAG</button>
+                    <div class="product-description mt-3">
+                        <p class="secondary-info" style="font-size: 12px;">DESCRIPTION</p>
+                        <p class="secondary-info" style="font-size: 12px;">{{product.description}}</p>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>

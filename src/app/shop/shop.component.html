@@ -118,10 +118,30 @@
                         <div class="product-title col-md-12 mb-3"><p>{{product.name}}</p></div>
                         <div class="{{introTemplate.productPerColumn}} col-sm-4 col-8 product-option mb-4" *ngFor="let productOption of product.productOptions">
                             <div class="product-image-container">
-                                <a class="link" href="#"></a>
+                                <a [routerLink]="['/products',productOption.link]"class="link"></a>
                                 <img class="product-image img-fluid" src="{{collections + productOption.image+'-first.jpg'}}">
                                 <img class="product-image-hover img-fluid" src="{{collections +productOption.image+'-second.jpg'}}" alt="">
-                                <button (click)="addCart(productOption.id)"class="product-add-button">+ Quick Add</button>
+                                <div class="quick-add-container">
+                                    <div class="label-container">
+                                        <p class="label-item">+ Quick Add</p>
+                                    </div>
+                                </div>
+                                <div class="size-container">
+                                    <div class="row justify-content-center pl-1 pr-1">
+                                        <ng-container *ngFor="let optionWithSize of productOption.optionWithSizes">
+                                            <ng-template [ngIf]="optionWithSize.quantity == 0">
+                                                <div class="col-2 size-item --unavailable-size-item"><p>{{optionWithSize.size.code}}</p></div>
+                                            </ng-template>
+                                            <ng-template [ngIf]="optionWithSize.quantity > 0">
+                                                <div class="col-2 size-item --available-size-item"
+                                                (click)="addCart(optionWithSize.id)">
+                                                    <p>{{optionWithSize.size.code}}</p>
+                                                </div>
+                                            </ng-template>
+                                        </ng-container>
+        
+                                    </div>
+                                </div>
                             </div>
                             <div class="product-description click-able">
                                 <div class="d-flex justify-content-between">

@@ -105,7 +105,7 @@ i.la-shopping-bag{
     font-size: 14px;
 }
 .item-info{
-    font-size:12px;
+    font-size:0.9rem;
 }
 button{
     font-size: 20px;
@@ -142,6 +142,11 @@ button{
     }
     #desktop-banner{
         display: block;
+    }
+    .middle-banner{
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
     }
 }
 @Media(min-width:1px) and (max-width:767px){

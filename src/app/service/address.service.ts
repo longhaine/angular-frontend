@@ -29,4 +29,8 @@ export class AddressService {
       this.headers = this.tokenService.getHeadersByAuthorization();
       return this.http.patch(this.addressPath+"/"+id,"",{headers: this.headers,observe: 'response'});
     }
+    getSelectedAddress(){
+      this.headers = this.tokenService.getHeadersByAuthorization();
+      return this.http.get(this.addressPath+"/selected",{headers: this.headers,observe: 'response'});
+    }
 }

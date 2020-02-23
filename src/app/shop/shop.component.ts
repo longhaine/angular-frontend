@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 import { CartService } from '../service/cart.service';
 import { TokenService } from '../service/token.service';
+import { Cart } from '../class/cart';
 @Component({
   selector: 'app-shop',
   templateUrl: './shop.component.html',
@@ -104,6 +105,7 @@ export class ShopComponent implements OnInit {
     })
   }
   productCount(products:Product[]){
+    console.log(products);
     products.forEach((product:Product)=>{
       this.numberOfProduct = this.numberOfProduct + product.productOptions.length;
     });
@@ -120,6 +122,12 @@ export class ShopComponent implements OnInit {
     this.dataService.changeMessage("cart loading");
 
     this.cartService.add(id).subscribe(res=>{
+      let carts:Cart[] = [];
+      if(res.body !== "")
+      {
+        carts = JSON.parse(JSON.stringify(res.body));
+      }
+      this.dataService.setCarts(carts);
       this.dataService.changeMessage("update carts");
       this.dataService.changeMessage("cart loading");
     })

@@ -1,137 +1,227 @@
 <div class="container app-below-header">
     <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="dropdown-divider mb-2"></div>
-            <div class="row mb-2">
-                <div class="col-md-4">
-                    <img class="img-fluid" src="http://localhost:8080/api/img/collections/women/Pants/The-Corduroy-Straight-Leg-Crop-Pant-Bone-first.jpg" alt="">
-                </div>
-                <div class="col-md-8">
-                    <p>The Renew Windbreaker</p>
-                    <p>Color: Light Sage</p>
-                    <p>
-                        <i (click)="decreaseCart(cart.productOption.id)" class="las la-minus click-able"></i>
-                        1
-                        <i (click)="increaseCart(cart.productOption.id)" class="las la-plus click-able"></i>
-                    </p>
-                    <p>$250</p>
+        <ng-template [ngIf]="phase !== 'message' ">
+            <div class="col-md-5">
+                <ng-container [ngSwitch]="phase">
+                    <ng-template [ngSwitchCase]="'preview'">
+                        <ng-template [ngIf]="carts.length == 0">
+                            <p class="text-center p5">
+                                There is no products in your bag!
+                            </p>
+                        </ng-template>
+                        <ng-template [ngIf]="carts.length > 0">
+                            <ng-container *ngFor="let cart of carts">
+                                <div class="dropdown-divider mb-2"></div>
+                                <div class="row mb-2">
+                                    <div class="col-md-4">
+                                        <img class="img-fluid" src="{{collections + cart.optionWithSize.productOption.product.gender +'/'+ (cart.optionWithSize.productOption.product.subCategory.name | spaceToLineBreak) +'/'+ cart.optionWithSize.productOption.image + '-first.jpg'}}" alt="">
+                                    </div>
+                                    <div class="col-md-8 position-relative">
+                                        <p class="mb-1 pr-2">{{cart.optionWithSize.productOption.name}}</p>
+                                        <p class="secondary-info">Size: {{cart.optionWithSize.size.code}}</p>
+                                        <p class="secondary-info">Color: {{cart.optionWithSize.productOption.color}}</p>
+                                        <div class="d-flex flex-row justify-content-between">
+                                            <div>
+                                                <i (click)="decreaseCart(cart.optionWithSize.id)" class="las la-minus click-able"></i>
+                                                {{cart.quantity}}
+                                                <i (click)="increaseCart(cart.optionWithSize.id)" class="las la-plus click-able"></i>
+                                            </div>
+                                            <p>${{cart.price}}</p>
+                                        </div>
+                                        <ng-template [ngIf]="cart.quantity > cart.optionWithSize.quantity">
+                                            <ng-template [ngIf]="cart.optionWithSize.quantity == 1">
+                                                <p class="alert-message">There is only one item left</p>
+                                            </ng-template>
+                                            <ng-template [ngIf]="cart.optionWithSize.quantity > 1">
+                                                <p class="alert-message">There are only {{cart.optionWithSize.quantity}} item left</p>
+                                            </ng-template>
+                                            <p class="alert-message">If you place order, the quantity of item at best you can get is {{cart.optionWithSize.quantity}}</p>
+                                        </ng-template>
+                                        <button (click)="removeAllQuantityCart(cart.id)" type="button" class="close close-btn" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-template>
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'shipping'">
+                        <p class="text-center">Please enter your shipping address</p>
+                        <form  [formGroup]="addressForm">
+                            <p>FULL NAME*</p>
+                            <input type="text" class="form-control mb-2" placeholder="Annie Clark" aria-label="fullname" aria-describedby="basic-addon1"
+                            id="fullname" formControlName="fullname" pattern=".{1,}" required
+                            [ngClass]="{'is-invalid': submitted && f.fullname.errors}">
+                            <div class="invalid-feedback">
+                                REQUIRED
+                            </div>
+                            <p>ADDRESS*</p>
+                            <input type="text" class="form-control mb-2" placeholder="Your Address" aria-label="address" aria-describedby="basic-addon1"
+                            id="address" formControlName="address" pattern=".{1,}" required
+                            [ngClass]="{'is-invalid': submitted && f.address.errors}">
+                            <div class="invalid-feedback">
+                                REQUIRED
+                            </div>
+                            <p>PHONE NUMBER*</p>
+                            <input type="text" class="form-control mb-2" placeholder="Phone Number" aria-label="phone" aria-describedby="basic-addon1"
+                            id="phone" formControlName="phone" pattern=".{1,}" required
+                            [ngClass]="{'is-invalid': submitted && f.phone.errors}">
+                            <div class="invalid-feedback">
+                                REQUIRED
+                            </div>
+                            <div class="d-flex flex-row justify-content-between">
+                                <button (click)=" phase = 'preview' "class="btn btn-secondary btn-lg mb-2">BACK</button>
+                                <button type="submit" (click)="continueToBilling(addressForm.value)"class="btn btn-submit btn-lg mb-2">NEXT</button>
+                            </div>
+                            
+                        </form>
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'billing'">
+                        <p class="text-center mb-3">Please select your payment method</p>
+                        <div>
+                            <input (click)="paymentMethod = 'cod'"class="form-check-input" type="radio" name="payment" id="cod" value="cod" checked>
+                            <label class="form-check-label" for="cod">Cash on delivery</label>
+                        </div>
+                        <div>
+                            <input (click)="paymentMethod = 'credit'" class="form-check-input" type="radio" name="payment" id="credit-radio" value="credit">
+                            <label class="form-check-label" for="credit-radio">Credit card</label>
+                            
+                            <form class="credit-form mt-3" [formGroup]="creditForm">
+                                <div class="d-flex flex-row justify-content-between">
+                                    <div class="col-8 pl-0">
+                                        <p>CREDIT CARD NUMBER*</p>
+                                        <input type="number" class="form-control mb-2" placeholder="0000 0000 0000 1234" aria-label="credit" aria-describedby="basic-addon1"
+                                        id="credit" formControlName="credit" pattern=".{16,16}" required
+                                        [ngClass]="{'is-invalid': submitted2 && creditF.credit.errors}">
+                                        <div class="invalid-feedback">
+                                            REQUIRED
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <p>SECURITY CODE*</p>
+                                        <input type="number" class="form-control mb-2" placeholder="567" aria-label="secret" aria-describedby="basic-addon1"
+                                        id="secret" formControlName="secret" pattern=".{3,3}" required
+                                        [ngClass]="{'is-invalid': submitted2 && creditF.secret.errors}">
+                                        <div class="invalid-feedback">
+                                            REQUIRED
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-5 pl-0">
+                                    <p>EXPIRATION DATE*</p>
+                                    <input type="text" class="form-control mb-2" placeholder="MM/YY" aria-label="expire" aria-describedby="basic-addon1"
+                                    id="expire" formControlName="expire" pattern=".{5,5}" required
+                                    [ngClass]="{'is-invalid': submitted2 && creditF.expire.errors}">
+                                    <div class="invalid-feedback">
+                                        REQUIRED
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="d-flex flex-row justify-content-between mt-4">
+                                <button (click)=" phase = 'shipping' "class="btn btn-secondary btn-lg mb-2">BACK</button>
+                                <button type="submit" (click)="continueToReview(creditForm.value)"class="btn btn-submit btn-lg mb-2">NEXT</button>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="'review'">
+                        <div class="d-flex flex-row">
+                            <div class="col-7 p-0">
+                                <h5 class="mb-3">Shipping Address</h5>
+                                <p>Name: {{addressForm.value.fullname}}</p>
+                                <p>Address: {{addressForm.value.address}}</p>
+                                <p>Phone number: {{addressForm.value.phone}}</p>
+                                <button (click)=" phase = 'shipping' "class="btn btn-secondary btn-sm mt-2">Change Shipping Address</button>
+                            </div>
+                            <div class="col-5 p-0">
+                                <h5 class="mb-3">Billing Information</h5>
+                                <ng-container [ngSwitch]="paymentMethod">
+                                    <ng-template [ngSwitchCase]="'cod'">
+                                        <p>Cash on delivery</p>
+                                    </ng-template>
+                                    <ng-template [ngSwitchCase]="'credit'">
+                                        <p>Credit</p>
+                                    </ng-template>
+                                </ng-container>
+                                <span (click)="phase = 'billing'; paymentMethod = 'cod' "style="text-decoration: underline;cursor: pointer;">change</span>
+                            </div>
+                        </div>
+                    </ng-template>
+                </ng-container>
+            </div>
+            <div class="col-md-3">
+                <div class="checkout-container">
+                    <ul class="checkout-list">
+                        <li class="checkout-list__header text-center">
+                            <p>Order Summary</p>
+                        </li>
+                        <div class="dropdown-divider mt-0"></div>
+                        <li class="checkout-list__item">
+                            <p>Subtotal</p>
+                            <p>${{subTotal}}</p>
+                        </li>
+                        <ng-template [ngIf]="carts.length > 0">
+                            <div class="dropdown-divider"></div>
+                            <li class="checkout-list__item">
+                                <p>Tax</p>
+                                <p>Free</p>
+                            </li>
+                            <div class="dropdown-divider"></div>
+                            <li class="checkout-list__item">
+                                <p>Shipping</p>
+                                <p *ngIf="shipping > 0">${{shipping}}</p>
+                                <p *ngIf="shipping == 0">Free</p>
+                            </li>
+                        </ng-template>
+                        <div class="dropdown-divider"></div>
+                        <li class="checkout-list__item">
+                            <p class="font-weight-bold">Total</p>
+                            <p class="font-weight-bold">${{total}}</p>
+                        </li>
+                    </ul>
+                    <button *ngIf="carts.length > 0 && phase === 'preview' "
+                        type="button" class="btn btn-secondary w-100"
+                        (click)="continueToShipping()">CONTINUE TO CHECKOUT
+                    </button>
+                    <button *ngIf="carts.length > 0 && phase === 'review' "
+                        type="button" class="btn btn-secondary w-100"
+                        (click)="placeOrder()">PLACE ORDER
+                    </button>                    
                 </div>
             </div>
-            <div class="dropdown-divider mb-2"></div>
-            <div class="row mb-2">
-                <div class="col-md-4">
-                    <img class="img-fluid" src="http://localhost:8080/api/img/collections/women/Pants/The-Corduroy-Straight-Leg-Crop-Pant-Bone-first.jpg" alt="">
-                </div>
-                <div class="col-md-8">
-                    <p>The Renew Windbreaker</p>
-                    <p>Color: Light Sage</p>
-                    <p>
-                        <i (click)="decreaseCart(cart.productOption.id)" class="las la-minus click-able"></i>
-                        1
-                        <i (click)="increaseCart(cart.productOption.id)" class="las la-plus click-able"></i>
-                    </p>
-                    <p>$250</p>
-                </div>
+        </ng-template>
+        <ng-template [ngIf]="phase === 'message'">
+            <div class="col-md-5 text-center">
+                <h1>Thanks for your order.</h1>
+                <p>We hope you enjoy. Feel free to send us any questions or any concerns about your order.</p>
+
+                <p>In order to check your orders, please visit 
+                    <a [routerLink]="['/account/orders']" style="text-decoration: underline;">your orders info</a>
+                </p>
             </div>
-            <div class="dropdown-divider mb-2"></div>
-            <div class="row mb-2">
-                <div class="col-md-4">
-                    <img class="img-fluid" src="http://localhost:8080/api/img/collections/women/Pants/The-Corduroy-Straight-Leg-Crop-Pant-Bone-first.jpg" alt="">
+            <ng-template [ngIf]="order">
+                <div class="d-flex flex-row col-8 p-0 mt-3 text-center">
+                    <div class="col-2 p-0">
+                        <h5>DATE</h5>
+                        <div class="dropdown-divider"></div>
+                        <p style="font-weight: bold;">{{order.date}}</p>
+                    </div>
+                    <div class="col-3 p-0">
+                        <h5>SHIPPING ADDRESS</h5>
+                        <div class="dropdown-divider"></div>
+                        <P>{{order.address}}</P>
+                    </div>
+                    <div class="col-5 p-0">
+                        <h5>ORDER & DETAILS</h5>
+                        <div class="dropdown-divider"></div>
+                        <p>Order number: {{order.orderNumber}}</p>
+                    </div>
+                    <div class="col-2 p-0">
+                        <h5>TOTAL</h5>
+                        <div class="dropdown-divider"></div>
+                        <p>${{order.price}}</p>
+                    </div>
                 </div>
-                <div class="col-md-8">
-                    <p>The Renew Windbreaker</p>
-                    <p>Color: Light Sage</p>
-                    <p>
-                        <i (click)="decreaseCart(cart.productOption.id)" class="las la-minus click-able"></i>
-                        1
-                        <i (click)="increaseCart(cart.productOption.id)" class="las la-plus click-able"></i>
-                    </p>
-                    <p>$250</p>
-                </div>
-            </div>
-            <div class="dropdown-divider mb-2"></div>
-            <div class="row mb-2">
-                <div class="col-md-4">
-                    <img class="img-fluid" src="http://localhost:8080/api/img/collections/women/Pants/The-Corduroy-Straight-Leg-Crop-Pant-Bone-first.jpg" alt="">
-                </div>
-                <div class="col-md-8">
-                    <p>The Renew Windbreaker</p>
-                    <p>Color: Light Sage</p>
-                    <p>
-                        <i (click)="decreaseCart(cart.productOption.id)" class="las la-minus click-able"></i>
-                        1
-                        <i (click)="increaseCart(cart.productOption.id)" class="las la-plus click-able"></i>
-                    </p>
-                    <p>$250</p>
-                </div>
-            </div>
-            <div class="dropdown-divider mb-2"></div>
-            <div class="row mb-2">
-                <div class="col-md-4">
-                    <img class="img-fluid" src="http://localhost:8080/api/img/collections/women/Pants/The-Corduroy-Straight-Leg-Crop-Pant-Bone-first.jpg" alt="">
-                </div>
-                <div class="col-md-8">
-                    <p>The Renew Windbreaker</p>
-                    <p>Color: Light Sage</p>
-                    <p>
-                        <i (click)="decreaseCart(cart.productOption.id)" class="las la-minus click-able"></i>
-                        1
-                        <i (click)="increaseCart(cart.productOption.id)" class="las la-plus click-able"></i>
-                    </p>
-                    <p>$250</p>
-                </div>
-            </div>
-            <div class="dropdown-divider mb-2"></div>
-            <div class="row mb-2">
-                <div class="col-md-4">
-                    <img class="img-fluid" src="http://localhost:8080/api/img/collections/women/Pants/The-Corduroy-Straight-Leg-Crop-Pant-Bone-first.jpg" alt="">
-                </div>
-                <div class="col-md-8">
-                    <p>The Renew Windbreaker</p>
-                    <p>Color: Light Sage</p>
-                    <p>
-                        <i (click)="decreaseCart(cart.productOption.id)" class="las la-minus click-able"></i>
-                        1
-                        <i (click)="increaseCart(cart.productOption.id)" class="las la-plus click-able"></i>
-                    </p>
-                    <p>$250</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="checkout-container">
-                <ul class="checkout-list">
-                    <li class="checkout-list__header text-center">
-                        <p>Order Summary</p>
-                    </li>
-                    <div class="dropdown-divider mt-0"></div>
-                    <li class="checkout-list__item">
-                        <p>Subtotal</p>
-                        <p>$500</p>
-                    </li>
-                    <div class="dropdown-divider"></div>
-                    <li class="checkout-list__item">
-                        <p>Duties</p>
-                        <p>$10</p>
-                    </li>
-                    <div class="dropdown-divider"></div>
-                    <li class="checkout-list__item">
-                        <p>Tax</p>
-                        <p>Free</p>
-                    </li>
-                    <div class="dropdown-divider"></div>
-                    <li class="checkout-list__item">
-                        <p>Shipping</p>
-                        <p>Free</p>
-                    </li>
-                    <div class="dropdown-divider"></div>
-                    <li class="checkout-list__item">
-                        <p class="font-weight-bold">Total</p>
-                        <p class="font-weight-bold">$510</p>
-                    </li>
-                </ul>
-                <button type="button" class="btn btn-secondary btn- w-100 h-10">CONTINUE TO CHECKOUT</button>
-            </div>
-        </div>
+            </ng-template>
+        </ng-template>
     </div>
 </div>

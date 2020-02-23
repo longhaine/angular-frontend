@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Product } from './product';
+import { OptionWithSize } from './option-with-size';
 @Injectable({
     providedIn: 'root'
 })
@@ -10,7 +11,23 @@ export class ProductOption {
     private _price: number;
     private _image: String;
     private _numberOfImage: number;
+    private _link: String;
     private _product: Product;
+    private _optionWithSizes: OptionWithSize[];
+    // this images only used at products page
+    private _images: string[];
+    public get images(): string[] {
+        return this._images;
+    }
+    public set images(value: string[]) {
+        this._images = value;
+    }
+    public get optionWithSizes(): OptionWithSize[] {
+        return this._optionWithSizes;
+    }
+    public set optionWithSizes(value: OptionWithSize[]) {
+        this._optionWithSizes = value;
+    }
     public get product(): Product {
         return this._product;
     }
@@ -58,5 +75,11 @@ export class ProductOption {
     }
     public set numberOfImage(value: number) {
         this._numberOfImage = value;
+    }
+    public get link(): String {
+        return this._link;
+    }
+    public set link(value: String) {
+        this._link = value;
     }
 }

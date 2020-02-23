@@ -21,6 +21,8 @@ import { InfoComponent } from './info/info.component';
 import { OrderInfoComponent } from './order-info/order-info.component';
 import { AddressComponent } from './address/address.component';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { ProductComponent } from './product/product.component';
+import { ColorPipe } from './pipe/color.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +39,9 @@ import { CheckoutComponent } from './checkout/checkout.component';
     InfoComponent,
     OrderInfoComponent,
     AddressComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    ProductComponent,
+    ColorPipe
   ],
   imports: [
     BrowserModule,

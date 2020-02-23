@@ -68,6 +68,7 @@ export class HomeComponent implements OnInit {
   //   this.screenWidth = window.innerWidth;
   // }
   ngOnInit() {
+    window.scrollTo(0,0);
     this.title.setTitle("Everlane | Mordern Basics");
   }
   triggerHeaderComponent(status:string){

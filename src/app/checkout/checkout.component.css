@@ -21,3 +21,24 @@
     flex-direction: row;
     justify-content: space-between;
 }
+.close{
+    position: absolute;
+    right: 5%;
+    top: 0;
+    padding: 0!important;
+}
+.form-check-input{
+    padding-left: 0;
+    margin-left: 0;
+    transform: scale(1.5);
+}
+.form-check-label{
+    margin-left: 1.25rem;
+}
+.credit-form{
+    display: none;
+    padding-left: -1.25rem;
+}
+#credit-radio:checked ~ .credit-form{
+    display: block;
+}

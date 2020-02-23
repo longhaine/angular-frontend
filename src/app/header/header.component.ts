@@ -180,7 +180,6 @@ export class HeaderComponent implements OnInit {
   }
   removeAllQuantityCart(id:number){
     this.cartService.deleteAllQuantityCart(id).subscribe(res=>{
-      console.log(res.body);
       this.InitCarts(res.body);
     });
   }
@@ -225,9 +224,8 @@ export class HeaderComponent implements OnInit {
         this.openModal("login");
       }
       if(message === "update carts"){
-        this.cartService.getCarts().subscribe(res=>{
-          this.InitCarts(res.body);
-        })
+        this.carts = this.dataService.getCarts();
+        this.cartCount(this.carts);
       }
       if(message === "cart loading"){
         this.cartLoading = !this.cartLoading;

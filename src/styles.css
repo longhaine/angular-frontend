@@ -210,3 +210,187 @@ app-header{
 .middle-banner:focus{
     outline: none;
 }
+.primary-info{
+    font-size: 15px;
+    font-weight: 600;
+}
+.secondary-info{
+    color:#808284;
+}
+.alert-message{
+    color:#f44336;
+    font-style: italic;
+}
+/* toggle without javascript at products page, what a magic! */
+.color-list{
+    list-style-type: none;
+    padding-inline-start: 0;
+    display: flex;
+    flex-direction: row;
+    pointer-events: none;
+    flex-wrap: wrap;
+}
+.color-item-lg{
+    position: relative;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    pointer-events: auto;
+    outline: none;
+}
+.color-list:hover > .--select-item{
+    border: 0;
+}
+.color-list:hover > .--select-item:hover{
+    border: 1px solid #808284;
+}
+.color-item-lg:hover{
+    border: 1px solid #808284;
+}
+.--select-item{
+    border: 1px solid #808284;
+}
+.btn-color-lg{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid #dfe0e1;
+}
+.--select-size-item{
+    border: 1px solid #808284!important;
+}
+/* toggle without javascript end */
+.--black{
+    background-color: rgb(28, 28, 28);
+}
+.--camel{
+    background-color:rgb(186, 149, 101);
+}
+.--black-suede{
+    background-color: rgb(28, 28, 28);
+}
+.--caramel{
+    background-color: rgb(221, 151, 96);
+}
+.--dark-rose{
+    background-color:rgb(242, 130, 127);
+}
+.--chocolate{
+    background-color:rgb(119, 81, 53);
+}
+.--mustard{
+    background-color:rgb(214, 154, 45);
+}
+.--light-grey{
+    background-color:rgb(219, 219, 227);
+}
+.--white{
+    background-color:rgb(255, 255, 255);
+}
+.--pale-yellow{
+    background-color:rgb(242, 240, 161);
+}
+.--heather-black{
+    background-color:rgb(51, 47, 33);
+}
+.--heather-grey{
+    background-color:rgb(217, 217, 214);
+}
+.--heathered-indigo{
+    background-color:rgb(72, 84, 112);
+}
+.--bone{
+    background-color:rgb(235, 233, 230);
+}
+.--washed-black{
+    background-color:rgb(70, 70, 70);
+}
+.--blue-melange{
+    background-color:rgb(184, 201, 225);
+}
+.--loden{
+    background-color:rgb(110, 113, 83);
+}
+.--dark-grey-donegal{
+    background-color:rgb(122, 120, 113);
+}
+.--pewter{
+    background-color:rgb(100, 101, 102);
+}
+.--spanish-clay{
+    background-color:rgb(212, 93, 0);
+}
+.--dark-navy{
+    background-color:rgb(39, 45, 75);
+}
+.--off-white{
+    background-color:rgb(244, 237, 217);
+}
+.--peat{
+    background-color:rgb(91, 91, 90);
+}
+.--medium-blue{
+    background-color:rgb(126, 147, 167);
+}
+.--vintage-dark-wash{
+    background-color:rgb(53, 70, 94);
+}
+.--dark-indigo{
+    background-color:rgb(27, 54, 93);
+}
+.--classic-blue-wash{
+    background-color:rgb(53, 70, 94);
+}
+.--sunbleached-blue{
+    background-color:rgb(206, 217, 229);
+}
+.--vintage-light-blue{
+    background-color: rgb(171, 207, 231);
+}
+.--golden-brown{
+    background-color: rgb(216, 146, 42);
+}
+.--navy{
+    background-color: rgb(57, 72, 104);
+}
+.--dusty-lilac{
+    background-color: rgb(233, 197, 199);
+}
+.--deep-river-gingham{
+    background-color:rgb(101, 123, 169);
+}
+.--sandstone-gingham{
+    background-color: rgb(242, 240, 235);
+}
+.--fog{
+    background-color: rgb(217, 225, 226);
+}
+.--french-blue{
+    background-color: rgb(79, 124, 164);
+}
+.--pale-blue{
+    background-color: rgb(198, 217, 217);
+}
+.--stone{
+    background-color: rgb(215, 208, 192);
+}
+.--dusty-blue{
+    background-color: rgb(117, 148, 179);
+}
+.--toasted-coconut{
+    background-color: rgb(181, 129, 80);
+}
+.--fig-leaf{
+    background-color: rgb(137, 168, 79);
+}
+.--apricot-tan{
+    background-color: rgb(248, 207, 169);
+}
+.--indigo{
+    background-color: rgb(72, 84, 112);
+}

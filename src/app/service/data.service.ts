@@ -3,10 +3,12 @@ import { BehaviorSubject } from 'rxjs';
 import {introLine} from '../environtments';
 import { User } from '../class/user';
 import { CookieService } from 'ngx-cookie-service'
+import { Cart } from '../class/cart';
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
+  private carts: Cart[]
   private headerMessage = new BehaviorSubject('default');
   public headerMessageSubcriber = this.headerMessage.asObservable();
   constructor(
@@ -14,6 +16,12 @@ export class DataService {
   ) { }
   changeMessage(message:string){
     this.headerMessage.next(message);
+  }
+  setCarts(carts:Cart[]){
+    this.carts = carts;
+  }
+  getCarts():Cart[]{
+    return this.carts;
   }
   setFullNameCookie(name:string){
     this.cookieService.set("fullName",name,10,"/");

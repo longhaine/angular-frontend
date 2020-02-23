@@ -97,38 +97,38 @@
                 <div class="dropdown-divider"></div>
                 <div class="container cus-dropdown-menu--body">
                     <ng-template [ngIf]="numberOfCarts == 0 ">
-                        <p class="mb-5 mt-5">There is no products in your bag.</p>
+                        <p class="mb-5 mt-5 text-center">You have no items in your bag.</p>
+                        <div class="dropdown-divider"></div>
                     </ng-template>
                     <ng-template [ngIf]="numberOfCarts > 0">
                             <div class="row mb-2" *ngFor="let cart of carts">
-                                <div class="col-md-5">
+                                <div class="col-md-4 pl-0">
                                     <img class="img-fluid"
-                                    src="{{collections + cart.productOption.product.gender +'/'+ (cart.productOption.product.subCategory.name | spaceToLineBreak) +'/'+ cart.productOption.image + '-first.jpg'}}" alt="">
+                                    src="{{collections + cart.optionWithSize.productOption.product.gender +'/'+ (cart.optionWithSize.productOption.product.subCategory.name | spaceToLineBreak) +'/'+ cart.optionWithSize.productOption.image + '-first.jpg'}}" alt="">
                                 </div>
-                                <div class="col-md-5 item-info">
-                                    <p>{{cart.productOption.name}}</p>
-                                    <p>{{cart.productOption.color}}</p>
+                                <div class="col-md-8 pl-0 item-info position-relative">
+                                    <p>{{cart.optionWithSize.productOption.name}}</p>
+                                    <p style="color:#808284;">Size: {{cart.optionWithSize.size.code}}</p>
+                                    <p style="color:#808284;">Color: {{cart.optionWithSize.productOption.color}}</p>
                                     <div class="d-flex justify-content-between">
                                         <p>
-                                            <i (click)="decreaseCart(cart.productOption.id)" class="las la-minus click-able"></i>
+                                            <i (click)="decreaseCart(cart.optionWithSize.id)" class="las la-minus click-able"></i>
                                             {{cart.quantity}}
-                                            <i (click)="increaseCart(cart.productOption.id)" class="las la-plus click-able"></i>
+                                            <i (click)="increaseCart(cart.optionWithSize.id)" class="las la-plus click-able"></i>
                                         </p>
                                         <p>${{cart.price}}</p>
                                     </div>
-                                </div>
-                                <div class="col-md-1">
-                                    <button (click)="removeAllQuantityCart(cart.id)" type="button" class="close" aria-label="Close">
+                                    <button (click)="removeAllQuantityCart(cart.id)" type="button" class="close" aria-label="Close" style="position: absolute; padding: 0!important; right: 5px; top: 0;">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
+                                <div class="col-12 dropdown-divider"></div>
                             </div>
                     </ng-template>
                 </div>
-                <div class="dropdown-divider"></div>
                 <div>
                     Free shipping on your first order over $100.
-                    <button *ngIf="numberOfCarts > 0" type="button" class="btn btn-secondary btn-sm w-100 h-50">CONTINUE TO CHECKOUT</button>
+                    <button *ngIf="numberOfCarts > 0" [routerLink]="['/checkout']" type="button" class="btn btn-secondary btn-sm w-100 h-50">CONTINUE TO CHECKOUT</button>
                 </div>
             </div>
         </div>

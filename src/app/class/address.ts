@@ -7,7 +7,7 @@ export class Address {
     private _id: number;
     private _fullName: String;
     private _address: String;
-    private _phone: number;
+    private _phone: String;
     private _selected: number;
     private _user: User;
 
@@ -25,10 +25,10 @@ export class Address {
         this._address = value;
     }
     
-    public get phone(): number {
+    public get phone(): String {
         return this._phone;
     }
-    public set phone(value: number) {
+    public set phone(value: String) {
         this._phone = value;
     }
 

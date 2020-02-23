@@ -3,8 +3,8 @@
         <div class="col-md-2">
             <div class="dropdown-divider mb-3"></div>
             <ul class="side-list">
-                <li class="side-list__item"><a href="javascript:void(0);">Account</a></li>
-                <li class="side-list__item"><a href="javascript:void(0);">Orders Info</a></li>
+                <li class="side-list__item"><a [routerLink]="['/account/info']" href="javascript:void(0);">Account</a></li>
+                <li class="side-list__item"><a [routerLink]="['/account/orders']"href="javascript:void(0);">Orders Info</a></li>
                 <li class="side-list__item side-list__item--active"><a href="javascript:void(0);">Shipping Info</a></li>
                 <li class="side-list__item"><a (click)="logOut();"href="javascript:void(0);">Log Out</a></li>
             </ul>
@@ -80,7 +80,7 @@
                     REQUIRED
                 </div>
                 <p>PHONE NUMBER*</p>
-                <input type="number" class="form-control mb-2" placeholder="Phone Number" aria-label="phone" aria-describedby="basic-addon1"
+                <input type="text" class="form-control mb-2" placeholder="Phone Number" aria-label="phone" aria-describedby="basic-addon1"
                 id="phone" formControlName="phone" pattern=".{1,}" required
                 [ngClass]="{'is-invalid': submitted && f.phone.errors}">
                 <div class="invalid-feedback">
