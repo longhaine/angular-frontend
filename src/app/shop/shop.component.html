@@ -85,10 +85,21 @@
                     </div>
                     <div *ngIf="filterDropdown" class="filter-dropdown col-md-12">
                         <div class="row">
-                            <div class="filter-dropdown-item col-md-4">
+                            <div class="filter-dropdown-item col-md-4" *ngIf="introTemplate.heading">
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Style</h5>
+                                        <ng-template [ngIf]="styles">
+                                            <ul class="d-flex flex-column" style="list-style-type: none; padding-inline-start: 0;">
+                                                <ng-container *ngFor="let style of styles.values()">
+                                                    <li class="mb-2">
+                                                        <button class="btn-style" (click)="addStyleFilter(style,btnStyle)"#btnStyle><i class="las la-check la-sm"></i></button>
+                                                        {{style}}
+                                                    </li>
+                                                </ng-container>
+                                            </ul>
+                                        </ng-template>
+
                                     </div>
                                 </div>
                             </div>
@@ -96,6 +107,16 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Color</h5>
+                                            <ng-template [ngIf]="colors">
+                                                <ul class="color-list justify-content-start">
+                                                    <ng-container *ngFor="let color of colors.values()">
+                                                        <li class="color-item --color-item-xl mr-1 click-able" #btnColor
+                                                        (click)="addColorFilter(color,btnColor)">
+                                                            <a class="btn-color --btn-color-xl {{color | color}}"></a>                                
+                                                        </li>
+                                                    </ng-container>
+                                                </ul>
+                                            </ng-template>
                                     </div>
                                 </div>
                             </div>
@@ -103,6 +124,24 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Size</h5>
+                                        <ul class="filter-size-list">
+                                            <ng-container *ngFor="let size of sizes.values(); let i = index">
+                                                <ng-template [ngIf]="size !== 'SEPARATE'">
+                                                    <li class="mr-1 mb-2">
+                                                        <div class="filter-size-item"
+                                                        (click)="addSizeFilter(size,btnSize)" #btnSize>
+                                                            <p class="size-item-text">{{size}}</p>
+                                                        </div>
+                                                    </li>
+                                                </ng-template>
+                                                <ng-template [ngIf]="size === 'SEPARATE' && i < (sizes.size - 1)">
+                                                    <li style="width: 100%;">
+                                                        <div class="dropdown-divider"></div>
+                                                    </li>
+                                                </ng-template>
+                                            </ng-container>
+                                        </ul>
+
                                     </div>
                                 </div>
                             </div>
@@ -127,15 +166,17 @@
                                     </div>
                                 </div>
                                 <div class="size-container">
-                                    <div class="row justify-content-center pl-1 pr-1">
+                                    <div class="row justify-content-center pl-1 pr-1 text-center">
                                         <ng-container *ngFor="let optionWithSize of productOption.optionWithSizes">
                                             <ng-template [ngIf]="optionWithSize.quantity == 0">
-                                                <div class="col-2 size-item --unavailable-size-item"><p>{{optionWithSize.size.code}}</p></div>
+                                                <div class="col-2 size-item --unavailable-size-item">
+                                                    <p class="size-item-text">{{optionWithSize.size.code}}</p>
+                                                </div>
                                             </ng-template>
                                             <ng-template [ngIf]="optionWithSize.quantity > 0">
                                                 <div class="col-2 size-item --available-size-item"
                                                 (click)="addCart(optionWithSize.id)">
-                                                    <p>{{optionWithSize.size.code}}</p>
+                                                    <p class="size-item-text">{{optionWithSize.size.code}}</p>
                                                 </div>
                                             </ng-template>
                                         </ng-container>

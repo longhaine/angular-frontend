@@ -76,3 +76,21 @@ a:target{
 .--sold-out{
     text-decoration: line-through;
 }
+.--font-12{
+    font-size: 12px;
+}
+.--disabled-btn{
+    color: #fff;
+    background-color: #d2d2d2;
+}
+.--disabled-btn:hover{
+    background-color:#d2d2d2;
+}
+.--enable-btn{
+    opacity: 1;
+    color: #fff;
+    background-color: #4c4c4b;
+}
+.--enable-btn:hover{
+    background-color: #171717!important;
+}

@@ -120,6 +120,7 @@ app-header{
 .app-below-header{
     padding-top: 55px;
     z-index: 0;
+    min-height: 100vh;
 }
 .click-able{
     cursor: pointer;
@@ -230,13 +231,19 @@ app-header{
     pointer-events: none;
     flex-wrap: wrap;
 }
-.color-item-lg{
+.color-item{
     position: relative;
-    width: 28px;
-    height: 28px;
     border-radius: 50%;
     pointer-events: auto;
     outline: none;
+}
+.--color-item-lg{
+    width: 28px;
+    height: 28px;
+}
+.--color-item-xl{
+    width: 40px;
+    height: 40px;
 }
 .color-list:hover > .--select-item{
     border: 0;
@@ -244,22 +251,28 @@ app-header{
 .color-list:hover > .--select-item:hover{
     border: 1px solid #808284;
 }
-.color-item-lg:hover{
+.color-item:hover{
     border: 1px solid #808284;
 }
 .--select-item{
     border: 1px solid #808284;
 }
-.btn-color-lg{
+.btn-color{
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
     display: inline-block;
-    width: 20px;
-    height: 20px;
     border-radius: 50%;
     border: 1px solid #dfe0e1;
+}
+.--btn-color-lg{
+    width: 20px;
+    height: 20px;
+}
+.--btn-color-xl{
+    width: 30px;
+    height: 30px;
 }
 .--select-size-item{
     border: 1px solid #808284!important;

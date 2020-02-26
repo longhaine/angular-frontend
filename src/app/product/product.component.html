@@ -1,10 +1,12 @@
 <div class="container app-below-header pb-1">
     <div class="row mt-3">
         <div class="col-1 postion-relative">
-            <div class="d-flex flex-column side-image-container">
+            <div class="d-flex flex-column side-image-container" #sideImg [attr.style]="resetHeightOfImageContainers(sideImg)">
                 <ng-container *ngFor="let image of images; let i = index">
                     <div class="mb-3 position-relative"
-                    [ngClass]="colorHover ? 'invisible' : 'visible'">
+                    id="side_{{i}}"
+                    [ngClass]="colorHovering ? 'invisible' : 'visible'"
+                    [ngClass]="i === 1 ? '--item-active-link' : ''">
                         <a (click)="scrollToElement(i)"class="side-image-item-link click-able"></a>
                         <img class="img-fluid" src="{{image}}" alt="">
                     </div>
@@ -15,7 +17,7 @@
                             <ng-template [ngIf]="unselected !== undefined">
                                 <div class="unselected-item" [ngClass]="handleHover(i)">
                                     <ng-container *ngFor="let image of unselected.images; let i = index">
-                                        <div class="mb-3 position-relative">
+                                        <div class="mb-3 position-relative" id="side_{{i}}">
                                             <a (click)="scrollToElement(i)"class="side-image-item-link click-able"></a>
                                             <img class="img-fluid" src="{{image}}" alt="">
                                         </div>
@@ -27,9 +29,9 @@
                 </ng-template>
             </div>
         </div>
-        <div class="col-7 main-image-container">
+        <div class="col-7 main-image-container" #mainImg [attr.style]="resetHeightOfImageContainers(mainImg)">
             <ng-container *ngFor="let image of images; let i = index;">
-                <div class="mb-3" [ngClass]="colorHover ? 'invisible' : 'visible'">
+                <div class="mb-3" [ngClass]="colorHovering ? 'invisible' : 'visible'">
                     <img class="img-fluid" src="{{image}}" id="{{i}}">
                 </div>
             </ng-container>
@@ -56,7 +58,7 @@
                     <p class="secondary-info">Traditional Retail: ${{selected.price * 2 }}</p>
                     <div class="dropdown-divider"></div>
                     <div class="product-color position-relative mb-1">
-                        <p [ngClass]="colorHover ? 'invisible' : 'visible'">{{selected.color}}</p>
+                        <p [ngClass]="colorHovering ? 'invisible' : 'visible'">{{selected.color}}</p>
                         <ng-template [ngIf]="unselecteds.length > 0">
                             <p class="unselected-container"
                             [ngClass]="handleHover(indexHover)">{{unselecteds[indexHover].color}}</p>
@@ -66,16 +68,16 @@
                     <ul class="color-list">
                         <ng-container *ngFor="let productOption of product.productOptions; let i = index">
                             <ng-template [ngIf]="productOption.id == selected.id">
-                                <li class="color-item-lg mr-3 click-able --select-item">
-                                    <a class="btn-color-lg {{productOption.color | color}}"></a>                                
+                                <li class="color-item --color-item-lg mr-3 click-able --select-item">
+                                    <a class="btn-color --btn-color-lg {{productOption.color | color}}"></a>                                
                                 </li>
                             </ng-template>
                             <ng-template [ngIf]="productOption.id != selected.id">
-                                <li class="color-item-lg mr-3 click-able"
-                                (mouseover)="hoverColor(i,productOption);"
-                                (mouseout)="colorHover = false"
+                                <li class="color-item --color-item-lg mr-3 click-able"
+                                (mouseover)="colorMouseOver(i,productOption);"
+                                (mouseout)="colorMouseOut();"
                                 (click)="navigateTo(productOption.link)">
-                                    <a class="btn-color-lg {{productOption.color | color}}"></a>                                
+                                    <a class="btn-color --btn-color-lg {{productOption.color | color}}"></a>                                
                                 </li>
                             </ng-template>
                         </ng-container>
@@ -83,13 +85,37 @@
                     <div class="dropdown-divider"></div>
                     <div class="size-picking-container position-relative">
 
-                        <div class="size-picking-selected" [ngClass]=" colorHover ? 'd-none': 'd-block'">
-                            <p class="secondary-info" style="font-style: italic;"
-                            [ngClass]=" !selectedSize ? 'visible' : 'invisible'"
-                            [ngClass]=" colorHover ? 'd-none' : 'd-block'">
+                        <div class="size-picking-selected" [ngClass]=" colorHovering ? 'd-none': 'd-block'">
+                            <p class="secondary-info font-italic"
+                            *ngIf="SELECTASIZEPLEASE == false"
+                            [ngClass]=" selectedSize || sizeHovering ? 'invisible' : 'visible'">
                                 Select a size
                             </p>
-                            <ng-template [ngIf]="selectedSize">
+                            <p class="alert-message font-italic"
+                            *ngIf="SELECTASIZEPLEASE == true"
+                            [ngClass]=" selectedSize || sizeHovering ? 'invisible' : 'visible'">
+                                Select a size please
+                            </p>
+                            <ng-template [ngIf]="sizeHovering">
+                                <p class="absolute-left-top-0">
+                                    <span [ngClass]="{'--sold-out' :sizeHover.quantity <= 0}">
+                                        Size: {{sizeHover.size.name}}
+                                    </span>
+                                    <span class="alert-message"
+                                    *ngIf="sizeHover.quantity == 0">
+                                    (Sold Out)
+                                    </span>
+                                    <span class="secondary-info" 
+                                    *ngIf="sizeHover.quantity > 0 && sizeHover.quantity < 5">
+                                    (Only a few left!)
+                                    </span>
+                                    <span class="secondary-info" 
+                                    *ngIf="sizeHover.quantity >= 5 && sizeHover.quantity < 20">
+                                    (Only {{sizeHover.quantity}} left in stock)
+                                    </span>
+                                </p>
+                            </ng-template>
+                            <ng-template [ngIf]="selectedSize && !sizeHovering">
                                 <p class="absolute-left-top-0">
                                     <span [ngClass]="{'--sold-out' :selectedSize.quantity <= 0}">
                                         Size: {{selectedSize.size.name}}
@@ -113,6 +139,8 @@
                                 <ng-container *ngFor="let optionWithSize of selected.optionWithSizes; let i = index">
                                     <li class="size-item"
                                     (click)="selectedSize = optionWithSize;sizePosition = i"
+                                    (mouseover)="sizeMouseOver(optionWithSize);"
+                                    (mouseout)="sizeMouseOut();"
                                     [ngClass]="handleSize(optionWithSize)">
                                         <p class="size-item-text" [ngClass]="{'--sold-out' :optionWithSize.quantity <= 0}">
                                             {{optionWithSize.size.code}}
@@ -122,16 +150,21 @@
                             </ul>
                         </div>
                         <!----------size Hover section--------->
-                        <div class="size-picking-unselected" [ngClass]="colorHover ? 'd-block' : 'd-none' ">
+                        <div class="size-picking-unselected" [ngClass]="colorHovering ? 'd-block' : 'd-none' ">
                             <ng-template [ngIf]="unselecteds.length > 0">
                                 <div>
                                     <ng-container *ngFor="let unselected of unselecteds; let i = index">
                                         <ng-template [ngIf]="unselected !== undefined">
                                             <div class="unselected-item" [ngClass]="handleHover(i)">
-                                                <p class="secondary-info" style="font-style: italic;"
-                                                [ngClass]=" !selectedSize ? 'visible' : 'invisible'"
-                                                [ngClass]=" colorHover ? 'd-none' : 'd-block'">
+                                                <p class="secondary-info font-italic"
+                                                *ngIf="SELECTASIZEPLEASE == false"
+                                                [ngClass]=" selectedSize || sizeHovering ? 'invisible' : 'visible'">
                                                     Select a size
+                                                </p>
+                                                <p class="alert-message font-italic"
+                                                *ngIf="SELECTASIZEPLEASE == true"
+                                                [ngClass]=" selectedSize || sizeHovering ? 'invisible' : 'visible'">
+                                                    Please select a size
                                                 </p>
                                                 <ng-template [ngIf]="selectedSize">
                                                     <p class="absolute-left-top-0">
@@ -173,10 +206,13 @@
                         </div>
  
                     </div>
-                    <button class="btn btn-secondary btn-lg w-100">ADD TO BAG</button>
+                    <button class="btn btn-lg w-100"
+                    [ngClass]=" disabledBtn ? '--disabled-btn' : '--enable-btn' "
+                    [attr.disabled]="disabledBtn ? 'disabled': null"
+                    (click)="addToBag();">{{btnStatus}}</button>
                     <div class="product-description mt-3">
-                        <p class="secondary-info" style="font-size: 12px;">DESCRIPTION</p>
-                        <p class="secondary-info" style="font-size: 12px;">{{product.description}}</p>
+                        <p class="secondary-info --font-12">DESCRIPTION</p>
+                        <p class="secondary-info --font-12">{{product.description}}</p>
                     </div>
                 </div>
             </ng-template>

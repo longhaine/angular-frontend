@@ -13,38 +13,50 @@
         <ng-container [ngSwitch]="contentMenu">
             <ng-template [ngSwitchCase]="'women'">
                 <div class="dropdown-menu" aria-labelledby="dropdownMenu">
-                    <div class="d-flex flex-row">
-                        <div class="menu-item" *ngFor="let category of categoriesOfWomen">
-                            <div class="menu-header-item">
-                                {{category.name}}
-                            </div>
-                            <div class="menu-sub-item" *ngFor="let subcategory of category.subCategories">
-                                <a [routerLink]="['/collections','women',subcategory.name | spaceToLineBreak]" href="#">{{subcategory.name}}</a>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-3" *ngFor="let category of categoriesOfWomen">
+                                    <p class="menu-item-text">{{category.name}}</p>
+                                    <div class="d-flex flex-column">
+                                        <ng-container *ngFor="let subcategory of category.subCategories">
+                                            <a [routerLink]="['/collections','women',subcategory.name | spaceToLineBreak]" class="menu-item-text">{{subcategory.name}}</a>
+                                        </ng-container>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="menu-item img-container">
-                            <img src="{{img+'/header/women-header.jpg'}}" alt="">
+                        <div class="col-6">
+                            <div class="img-container">
+                                <img src="{{img+'/header/women-header.jpg'}}" alt="">
+                            </div>
                         </div>
                     </div>
                 </div>
             </ng-template>
             <ng-template [ngSwitchCase]="'men'">
                 <div class="dropdown-menu" aria-labelledby="dropdownMenu">
-                    <div class="d-flex flex-row">
-                        <div class="menu-item" *ngFor="let category of categoriesOfMen">
-                            <div class="menu-header-item">
-                                {{category.name}}
-                            </div>
-                            <div class="menu-sub-item" *ngFor="let subcategory of category.subCategories">
-                                <a [routerLink]="['/collections','men',subcategory.name | spaceToLineBreak]">{{subcategory.name}}</a>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-3" *ngFor="let category of categoriesOfMen">
+                                    <p class="menu-item-text">{{category.name}}</p>
+                                    <div class="d-flex flex-column">
+                                        <ng-container *ngFor="let subcategory of category.subCategories">
+                                            <a [routerLink]="['/collections','men',subcategory.name | spaceToLineBreak]" class="menu-item-text">{{subcategory.name}}</a>
+                                        </ng-container>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="menu-item img-container text-center">
-                            <div class="middle-img">
-                                <p>Introducing</p>
-                                <h1>UNIFORM</h1>
+                        <div class="col-6">
+                            <div class="img-container text-center">
+                                <div class="middle-img">
+                                    <p>Introducing</p>
+                                    <h1>UNIFORM</h1>
+                                </div>
+                                <img class="img-fluid" src="{{img+'/header/men-header.png'}}" alt="">
                             </div>
-                            <img src="{{img+'/header/men-header.png'}}" alt="">
                         </div>
                     </div>
                 </div>

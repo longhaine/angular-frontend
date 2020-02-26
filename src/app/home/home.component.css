@@ -55,7 +55,11 @@
     outline: none;
 }
 .home-btn:hover{
+    border: 1px solid #fff;
     background-color: #fff;
+}
+.home-btn:hover > a{
+    color: rgba(0, 0, 0, 0.5)!important;
 }
 .choose-section, .dropdown-divider{
     padding-bottom: 80px;

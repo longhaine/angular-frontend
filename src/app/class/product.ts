@@ -1,15 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Subcategory } from './subcategory';
 import { ProductOption } from './product-option';
+import { Filterable } from '../interface/filterable';
 @Injectable({
     providedIn: 'root'
 })
-export class Product {
+export class Product implements Filterable{
+    getFilterable():String{
+        return this._name;
+    };
     private _id: number;
     private _name: String;
     private _gender: String;
     private _subCategory: Subcategory;
     private _productOptions: ProductOption[] = [];
+    
     
     public get id(): number {
         return this._id;

@@ -45,7 +45,6 @@
 }
 .left-banner:hover>.dropdown-menu {
     display: block;
-    top: 100%;
     -webkit-animation: fadeIn 0.5s ease-out;
     -moz-animation: fadeIn 0.5s ease-out;
     -o-animation: fadeIn 0.5s ease-out;
@@ -56,16 +55,15 @@ i.la-shopping-bag{
     font-size: 1.3rem;
 }
 .menu-item{
-    padding:0;
-    font-size:0.9rem;
-    margin-right: 3rem;
+    font-size: 0.9rem;
+}
+.menu-item-text{
+    font-size: 0.9rem;
+    margin-bottom: 10px!important;
+    line-height: normal!important;
 }
 .menu-sub-item{
     color:#a3a5a7;
-}
-.menu-item div{
-    height: 25px;
-    width:auto;
 }
 .cus-dropdown-menu{
     line-height: 28px;

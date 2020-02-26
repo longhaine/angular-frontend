@@ -1,10 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Product } from './product';
 import { OptionWithSize } from './option-with-size';
+import { Filterable } from '../interface/filterable';
 @Injectable({
     providedIn: 'root'
 })
-export class ProductOption {
+export class ProductOption implements Filterable{
+    getFilterable() : String{
+        return this._color;
+    };
+
     private _id: number;
     private _name: String;
     private _color: String;
@@ -16,6 +21,7 @@ export class ProductOption {
     private _optionWithSizes: OptionWithSize[];
     // this images only used at products page
     private _images: string[];
+
     public get images(): string[] {
         return this._images;
     }
