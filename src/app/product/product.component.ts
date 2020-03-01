@@ -21,6 +21,7 @@ export class ProductComponent implements OnInit {
   private product: Product;
   private selected: ProductOption;
   private images: string[]= [];
+  private numberOfImgOfHoverColor:number;
   private colorHovering: boolean = false;
   private unselecteds: ProductOption[]=[];
   private indexHover: number;
@@ -75,11 +76,11 @@ export class ProductComponent implements OnInit {
   resetHeightOfImageContainers(target:Element){
     if(this.colorHovering == true){
       let heightPerImg = target.children.item(1).clientHeight + 16;//16 is 1rem = mb-3 = margin-bottom: 1rem 
-      let heightTarget = heightPerImg * 6;
+      let heightTarget = heightPerImg * this.numberOfImgOfHoverColor;
       if(target.className.includes('side-image-container')){
         heightTarget = heightTarget + 17;
       }
-      return this.sanitizer.bypassSecurityTrustStyle('height:'+ heightTarget +'px;');
+      return this.sanitizer.bypassSecurityTrustStyle('max-height:'+ heightTarget +'px; height: '+ heightTarget + 'px;');
     }
     return null;
   }
@@ -102,6 +103,13 @@ export class ProductComponent implements OnInit {
         break;
       }
     }
+    if(this.selected.optionWithSizes.length === 1){
+      this.sizePosition = 0;
+      this.selectedSize = this.selected.optionWithSizes[0];
+      if(this.selectedSize.quantity === 0){
+        this.disabledBtn = true;
+      }
+    }
   }
   initImages(productOption:ProductOption):string[]{
     let numberOfImage = productOption.numberOfImage;
@@ -116,6 +124,7 @@ export class ProductComponent implements OnInit {
   colorMouseOver(i:number,unselected:ProductOption){
     this.colorHovering = true;
     this.indexHover = i;
+    this.numberOfImgOfHoverColor = unselected.numberOfImage;
     if(this.unselecteds[i] === undefined){
       // this.unselecteds[i] = {unselected: unselected, images: this.initImages(unselected)};
       this.unselecteds[i] = unselected;

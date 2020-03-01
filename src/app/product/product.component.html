@@ -82,8 +82,8 @@
                             </ng-template>
                         </ng-container>
                     </ul>
-                    <div class="dropdown-divider"></div>
-                    <div class="size-picking-container position-relative">
+                    <div class="dropdown-divider" *ngIf="selected.optionWithSizes.length > 1"></div>
+                    <div class="size-picking-container position-relative" *ngIf="selected.optionWithSizes.length > 1">
 
                         <div class="size-picking-selected" [ngClass]=" colorHovering ? 'd-none': 'd-block'">
                             <p class="secondary-info font-italic"
@@ -94,7 +94,7 @@
                             <p class="alert-message font-italic"
                             *ngIf="SELECTASIZEPLEASE == true"
                             [ngClass]=" selectedSize || sizeHovering ? 'invisible' : 'visible'">
-                                Select a size please
+                                Please select a size
                             </p>
                             <ng-template [ngIf]="sizeHovering">
                                 <p class="absolute-left-top-0">

@@ -11,7 +11,7 @@
         </div>
         <ng-template [ngIf]="introTemplate">
             <div *ngIf="introTemplate.heading" class="col-md-12 mb-3 heading-image position-relative" style="margin-top: -1em;">
-                <div class="row">
+                <div class="row" *ngIf="introTemplate.numberOfImg === 1">
                     <div class="col-md-12">
                         <img class="img-fluid" src="{{img+'/intro/'+gender+'-'+ (subCategoryName | spaceToLineBreak) +'-intro.jpg'}}" alt="">
                     </div>
@@ -20,20 +20,25 @@
                     </div>
                     <div class="col-md-12 heading-menu text-center">
                         <div class="row">
-                            <div class="col-md-3 heading-item">
-                                <a (click)="scrollToElement(introTemplate.heading[0])">{{introTemplate.heading[0]}}</a>
-                            </div>
-                            <div class="col-md-3 heading-item">
-                                <a (click)="scrollToElement(introTemplate.heading[1])">{{introTemplate.heading[1]}}</a>
-                            </div>
-                            <div class="col-md-3 heading-item">
-                                <a (click)="scrollToElement(introTemplate.heading[2])">{{introTemplate.heading[2]}}</a>
-                            </div>
-                            <div class="col-md-3 heading-item">
-                                <a (click)="scrollToElement(introTemplate.heading[3])">{{introTemplate.heading[3]}}</a>
-                            </div>
+                            <ng-container *ngFor="let item of introTemplate.heading">
+                                <div class="col-{{ 12 / introTemplate.heading.length }} heading-item">
+                                    <a (click)="scrollToElement(item)">{{item}}</a>
+                                </div>
+                            </ng-container>
                         </div>
                     </div>
+                </div>
+                <div class="row p-0" *ngIf="introTemplate.numberOfImg > 1">
+                    <ng-container *ngFor="let item of introTemplate.heading; let i = index">
+                        <div class="col-{{ 12 / introTemplate.heading.length }} heading-image-item">
+                            <img class="img-fluid" src="{{img+'/intro/'+gender+'-'+ (subCategoryName | spaceToLineBreak) +'-intro-' + (i+1) + '.jpg'}}" alt="">
+                        </div>
+                    </ng-container>
+                    <ng-container *ngFor="let item of introTemplate.heading">
+                        <div class="col-{{ 12 / introTemplate.heading.length }} heading-item">
+                            <a (click)="scrollToElement(item)">{{item}}</a>
+                        </div>
+                    </ng-container>
                 </div>
             </div>
         </ng-template>
@@ -91,10 +96,12 @@
                                         <h5 class="card-title">Style</h5>
                                         <ng-template [ngIf]="styles">
                                             <ul class="d-flex flex-column" style="list-style-type: none; padding-inline-start: 0;">
-                                                <ng-container *ngFor="let style of styles.values()">
-                                                    <li class="mb-2">
-                                                        <button class="btn-style" (click)="addStyleFilter(style,btnStyle)"#btnStyle><i class="las la-check la-sm"></i></button>
-                                                        {{style}}
+                                                <ng-container *ngFor="let style of styles | keyvalue: originalOrder">
+                                                    <li class="mb-2" [ngClass]="style.value.disabled ? '--disabled-style' : '' ">
+                                                        <button class="btn-style" (click)="addStyleFilter(style.key)"
+                                                        [ngClass]="style.value.check ? '--btn-style-check' : ''"
+                                                        [attr.disabled]="style.value.disabled ? 'disabled' : null"><i class="las la-check la-sm"></i></button>
+                                                        {{style.key}}
                                                     </li>
                                                 </ng-container>
                                             </ul>
@@ -107,12 +114,15 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Color</h5>
-                                            <ng-template [ngIf]="colors">
+                                            <ng-template [ngIf]="groupColors">
                                                 <ul class="color-list justify-content-start">
-                                                    <ng-container *ngFor="let color of colors.values()">
-                                                        <li class="color-item --color-item-xl mr-1 click-able" #btnColor
-                                                        (click)="addColorFilter(color,btnColor)">
-                                                            <a class="btn-color --btn-color-xl {{color | color}}"></a>                                
+                                                    <ng-container *ngFor="let color of groupColors | keyvalue">
+                                                        <li class="color-item --color-item-xl mr-1 ml-1 click-able mb-3"
+                                                        [ngClass]="disabledBtnColor(color.key,color.value.disabled)">
+                                                            <button class="btn-color --btn-color-xl {{color.key | color}}"
+                                                            (click)="addColorFilter(color.key)"
+                                                            [attr.disabled]="color.value ? null: 'disabled' "></button>
+                                                            <p class="color-item-text text-center">{{color.key}}</p>                                
                                                         </li>
                                                     </ng-container>
                                                 </ul>
@@ -125,16 +135,19 @@
                                     <div class="card-body">
                                         <h5 class="card-title">Size</h5>
                                         <ul class="filter-size-list">
-                                            <ng-container *ngFor="let size of sizes.values(); let i = index">
-                                                <ng-template [ngIf]="size !== 'SEPARATE'">
-                                                    <li class="mr-1 mb-2">
-                                                        <div class="filter-size-item"
-                                                        (click)="addSizeFilter(size,btnSize)" #btnSize>
-                                                            <p class="size-item-text">{{size}}</p>
-                                                        </div>
+                                            <ng-container *ngFor="let size of sizes | keyvalue: originalOrder ; let i = index">
+                                                <ng-template [ngIf]="size.key !== 'SEPARATE'">
+                                                    <li class="mr-1 mb-2" [ngClass]="size.value.disabled ? '--disabled-size' : ''">
+                                                        <button class="filter-size-item"
+                                                        (click)="addSizeFilter(size.key)"
+                                                        [ngClass]="size.value.check ? '--filter-size-item-check' : ''"
+                                                        [attr.disabled]="size.value.disabled ? 'disabled' : null">
+                                                            <p class="size-item-text"
+                                                            [ngClass]="size.value.disabled ? '--sold-out' : ''">{{size.key}}</p>
+                                                        </button>
                                                     </li>
                                                 </ng-template>
-                                                <ng-template [ngIf]="size === 'SEPARATE' && i < (sizes.size - 1)">
+                                                <ng-template [ngIf]="size.key === 'SEPARATE' && i < (sizes.size - 1)">
                                                     <li style="width: 100%;">
                                                         <div class="dropdown-divider"></div>
                                                     </li>
@@ -149,7 +162,7 @@
                     </div>
                 </div>
                 <ng-template [ngIf]="numberOfProduct == 0">
-                    <div>There is no products, please visit later</div>
+                    <div>There are no products, please visit later</div>
                 </ng-template>
                 <ng-template [ngIf]="numberOfProduct > 0">
                     <div class="row mb-4 product-container" *ngFor="let product of products">

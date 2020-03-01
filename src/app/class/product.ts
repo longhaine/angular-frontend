@@ -5,7 +5,7 @@ import { Filterable } from '../interface/filterable';
 @Injectable({
     providedIn: 'root'
 })
-export class Product implements Filterable{
+export class Product{
     getFilterable():String{
         return this._name;
     };

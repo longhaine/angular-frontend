@@ -236,6 +236,7 @@ app-header{
     border-radius: 50%;
     pointer-events: auto;
     outline: none;
+    border: 1px solid #fff;
 }
 .--color-item-lg{
     width: 28px;
@@ -265,6 +266,7 @@ app-header{
     display: inline-block;
     border-radius: 50%;
     border: 1px solid #dfe0e1;
+    outline:none!important;
 }
 .--btn-color-lg{
     width: 20px;
@@ -274,12 +276,36 @@ app-header{
     width: 30px;
     height: 30px;
 }
+.--sold-out{
+    text-decoration: line-through;
+}
 .--select-size-item{
     border: 1px solid #808284!important;
 }
 /* toggle without javascript end */
 .--black{
     background-color: rgb(28, 28, 28);
+}
+.--red{
+    background-color: rgb(197, 46, 53);
+}
+.--pink{
+    background-color: rgb(241, 212, 207);
+}
+.--green{
+    background-color: rgb(98, 102, 77);
+}
+.--yellow{
+    background-color: rgb(236, 185, 31);
+}
+.--grey{
+    background-color: rgb(229, 229, 231);
+}
+.--brown{
+    background-color: rgb(156, 103, 59);
+}
+.--orange{
+    background-color: rgb(216, 146, 43);
 }
 .--camel{
     background-color:rgb(186, 149, 101);
@@ -293,8 +319,14 @@ app-header{
 .--dark-rose{
     background-color:rgb(242, 130, 127);
 }
+.--dark-green{
+    background-color: rgb(49, 79, 64);
+}
 .--chocolate{
     background-color:rgb(119, 81, 53);
+}
+.--chocolate-suede{
+    background-color: rgb(119, 81, 53);
 }
 .--mustard{
     background-color:rgb(214, 154, 45);
@@ -307,6 +339,12 @@ app-header{
 }
 .--pale-yellow{
     background-color:rgb(242, 240, 161);
+}
+.--pale-rose{
+    background-color: rgb(249, 217, 211);
+}
+.--pale-blue{
+    background-color: rgb(198, 217, 217);
 }
 .--heather-black{
     background-color:rgb(51, 47, 33);
@@ -322,6 +360,12 @@ app-header{
 }
 .--washed-black{
     background-color:rgb(70, 70, 70);
+}
+.--blue{
+    background-color: rgb(41, 95, 154);
+}
+.--blue-lagoon{
+    background-color: rgb(0, 78, 168);
 }
 .--blue-melange{
     background-color:rgb(184, 201, 225);
@@ -371,9 +415,10 @@ app-header{
 .--navy{
     background-color: rgb(57, 72, 104);
 }
-.--dusty-lilac{
-    background-color: rgb(233, 197, 199);
+.--navy-suede{
+    background-color: rgb(39, 47, 78);
 }
+
 .--deep-river-gingham{
     background-color:rgb(101, 123, 169);
 }
@@ -386,14 +431,18 @@ app-header{
 .--french-blue{
     background-color: rgb(79, 124, 164);
 }
-.--pale-blue{
-    background-color: rgb(198, 217, 217);
-}
+
 .--stone{
     background-color: rgb(215, 208, 192);
 }
 .--dusty-blue{
     background-color: rgb(117, 148, 179);
+}
+.--dusty-lilac{
+    background-color: rgb(233, 197, 199);
+}
+.--dusty-blue-lizard{
+    background-color: rgb(135, 155, 175);
 }
 .--toasted-coconut{
     background-color: rgb(181, 129, 80);
@@ -407,3 +456,55 @@ app-header{
 .--indigo{
     background-color: rgb(72, 84, 112);
 }
+.--toffee{
+    background-color: rgb(164, 90, 42);
+}
+.--oat{
+    background-color: rgb(204, 197, 181);
+}
+.--slate-grey{
+    background-color: rgb(118, 113, 118);
+}
+.--pebbled-black{
+    background-color: rgb(28, 28, 28);
+}
+.--russet-suede{
+    background-color: rgb(148, 69, 11);
+}
+.--tan{
+    background-color: rgb(233, 209, 191);
+}
+.--cognac{
+    background-color: rgb(147, 77, 17);
+}
+.--oxblood{
+    background-color: rgb(101, 33, 33);
+}
+.--surplus{
+    background-color: rgb(137, 129, 61);
+}
+.--rose{
+    background-color: rgb(231, 178, 165);
+}
+.--rosewood-suede{
+    background-color: rgb(205, 141, 131);
+}
+.--cumin{
+    background-color: rgb(146, 114, 64);
+}
+.--taupe{
+    background-color: rgb(171, 118, 71);
+}
+.--tulip{
+    background-color: rgb(255, 109, 106);
+}
+.--cream{
+    background-color: rgb(252, 247, 241);
+}
+.--cream-lizard{
+    background-color: rgb(224, 219, 198);
+}
+.--sand-lizard{
+    background-color: rgb(220, 191, 166);
+}
+

@@ -16,7 +16,7 @@
     .home-image-text{
         user-select: none;
         color:#4c4c4b;
-        font-size:3.7rem;
+        font-size:3.5rem;
     }
 }
 @media(min-width:1px) and (max-width:767px){

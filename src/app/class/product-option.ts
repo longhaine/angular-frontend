@@ -5,7 +5,7 @@ import { Filterable } from '../interface/filterable';
 @Injectable({
     providedIn: 'root'
 })
-export class ProductOption implements Filterable{
+export class ProductOption {
     getFilterable() : String{
         return this._color;
     };
@@ -13,6 +13,7 @@ export class ProductOption implements Filterable{
     private _id: number;
     private _name: String;
     private _color: String;
+    private _groupColor: String;
     private _price: number;
     private _image: String;
     private _numberOfImage: number;
@@ -87,5 +88,11 @@ export class ProductOption implements Filterable{
     }
     public set link(value: String) {
         this._link = value;
+    }
+    public get groupColor(): String {
+        return this._groupColor;
+    }
+    public set groupColor(value: String) {
+        this._groupColor = value;
     }
 }

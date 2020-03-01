@@ -10,9 +10,10 @@
     background: transparent; /* make scrollbar transparent */
 }
 .main-image-container{
+    overflow:hidden;
     position: relative;
     padding: 0;
-    overflow: hidden;
+    transition: max-height 5s ease;
 }
 .side-image-item-link{
     left: 0;
@@ -21,6 +22,7 @@
     width: 100%;
     height: 100%;
     z-index: 5;
+    overflow-y: auto;
 }
 .side-image-item-link:hover{
     border: 0.5px solid black;
@@ -72,9 +74,6 @@ a:target{
     transform: translate(-50%,-50%);
     width: 100%;
     height: auto;
-}
-.--sold-out{
-    text-decoration: line-through;
 }
 .--font-12{
     font-size: 12px;

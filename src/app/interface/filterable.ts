@@ -1,3 +1,4 @@
 export interface Filterable {
-    getFilterable():String;
+    disabled:boolean;
+    check:boolean;
 }

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import {introLine} from '../environtments';
+import {introLine2} from '../environtments';
 import { User } from '../class/user';
 import { CookieService } from 'ngx-cookie-service'
 import { Cart } from '../class/cart';
+import { Intro } from '../interface/intro';
 @Injectable({
   providedIn: 'root'
 })
@@ -63,15 +64,10 @@ export class DataService {
     // when login and signup success
   }
   getSubcategoryByGender(gender:string, subCategoryName:string){
-    for(const [genderKey, genderValue] of Object.entries(introLine)){
-        if(genderKey === gender.toLowerCase()){
-          for(const [subcateKey,subcateValue] of Object.entries(genderValue)){
-            if(subcateKey === subCategoryName.toLowerCase()){
-              return subcateValue; 
-            }
-        }
-      }
+    let subCategories:Map<string,Intro> = introLine2.get(gender);
+    if(subCategories !== undefined){
+      let res = subCategories.get(subCategoryName.toLowerCase());
+      return res;
     }
   }
-  
 }
