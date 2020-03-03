@@ -50,6 +50,7 @@ export class ShopComponent implements OnInit {
   private products: Product[] = [];
   private rawJsonProducts:string;
   private numberOfProduct:number = 0;
+  private oneSize:boolean = false;
   private styles:Map<String,Filterable> = new Map<String,Filterable>();
   private groupColors:Map<String,Filterable> = new Map<String,Filterable>();
   private sizes:Map<String,Filterable> = new Map<String,Filterable>();
@@ -59,6 +60,14 @@ export class ShopComponent implements OnInit {
   private filterSizes:Set<String> = new Set<String>();
   ngOnInit() {
     this.routeHandler();
+  }
+  trackByProduct(index, product){
+    if(!product) return null;
+    else return product.id;
+  }
+  trackByProductOption(index, productOption){
+    if(!productOption) return null;
+    else return productOption.id;
   }
   originalOrder = (a: KeyValue<number,string>, b: KeyValue<number,string>): number => {
     return 0;
@@ -71,6 +80,7 @@ export class ShopComponent implements OnInit {
     return value.replace(/\s/g,'-');
   }
   reset(){
+    this.filterDropdown = false;
     this.load = false;
     this.numberOfProduct = 0;
     this.styles.clear();
@@ -84,7 +94,9 @@ export class ShopComponent implements OnInit {
   }
   scrollToElement(idName:string){
     let element:Element = document.getElementById(idName);
-    element.scrollIntoView({behavior:"smooth",block:"start"});
+    if(element !== null){
+      element.scrollIntoView({behavior:"smooth",block:"start"});
+    }
   }
   initBreadCrumb(gender:string, subCategoryName:string){
     this.breadCrumbInformation.gender = gender;
@@ -151,32 +163,48 @@ export class ShopComponent implements OnInit {
       }
       this.sizes.set("SEPARATE",{disabled:false,check:false});
     }
+    // == 2 because it contains separate
+    if(this.sizes.size == 2){
+      this.oneSize = true;
+    }
   }
-  addStyleFilter(style:String){
-    let disabled = this.styles.get(style).disabled;
-    let check = this.styles.get(style).check;
-    this.styles.set(style,{disabled:disabled,check: !check });
+  clearFilterables(filterable:Map<String,Filterable>){
+    for(let key of filterable.keys()){
+      filterable.set(key,{disabled:false,check:false});
+    }
+  }
+  clearAll(){
+    this.clearFilterables(this.styles);
+    this.clearFilterables(this.groupColors);
+    this.clearFilterables(this.sizes);
+    this.filterStyles.clear();
+    this.filterColors.clear();
+    this.filterSizes.clear();
+    this.resetFilteredProducts();
+    this.productCount(this.filteredProducts);
+  }
+  toggleFilterables(key:String,filterable:Map<String,Filterable>){
+    let disabled = filterable.get(key).disabled;
+    let check = filterable.get(key).check;
+    filterable.set(key,{disabled:disabled,check: !check });
+  }
+  toggleStyle(style:String){
+    this.toggleFilterables(style,this.styles);
     if(this.filterStyles.has(style) == false)
     {
       this.filterStyles.add(style);
-      this.filterStyle();
-      this.scanSizes();
     }
     else{
       this.filterStyles.delete(style);
-      this.filterStyle();
-      this.scanSizes();
     }
-    if(this.filterColors.size > 0 ){
-      this.scanStyles();
-    }
-    
+    this.filterStyle();
+    this.scanStyles(false);
     console.log(this.filteredProducts);
+    console.log("------------");
+    this.productCount(this.filteredProducts);
   }
-  addColorFilter(color:String){
-    let disabled = this.groupColors.get(color).disabled;
-    let check = this.groupColors.get(color).check;
-    this.groupColors.set(color,{disabled:disabled, check: !check});
+  toggleColor(color:String){
+    this.toggleFilterables(color,this.groupColors);
     if(this.filterColors.has(color) == false)
     {
       this.filterColors.add(color);
@@ -189,18 +217,20 @@ export class ShopComponent implements OnInit {
     }
     else{
       this.filterColor(false);
-      this.scanStyles();
     }
-    if(this.filterColors.size === 0){
-      this.resetFilterables(this.styles);
-    }
-    this.scanSizes();
+    // if(this.filterColors.size === 0){
+    //   this.scanColors();
+    // }
+    // if(this.filterColors.size === 0 && this.filterStyles.size === 0 && this.filterSizes.size === 0){
+    //   this.resetFilterables(this.styles);
+    // }
+    // this.scanSizes();
+    this.scanColors(false);
     console.log(this.filteredProducts);
+    this.productCount(this.filteredProducts);
   }
-  addSizeFilter(size:String){
-    let disabled = this.sizes.get(size).disabled;
-    let check = this.sizes.get(size).check;
-    this.sizes.set(size,{disabled:disabled,check : !check});
+  toggleSize(size:String){
+    this.toggleFilterables(size,this.sizes);
     if(this.filterSizes.has(size) == false)
     {
       this.filterSizes.add(size);
@@ -216,12 +246,16 @@ export class ShopComponent implements OnInit {
     }
     else{
       this.filterSize(false);
-      this.scanColors();
     }
-    if(this.filterSizes.size === 0){
-      this.resetFilterables(this.sizes);
-    }
+    // if(this.filterColors.size === 0){
+    //   this.scanColors();
+    // }
+    // if(this.filterSizes.size === 0 && this.filterColors.size === 0 && this.filterStyles.size === 0){
+    //   this.resetFilterables(this.sizes);
+    // }
+    this.scanSizes();
     console.log(this.filteredProducts);
+    this.productCount(this.filteredProducts);
   }
   resetFilteredProducts(){
     this.filteredProducts = JSON.parse(this.rawJsonProducts);
@@ -231,98 +265,238 @@ export class ShopComponent implements OnInit {
       filterable.set(key,{disabled:false,check:filterable.get(key).check});
     }
   }
-  scanStyles(){
-    console.log("SCAN STYLES");
-    let length = this.products.length;
-    for(let key of this.styles.keys()){
-      this.styles.set(key,{disabled:true,check:this.styles.get(key).check});
-    }
-    let contains:Set<String> = new Set<String>();
-    for(let i = 0; i < length; i++){
-      let length2 = this.products[i].productOptions.length;
-      for(let j = 0; j < length2; j++){
-        if(this.filterColors.has(this.products[i].productOptions[j].groupColor)){
-          contains.add(this.products[i].name);
-          break;
-        }
+  disabledFilterables(filterable:Map<String,Filterable>){
+    for(let key of filterable.keys()){
+      let check = filterable.get(key).check;
+      let disabled = true;
+      if(check === true){
+        disabled = false;
       }
-    }
-    for(let key of this.styles.keys()){
-      if(contains.has(key)){
-        this.styles.set(key,{disabled:false,check:this.styles.get(key).check});
-      }
-      else{
-        this.styles.set(key,{disabled:true,check:this.styles.get(key).check});
-      }
+      filterable.set(key,{disabled:disabled, check: check});
     }
   }
-  scanColors(){
-    console.log("SCAN COLORS");
+  scanStyles(scanned:boolean){
+    console.log("SCAN STYLES");
     if(this.filterStyles.size > 0){
-      for(let key of this.groupColors.keys()){
-        this.groupColors.set(key,{disabled:true, check: this.groupColors.get(key).check});
-        console.log("1 "+key);
+      this.disabledFilterables(this.groupColors);
+      
+      let length = this.products.length;
+      let scannedProducts:Product[] = [];
+      for(let i = 0; i < length; i++){
+        if(this.filterStyles.has(this.products[i].name)){
+          let product = this.products[i];
+          scannedProducts.push(JSON.parse(JSON.stringify(this.products[i])));
+        }
       }
-      let length = this.filteredProducts.length;
-      for(let i = 0 ; i < length; i++){
-        let length2 = this.filteredProducts[i].productOptions.length;
-        for(let j = 0 ; j < length2 ; j++){
-          let key = this.filteredProducts[i].productOptions[j].groupColor;
-          
-          this.groupColors.set(key,{disabled:false, check: this.groupColors.get(key).check });
-          console.log(key);
+      let length2 = scannedProducts.length;
+      for(let i = 0; i < length2; i++){
+        let length3 = scannedProducts[i].productOptions.length;
+        for(let j = 0 ; j < length3; j++){
+          let keyColor = scannedProducts[i].productOptions[j].groupColor; 
+          this.groupColors.set(keyColor,{disabled:false,check:this.groupColors.get(keyColor).check});
+          // let length4 = scannedProducts[i].productOptions[j].optionWithSizes.length;
+          // for(let k = 0; k < length4 ; k++){
+          //   let keySize = scannedProducts[i].productOptions[j].optionWithSizes[k].size.code;
+          //   this.sizes.set(keySize,{disabled:false,check:this.sizes.get(keySize).check});
+          // }
+        }
+      }
+      if(this.filteredProducts.length > 0){
+        this.disabledFilterables(this.sizes);
+        let count = this.sizes.size;
+        let length3 = this.filteredProducts.length
+        loop:
+        for(let i = 0; i < length3 ; i++){
+          let length4 = this.filteredProducts[i].productOptions.length;
+          for(let j = 0 ; j < length4; j++){
+            let length5 = this.filteredProducts[i].productOptions[j].optionWithSizes.length;
+            for(let k = 0; k < length5; k++){
+              if(this.filteredProducts[i].productOptions[j].optionWithSizes[k].quantity > 0 
+                && this.sizes.get(this.filteredProducts[i].productOptions[j].optionWithSizes[k].size.code).disabled === true){
+                
+                this.sizes.set(this.filteredProducts[i].productOptions[j].optionWithSizes[k].size.code,
+                {disabled:false,check: this.sizes.get(this.filteredProducts[i].productOptions[j].optionWithSizes[k].size.code).check});
+                console.log(this.filteredProducts[i].productOptions[j].optionWithSizes[k].size.code);
+                count = count - 1;
+                if(count === 0){
+                  break loop;
+                }
+              }
+            }
+          }
         }
       }
     }
     else{
-      this.resetFilterables(this.groupColors);
+      if(this.filterColors.size == 0 || this.filterSizes.size == 0){
+        this.resetFilterables(this.groupColors);
+        this.resetFilterables(this.sizes);
+      }
+      else{
+        if(this.filterColors.size > 0){
+          this.scanColors(true);
+        }
+        if(this.filterSizes.size > 0){
+          this.scanSizes();
+        }
+      }
     }
-    if(this.filterSizes.size > 0 ){
-      this.filterSize(true);
+    if(this.filterColors.size > 0 && this.filterStyles.size > 0 && scanned === false){
+      this.scanColors(true);
+    }
+    if(this.filterSizes.size > 0 && this.filterStyles.size > 0){
+      this.scanSizes();
+    }
+    console.log("SCAN STYLES END");
+  }
+  scanColors(scanned:boolean){
+    console.log("SCAN COLORS");
+    if(this.filterColors.size > 0){
+      this.disabledFilterables(this.styles);
+      let length = this.products.length;
+      let scannedProducts:Product[] = [];
+      for(let i = 0 ; i < length; i++){
+        let length2 = this.products[i].productOptions.length;
+        let scannedProductOptions:ProductOption[] = [];
+        for(let j = 0 ; j < length2 ; j++){
+          if(this.filterColors.has(this.products[i].productOptions[j].groupColor) === true){
+            scannedProductOptions.push(JSON.parse(JSON.stringify(this.products[i].productOptions[j])));
+          }
+        }
+        if(scannedProductOptions.length > 0){
+          let position = scannedProducts.push(JSON.parse(JSON.stringify(this.products[i])));
+          scannedProducts[position - 1].productOptions = scannedProductOptions;
+        }
+      }
+      let length2 = scannedProducts.length;
+      for(let i = 0 ; i < length2 ;i++){
+        this.styles.set(scannedProducts[i].name,{disabled:false, check: this.styles.get(scannedProducts[i].name).check})
+        // let length3 = scannedProducts[i].productOptions.length;
+        // for(let j = 0 ; j < length3; j++){
+        //   let length4 = scannedProducts[i].productOptions[j].optionWithSizes.length;
+        //   for(let k = 0; k < length4 ; k++){
+        //     let key = scannedProducts[i].productOptions[j].optionWithSizes[k].size.code;
+        //     this.sizes.set(key,{disabled:false,check: this.sizes.get(key).check});
+        //   }
+        // }
+      }
+      if(this.filteredProducts.length > 0){
+        this.disabledFilterables(this.sizes);
+        let count = this.sizes.size;
+        let length3 = this.filteredProducts.length
+        loop:
+        for(let i = 0; i < length3 ; i++){
+          let length4 = this.filteredProducts[i].productOptions.length;
+          for(let j = 0 ; j < length4; j++){
+            let length5 = this.filteredProducts[i].productOptions[j].optionWithSizes.length;
+            for(let k = 0; k < length5; k++){
+              if(this.filteredProducts[i].productOptions[j].optionWithSizes[k].quantity > 0 
+                && this.sizes.get(this.filteredProducts[i].productOptions[j].optionWithSizes[k].size.code).disabled === true){
+                
+                this.sizes.set(this.filteredProducts[i].productOptions[j].optionWithSizes[k].size.code,
+                {disabled:false,check: this.sizes.get(this.filteredProducts[i].productOptions[j].optionWithSizes[k].size.code).check});
+                console.log(this.filteredProducts[i].productOptions[j].optionWithSizes[k].size.code);
+                count = count - 1;
+                if(count === 0){
+                  break loop;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    else{
+      if(this.filterStyles.size == 0 || this.filterSizes.size == 0){
+        this.resetFilterables(this.styles);
+        this.resetFilterables(this.sizes);
+      }
+      if(this.filterStyles.size > 0){
+        this.scanStyles(true);
+      }
+      if(this.filterSizes.size > 0){
+        this.scanSizes();
+      }
+    }
+    if(this.filterStyles.size > 0 && this.filterColors.size > 0 && scanned === false){
+      this.scanStyles(true);
     }
     console.log("SCAN COLORS END");
   }
   scanSizes(){
     console.log("SCAN SIZES");
-    if(this.filterColors.size > 0 || this.filterStyles.size > 0){
-      let count = this.sizes.size;
-      for(let key of this.sizes.keys()){
-        this.sizes.set(key,{disabled:true,check:this.sizes.get(key).check});
-        console.log("1 "+key);
-      }
-      let length = this.filteredProducts.length;
-      loop:
-      for(let i = 0; i< length ; i++){
-        let length2 = this.filteredProducts[i].productOptions.length;
-        for(let j = 0; j < length2; j++){
-          let length3 = this.filteredProducts[i].productOptions[j].optionWithSizes.length;
-          for(let k = 0; k < length3; k++){
-            if(this.filteredProducts[i].productOptions[j].optionWithSizes[k].quantity > 0 
-              && this.sizes.get(this.filteredProducts[i].productOptions[j].optionWithSizes[k].size.code).disabled === true){
-              
-              this.sizes.set(this.filteredProducts[i].productOptions[j].optionWithSizes[k].size.code,
-              {disabled:false,check: this.sizes.get(this.filteredProducts[i].productOptions[j].optionWithSizes[k].size.code).check});
-              console.log(this.filteredProducts[i].productOptions[j].optionWithSizes[k].size.code);
-              count = count - 1;
-              if(count === 0){
+    if(this.filterSizes.size > 0){
+      if(this.filterColors.size === 0){
+        this.disabledFilterables(this.styles);
+        let scannedProducts:Product[] = [];
+        let length = this.products.length;
+        for(let i = 0 ; i < length ; i++){
+          let length2 = this.products[i].productOptions.length;
+          let scannedProductOptions:ProductOption[] = [];
+          loop:
+          for(let j = 0; j < length2; j++){
+            let length3 = this.products[i].productOptions[j].optionWithSizes.length;
+            for(let k = 0; k < length3; k++){
+              let optionWithSize:OptionWithSize = this.products[i].productOptions[j].optionWithSizes[k];
+              if(this.filterSizes.has(optionWithSize.size.code)){
+                scannedProductOptions.push(JSON.parse(JSON.stringify(this.products[i].productOptions[j])));
                 break loop;
               }
             }
           }
-
+          if(scannedProductOptions.length > 0){
+            let position = scannedProducts.push(JSON.parse(JSON.stringify(this.products[i])));
+            scannedProducts[position - 1].productOptions = scannedProductOptions;
+          }
+        }
+        let length2 = scannedProducts.length;
+        for(let i = 0; i < length2 ; i++){
+          this.styles.set(scannedProducts[i].name,{disabled:false,check: this.styles.get(scannedProducts[i].name).check});
+          let length3 = scannedProducts[i].productOptions.length;
+          // for(let j = 0; j < length3; j++){
+          //   let keyColor = scannedProducts[i].productOptions[j].groupColor; 
+          //   this.groupColors.set(keyColor,{disabled:false,check:this.groupColors.get(keyColor).check});
+          // }
         }
       }
+      
+      if(this.filterColors.size ===0){
+        this.disabledFilterables(this.groupColors);
+        let length3 = this.filteredProducts.length;
+        for(let i = 0 ; i < length3; i++){
+          let length2 = this.filteredProducts[i].productOptions.length;
+          for(let j = 0 ; j < length2 ; j++){
+            let key = this.filteredProducts[i].productOptions[j].groupColor;
+            this.groupColors.set(key,{disabled:false, check: this.groupColors.get(key).check });
+          }
+        }
+      }
+      
     }
-    console.log("END SCAN SIZES");
+    else{
+      if(this.filterStyles.size == 0 || this.filterColors.size == 0){
+        this.resetFilterables(this.sizes);
+        this.resetFilterables(this.styles);
+        this.resetFilterables(this.groupColors);
+      }
+      if(this.filterStyles.size > 0){
+        this.scanStyles(true);
+      }
+      if(this.filterColors.size > 0){
+        this.scanColors(true);
+      }
+    }
   }
   filterStyle(){
     this.resetFilteredProducts();
     if(this.filterStyles.size > 0){
       this.filteredProducts = this.doFilterStyle(this.filteredProducts,this.filterStyles);
     }
-    this.scanColors();
     if(this.filterColors.size > 0 ){
       this.filterColor(true);
+    }
+    else if(this.filterSizes.size > 0){
+      this.filterSize(true);
     }
   }
   filterColor(fromStyle:boolean){
@@ -397,7 +571,6 @@ export class ShopComponent implements OnInit {
     {
       
       if(filter.has(optionWithSizes[i].size.code) && optionWithSizes[i].quantity > 0){
-        console.log(optionWithSizes[i].quantity+" "+optionWithSizes[i].size.code);
         return true;
       }
     }
@@ -405,7 +578,7 @@ export class ShopComponent implements OnInit {
   }
   disabledBtnColor(colorKey:String,colorDisabled:boolean){
     if(colorDisabled === true){
-      if(colorKey === "White"){
+      if(colorKey === "White" || colorKey === "Pink"){
         return "--disabled-color-white";
       }
       return "--disabled-color";
@@ -416,6 +589,7 @@ export class ShopComponent implements OnInit {
     return null;
   }
   initProductInformation(res:HttpResponse<Object>){
+    this.filteredProducts = JSON.parse(JSON.stringify(res.body));
     this.products = JSON.parse(JSON.stringify(res.body));
     this.rawJsonProducts = JSON.stringify(res.body);
     this.collections = globals.collections+this.gender+"/"+this.replaceLineBreaks(this.subCategoryName)+"/";
@@ -437,6 +611,7 @@ export class ShopComponent implements OnInit {
     })
   }
   productCount(products:Product[]){
+    this.numberOfProduct = 0;
     products.forEach((product:Product)=>{
       this.numberOfProduct = this.numberOfProduct + product.productOptions.length;
     });

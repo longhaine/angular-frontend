@@ -6,15 +6,23 @@ import { Filterable } from '../interface/filterable';
     providedIn: 'root'
 })
 export class Product{
-    getFilterable():String{
-        return this._name;
-    };
+
     private _id: number;
     private _name: String;
     private _gender: String;
     private _subCategory: Subcategory;
     private _productOptions: ProductOption[] = [];
-    
+    private _filtered: boolean;
+
+    public get filtered(): boolean {
+        if(this._filtered === undefined){
+            this._filtered = true;
+        }
+        return this._filtered;
+    }
+    public set filtered(value: boolean) {
+        this._filtered = value;
+    }
     
     public get id(): number {
         return this._id;

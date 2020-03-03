@@ -81,12 +81,57 @@
                         </div>
                     </ng-template>
                     <div class="col-md-12 mb-3">
-                        <button type="button" class="filter-btn btn btn-lg float-left" (click)="filterDropdown = !filterDropdown">
-                            <span>Filter</span>
-                            <i *ngIf="!filterDropdown" class="las la-angle-down"></i>
-                            <i *ngIf="filterDropdown" class="las la-angle-up"></i>
-                        </button>
-                        <span class="float-right">{{numberOfProduct}} Products</span>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <button *ngIf="introTemplate" type="button" class="filter-btn btn btn-lg float-left" (click)="filterDropdown = !filterDropdown">
+                                    <span>Filter</span>
+                                    <i *ngIf="!filterDropdown" class="las la-angle-down"></i>
+                                    <i *ngIf="filterDropdown" class="las la-angle-up"></i>
+                                </button>
+                                <ul class="d-flex flex-row flex-wrap" style="padding-inline-start: 0;list-style-type: none;">
+                                    <ng-template [ngIf]="filterStyles">
+                                        <ng-container *ngFor="let style of filterStyles">
+                                            <li class="filter-item">
+                                                <span class="mr-1">{{style}}</span>
+                                                <button (click)="toggleStyle(style)"type="button" class="filter-item-close" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </li>
+                                        </ng-container>
+                                    </ng-template>
+                                    <ng-template [ngIf]="filterColors">
+                                        <ng-container *ngFor="let color of filterColors">
+                                            <li class="filter-item">
+                                                <button class="filter-item-color --btn-color-lg {{color | color}}">
+
+                                                </button>
+                                                <span class="mr-1">{{color}}</span>
+                                                <button (click)="toggleColor(color)"type="button" class="filter-item-close" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </li>
+                                        </ng-container>
+                                    </ng-template>
+                                    <ng-template [ngIf]="filterSizes">
+                                        <ng-container *ngFor="let size of filterSizes">
+                                            <li class="filter-item">
+                                                <span class="mr-1">{{size}}</span>
+                                                <button (click)="toggleSize(size)"type="button" class="filter-item-close" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </li>
+                                        </ng-container>
+                                    </ng-template>
+                                    <ng-template [ngIf]="filterStyles.size > 0 || filterColors.size > 0 || filterSizes.size > 0">
+                                        <li class="filter-item --clear-all"><span (click)="clearAll()">Clear All</span></li>
+                                    </ng-template>
+                                </ul>
+                            </div>
+                            <div class="col-md-2">
+                                <span class="float-right">{{numberOfProduct}} Products</span>
+                            </div>
+                        </div>
+                        
                     </div>
                     <div *ngIf="filterDropdown" class="filter-dropdown col-md-12">
                         <div class="row">
@@ -98,7 +143,7 @@
                                             <ul class="d-flex flex-column" style="list-style-type: none; padding-inline-start: 0;">
                                                 <ng-container *ngFor="let style of styles | keyvalue: originalOrder">
                                                     <li class="mb-2" [ngClass]="style.value.disabled ? '--disabled-style' : '' ">
-                                                        <button class="btn-style" (click)="addStyleFilter(style.key)"
+                                                        <button class="btn-style" (click)="toggleStyle(style.key)"
                                                         [ngClass]="style.value.check ? '--btn-style-check' : ''"
                                                         [attr.disabled]="style.value.disabled ? 'disabled' : null"><i class="las la-check la-sm"></i></button>
                                                         {{style.key}}
@@ -120,7 +165,7 @@
                                                         <li class="color-item --color-item-xl mr-1 ml-1 click-able mb-3"
                                                         [ngClass]="disabledBtnColor(color.key,color.value.disabled)">
                                                             <button class="btn-color --btn-color-xl {{color.key | color}}"
-                                                            (click)="addColorFilter(color.key)"
+                                                            (click)="toggleColor(color.key)"
                                                             [attr.disabled]="color.value ? null: 'disabled' "></button>
                                                             <p class="color-item-text text-center">{{color.key}}</p>                                
                                                         </li>
@@ -130,7 +175,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="filter-dropdown-item col-md-4">
+                            <div class="filter-dropdown-item col-md-4" *ngIf="oneSize === false">
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Size</h5>
@@ -139,7 +184,7 @@
                                                 <ng-template [ngIf]="size.key !== 'SEPARATE'">
                                                     <li class="mr-1 mb-2" [ngClass]="size.value.disabled ? '--disabled-size' : ''">
                                                         <button class="filter-size-item"
-                                                        (click)="addSizeFilter(size.key)"
+                                                        (click)="toggleSize(size.key)"
                                                         [ngClass]="size.value.check ? '--filter-size-item-check' : ''"
                                                         [attr.disabled]="size.value.disabled ? 'disabled' : null">
                                                             <p class="size-item-text"
@@ -165,10 +210,10 @@
                     <div>There are no products, please visit later</div>
                 </ng-template>
                 <ng-template [ngIf]="numberOfProduct > 0">
-                    <div class="row mb-4 product-container" *ngFor="let product of products">
+                    <div class="row mb-4 product-container" *ngFor="let product of filteredProducts; trackBy: trackByProduct">
                         <div class="col-md-12 mb-5 pt-2" id="{{product.name}}"></div>
                         <div class="product-title col-md-12 mb-3"><p>{{product.name}}</p></div>
-                        <div class="{{introTemplate.productPerColumn}} col-sm-4 col-8 product-option mb-4" *ngFor="let productOption of product.productOptions">
+                        <div class="{{introTemplate.productPerColumn}} col-sm-4 col-8 product-option mb-4" *ngFor="let productOption of product.productOptions; trackBy: trackByProductOption">
                             <div class="product-image-container">
                                 <a [routerLink]="['/products',productOption.link]"class="link"></a>
                                 <img class="product-image img-fluid" src="{{collections + productOption.image+'-first.jpg'}}">
