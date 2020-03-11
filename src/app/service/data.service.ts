@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import {introLine2} from '../environtments';
-import { User } from '../class/user';
 import { CookieService } from 'ngx-cookie-service'
 import { Cart } from '../class/cart';
 import { Intro } from '../interface/intro';

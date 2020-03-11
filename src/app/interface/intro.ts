@@ -1,6 +1,6 @@
 export interface Intro {
     heading:string[];
-    numberOfImg?:number;
+    headingPerColumn?:number;
     title:string;
     content:string;
     color:string;

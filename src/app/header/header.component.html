@@ -7,61 +7,57 @@
         <div class="header-item underline-item mr-5" (mouseover)="setContentMenu('men')">
             Men
         </div>
-        <div class="header-item underline-item">
+        <div class="header-item underline-item" (mouseover)="setContentMenu('about')">
             About
         </div>
-        <ng-container [ngSwitch]="contentMenu">
-            <ng-template [ngSwitchCase]="'women'">
-                <div class="dropdown-menu" aria-labelledby="dropdownMenu">
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu"
+        [ngClass]="(contentMenu == 'women') ? null : 'd-none'">
+            <div class="row">
+                <div class="col-6">
                     <div class="row">
-                        <div class="col-6">
-                            <div class="row">
-                                <div class="col-3" *ngFor="let category of categoriesOfWomen">
-                                    <p class="menu-item-text">{{category.name}}</p>
-                                    <div class="d-flex flex-column">
-                                        <ng-container *ngFor="let subcategory of category.subCategories">
-                                            <a [routerLink]="['/collections','women',subcategory.name | spaceToLineBreak]" class="menu-item-text">{{subcategory.name}}</a>
-                                        </ng-container>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="img-container">
-                                <img src="{{img+'/header/women-header.jpg'}}" alt="">
+                        <div class="col-3" *ngFor="let category of categoriesOfWomen">
+                            <p class="menu-item-text">{{category.name}}</p>
+                            <div class="d-flex flex-column">
+                                <ng-container *ngFor="let subcategory of category.subCategories">
+                                    <a [routerLink]="['/collections','women',subcategory.name | spaceToLineBreak]" class="menu-item-text">{{subcategory.name}}</a>
+                                </ng-container>
                             </div>
                         </div>
                     </div>
                 </div>
-            </ng-template>
-            <ng-template [ngSwitchCase]="'men'">
-                <div class="dropdown-menu" aria-labelledby="dropdownMenu">
+                <div class="col-6">
+                    <div class="img-container">
+                        <img src="{{img+'/header/women-header.jpg'}}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu"
+        [ngClass]="(contentMenu == 'men') ? null : 'd-none'">
+            <div class="row">
+                <div class="col-6">
                     <div class="row">
-                        <div class="col-6">
-                            <div class="row">
-                                <div class="col-3" *ngFor="let category of categoriesOfMen">
-                                    <p class="menu-item-text">{{category.name}}</p>
-                                    <div class="d-flex flex-column">
-                                        <ng-container *ngFor="let subcategory of category.subCategories">
-                                            <a [routerLink]="['/collections','men',subcategory.name | spaceToLineBreak]" class="menu-item-text">{{subcategory.name}}</a>
-                                        </ng-container>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="img-container text-center">
-                                <div class="middle-img">
-                                    <p>Introducing</p>
-                                    <h1>UNIFORM</h1>
-                                </div>
-                                <img class="img-fluid" src="{{img+'/header/men-header.png'}}" alt="">
+                        <div class="col-3" *ngFor="let category of categoriesOfMen">
+                            <p class="menu-item-text">{{category.name}}</p>
+                            <div class="d-flex flex-column">
+                                <ng-container *ngFor="let subcategory of category.subCategories">
+                                    <a [routerLink]="['/collections','men',subcategory.name | spaceToLineBreak]" class="menu-item-text">{{subcategory.name}}</a>
+                                </ng-container>
                             </div>
                         </div>
                     </div>
                 </div>
-            </ng-template>
-        </ng-container>
+                <div class="col-6">
+                    <div class="img-container text-center">
+                        <div class="middle-img">
+                            <p>Introducing</p>
+                            <h1>UNIFORM</h1>
+                        </div>
+                        <img class="img-fluid" src="{{img+'/header/men-header.png'}}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="middle-banner text-center header-item" [routerLink]="['/']">
         <svg class="logo" alt="Everlane" viewBox="0 0 432 40.6"><path d="M0,40.6V0H32.5V8.1H8.1v8.1H24.3v8.2H8.1v8.1H32.5v8.1H0Z"></path><path d="M67.7,40.6L51.4,0h8.7L71.8,28.9,83.3,0H92L75.8,40.6H67.7Z"></path><path d="M113.1,40.6V0h32.5V8.1H121.2v8.1h16.2v8.2H121.2v8.1h24.4v8.1H113.1Z"></path><path d="M199.3,22.8l5.8,17.8h-8.5l-5.3-16.2H177.1V40.6H169V0h24.3A12.16,12.16,0,0,1,202,3.5a11.61,11.61,0,0,1,3.5,8.7A11.68,11.68,0,0,1,199.3,22.8Zm-22.2-6.6h16.2a4,4,0,0,0,2.9-1.2,3.85,3.85,0,0,0,1.2-2.9A4.1,4.1,0,0,0,193.3,8H177.1v8.2Z"></path><path d="M229.6,40.6V0h8.1V32.5H258v8.1H229.6Z"></path><path d="M306.8,32.5H290.1l-3.3,8.1h-8.7L294.4,0h8.1l16.3,40.6h-8.7Zm-3.3-8.1-5.1-12.7-5.1,12.7h10.2Z"></path><path d="M375,0V40.6h-8.1l-20.3-27v27h-8.1V0h8.1l20.3,27V0H375Z"></path><path d="M399.5,40.6V0H432V8.1H407.6v8.1h16.2v8.2H407.6v8.1H432v8.1H399.5Z"></path></svg>

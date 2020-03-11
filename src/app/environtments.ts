@@ -6,6 +6,7 @@ export const globals = {
     collections: "http://localhost:8080/api/img/collections/",
     origin: "http://localhost:4200"
 }
+export const featured:Set<string> = new Set(["best-sellers","new arrivals","all"]);
 export const introLine2:Map<string,Map<string,Intro>> = new Map([
     ['women',new Map([
         ['sweaters',{
@@ -42,7 +43,7 @@ export const introLine2:Map<string,Map<string,Intro>> = new Map([
         }],
         ['denim',{
             heading:["Skinny","Slim / Straight","Bootcut","Relaxed"],
-            numberOfImg: 1,
+            headingPerColumn: 1,
             title: null,
             content: "DENIM",
             color: "white-text-intro",
@@ -99,7 +100,7 @@ export const introLine2:Map<string,Map<string,Intro>> = new Map([
         }],
         ["boots-&-booties",{
             heading:["Knit Boots","Heeled Boots","Chelsea Boots","Rain Boots"],
-            numberOfImg:4,
+            headingPerColumn:3,
             title:null,
             content:null,
             color:null,
@@ -153,6 +154,23 @@ export const introLine2:Map<string,Map<string,Intro>> = new Map([
             color: "white-text-intro",
             position: "right-intro",
             productPerColumn: "col-md-4"
+        }],
+        ['best-sellers',{
+            heading:null,
+            title: "Best-Sellers",
+            content:"Our most-loved styles live up to their reviews",
+            color: "black-text-intro",
+            position:"right-intro",
+            productPerColumn:"col-md-4"
+        }],
+        ['all',{
+            heading:["Flats","T-Shirts","Tops"],
+            headingPerColumn:3,
+            title:null,
+            content:null,
+            color:null,
+            position:null,
+            productPerColumn:"col-md-4"
         }]
     ])]
 ])

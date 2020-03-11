@@ -14,19 +14,19 @@ import { OrderService } from '../service/order.service';
   styleUrls: ['./checkout.component.css']
 })
 export class CheckoutComponent implements OnInit {
-  private addressForm: FormGroup;
-  private creditForm: FormGroup;
-  private paymentMethod:string = "cod";
-  private selectedAddress: Address = null;
-  private submitted: boolean = false; // for address form
-  private submitted2: boolean = false;// for credit form
-  private collections = globals.collections;
-  private carts: Cart[] = [];
-  private subTotal: number = 0;
-  private shipping: number = 0;
-  private total: number = 0;
-  private order: Order = null;
-  private phase: string = "preview"; // there are 5 phases 1->PREVIEW, 2->SHIPPING, 3->BILLING, 4->REVIEW, 5->MESSAGE
+  addressForm: FormGroup;
+  creditForm: FormGroup;
+  paymentMethod:string = "cod";
+  selectedAddress: Address = null;
+  submitted: boolean = false; // for address form
+  submitted2: boolean = false;// for credit form
+  collections = globals.collections;
+  carts: Cart[] = [];
+  subTotal: number = 0;
+  shipping: number = 0;
+  total: number = 0;
+  order: Order = null;
+  phase: string = "preview"; // there are 5 phases 1->PREVIEW, 2->SHIPPING, 3->BILLING, 4->REVIEW, 5->MESSAGE
   constructor(private cartService: CartService,
     private dataService: DataService,
     private formBuilder: FormBuilder,
@@ -43,6 +43,9 @@ export class CheckoutComponent implements OnInit {
         expire:''
       })
     }
+  trackByItem(index,item){
+    return item.id;
+  }
   // PHASE PREVIEW
   getCarts(){
     this.cartService.getCarts().subscribe(res=>{

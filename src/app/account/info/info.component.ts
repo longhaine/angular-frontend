@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators, FormGroup} from '@angular/forms';
-import { InfoService } from '../service/info.service';
-import { DataService } from '../service/data.service';
+import { InfoService } from '../../service/info.service';
+import { DataService } from '../../service/data.service';
 import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-info',
@@ -25,6 +25,9 @@ export class InfoComponent implements OnInit {
       email:'',
       password:''
     })
+  }
+  logOut(){
+    
   }
   get f(){return this.form.controls;}
   updateToken(email:string, fullName:string){

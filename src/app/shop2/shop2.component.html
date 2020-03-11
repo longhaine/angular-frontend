@@ -1,0 +1,194 @@
+<div class="row">
+    <ng-template [ngIf]="introTemplate">
+        <div *ngIf="!introTemplate.heading" class="col-md-12 mb-3 position-relative">
+            <img class="img-fluid"
+                src="{{img+'/intro/'+gender+'-'+ (subCategoryName | spaceToLineBreak) +'-intro.jpg'}}" alt="">
+            <div class="col-md-6 {{introTemplate.position}}">
+                <p *ngIf="introTemplate.title" class="title-intro {{introTemplate.color}}">{{introTemplate.title}}</p>
+                <p class="content-intro {{introTemplate.color}}">{{introTemplate.content}}</p>
+            </div>
+        </div>
+    </ng-template>
+    <div class="col-md-12 mb-3">
+        <div class="row">
+            <div class="col-md-10">
+                <button *ngIf="introTemplate" type="button" class="filter-btn btn btn-lg float-left"
+                    (click)="filterDropdown = !filterDropdown">
+                    <span>Filter</span>
+                    <i *ngIf="!filterDropdown" class="las la-angle-down"></i>
+                    <i *ngIf="filterDropdown" class="las la-angle-up"></i>
+                </button>
+                <ul class="d-flex flex-row flex-wrap" style="padding-inline-start: 0;list-style-type: none;">
+                    <li class="filter-item"
+                    [ngClass]="filterSubCategory === 'none' ? 'd-none' : 'd-block'">
+                        <span class="mr-1">{{filterSubCategory}}</span>
+                        <button (click)="toggleCategory(0,categoryAll)" type="button" class="filter-item-close"
+                            aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </li>
+                    <ng-container *ngFor="let color of filterColors">
+                        <li class="filter-item">
+                            <button class="filter-item-color --btn-color-lg {{color | color}}">
+
+                            </button>
+                            <span class="mr-1">{{color}}</span>
+                            <button (click)="toggleColor(color)" type="button" class="filter-item-close"
+                                aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </li>
+                    </ng-container>
+                    <ng-container *ngFor="let size of filterSizes">
+                        <li class="filter-item">
+                            <span class="mr-1">{{size}}</span>
+                            <button (click)="removeSize(size)" type="button" class="filter-item-close"
+                                aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </li>
+                    </ng-container>
+                    <ng-template [ngIf]="filterSubCategory.size > 0 || filterColors.size > 0 || filterSizes.size > 0">
+                        <li class="filter-item --clear-all"><span (click)="clearAll()">Clear All</span></li>
+                    </ng-template>
+                </ul>
+            </div>
+            <div class="col-md-2">
+                <span class="float-right">{{numberOfProduct}} Products</span>
+            </div>
+        </div>
+
+    </div>
+    <div [ngClass]="filterDropdown ? 'd-block' : 'd-none'" class="filter-dropdown col-md-12">
+        <div class="row">
+            <div class="filter-dropdown-item col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Category</h5>
+                        <ngb-carousel #carousel>
+                            <ng-template ngbSlide *ngFor="let slide of slides; let i = index;trackBy:trackByItem">
+                                <ul class="d-flex flex-column mt-1"
+                                    style="list-style-type: none; padding-inline-start: 0;">
+                                    <ng-container *ngFor="let category of slide.filterable | keyvalue: originalOrder;trackBy:trackByKey">
+                                        <li class="click-able mb-2"
+                                            [ngClass]="category.value.disabled ? '--disabled-style' : ''"
+                                            (click)="toggleCategory(i,category.key)">
+                                            <button class="btn-category mr-2"
+                                                [ngClass]="category.value.check ? '--btn-category-check': null"
+                                                [attr.disabled]="category.value.disabled ? 'disabled' : null">
+                                                <div></div>
+                                            </button>
+                                            {{category.key}}
+                                        </li>
+                                    </ng-container>
+                                </ul>
+                            </ng-template>
+                        </ngb-carousel>
+                    </div>
+                </div>
+            </div>
+            <div class="filter-dropdown-item col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Color</h5>
+                        <ul class="color-list justify-content-start">
+                            <ng-container *ngFor="let color of groupColors | keyvalue">
+                                <li class="color-item --color-item-xl click-able mb-3"
+                                    [ngClass]="disabledBtnColor(color.key,color.value.disabled)"
+                                    (click)="toggleColor(color.key)">
+                                    <button class="btn-color --btn-color-xl {{color.key | color}}"
+                                        [attr.disabled]="color.value ? null: 'disabled' "></button>
+                                    <p class="color-item-text text-center">{{color.key}}</p>
+                                </li>
+                            </ng-container>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="filter-dropdown-item col-md-4" [ngClass]="oneSize === false ? 'd-block' : 'd-none'">
+                <div class="card">
+                    <div class="card-body position-relative">
+                        <h5 class="card-title">Size</h5>
+                        <p *ngIf="sizes.size === 0">
+                            Please select a category first.
+                        </p>
+                        <ngb-carousel #carousel3>
+                            <ng-template ngbSlide *ngFor="let slide of slides3; let i = index;trackBy:trackByItem">
+                                <ul class="filter-size-list">
+                                    <ng-container *ngFor="let size of slide.filterable | keyvalue: originalOrder;trackBy:trackByKey">
+                                        <li class="mr-1 mb-2" [ngClass]="size.value.disabled ? '--disabled-size' : ''">
+                                            <button class="filter-size-item" (click)="toggleSize(i,size.key)"
+                                                [ngClass]="size.value.check ? '--filter-size-item-check' : ''"
+                                                [attr.disabled]="size.value.disabled ? 'disabled' : null">
+                                                <p class="size-item-text"
+                                                    [ngClass]="size.value.disabled ? '--sold-out' : ''">{{size.key}}</p>
+                                            </button>
+                                        </li>
+                                    </ng-container>
+                                </ul>
+                            </ng-template>
+                        </ngb-carousel>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="pt-5 pb-5" [ngClass]="(numberOfProduct == 0 && load === false) ? 'd-block' : 'd-none'">
+    <p>Filters don't match any product, <span style="text-decoration: underline;cursor: pointer;">Clear All</span></p> 
+</div>
+<div class="row mb-4 product-container" *ngFor="let subCategory of filteredSubCategories; trackBy: trackByFunction">
+    <div class="col-md-12 mb-5 pt-2" id="{{subCategory.name}}"></div>
+    <div class="product-title col-md-12 mb-3">
+        <p>{{subCategory.name}}</p>
+    </div>
+    <ng-container *ngFor="let product of subCategory.products;trackBy: trackByFunction">
+        <div class="{{introTemplate.productPerColumn}} col-sm-4 col-8 product-option mb-4"
+            *ngFor="let productOption of product.productOptions; trackBy: trackByFunction; let i = index">
+            <div class="product-image-container">
+                <a [routerLink]="['/products',productOption.link]" class="link"></a>
+                <img class="product-image img-fluid" src="{{collections +(subCategory.name | spaceToLineBreak) +'/'+ productOption.image+'-first.jpg'}}">
+                <img class="product-image-hover img-fluid" src="{{collections +(subCategory.name | spaceToLineBreak) +'/'+ productOption.image+'-second.jpg'}}"
+                    alt="">
+                <div class="quick-add-container">
+                    <div class="label-container">
+                        <p class="label-item">+ Quick Add</p>
+                    </div>
+                </div>
+                <div class="size-container">
+                    <div class="row justify-content-center pl-1 pr-1 text-center">
+                        <ng-container *ngFor="let optionWithSize of productOption.optionWithSizes">
+                            <ng-template [ngIf]="optionWithSize.quantity == 0">
+                                <div class="col-2 size-item --unavailable-size-item">
+                                    <p class="size-item-text">{{optionWithSize.size.code}}</p>
+                                </div>
+                            </ng-template>
+                            <ng-template [ngIf]="optionWithSize.quantity > 0">
+                                <div class="col-2 size-item --available-size-item" (click)="addCart(optionWithSize.id)">
+                                    <p class="size-item-text">{{optionWithSize.size.code}}</p>
+                                </div>
+                            </ng-template>
+                        </ng-container>
+
+                    </div>
+                </div>
+            </div>
+            <div class="product-description click-able">
+                <div class="d-flex justify-content-between">
+                    <p class="product-name">{{productOption.name}}</p>
+                    <p class="product-price">${{productOption.price}}</p>
+                </div>
+                <p class="product-option-name text-secondary" style="display:block;">{{productOption.color}}</p>
+                <p class="product-option-quantity" style="display:block;">{{product.productOptions.length}} colors
+                    available</p>
+            </div>
+        </div>
+    </ng-container>
+    <div class="col-md-4 col-sm-4 col-8 product-option mb-4"
+    [ngClass]="(subCategory.minified && onFiltering == false) ? 'd-block' : 'd-none'">
+        <div class="position-relative text-center" style="background-color:#FAFAFA">
+            <img class="img-fluid" src="{{collections +'Sweaters/The-Cashmere-Crew-Black-first.jpg'}}" style="opacity: 0;">
+            <a [routerLink]="['/collections',gender,subCategory.name | spaceToLineBreak]"class="shop-navigator">Shop All {{subCategory.name}} ></a>
+        </div>
+    </div>
+</div>

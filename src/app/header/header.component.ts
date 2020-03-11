@@ -4,11 +4,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {ModalComponent} from '../modal/modal.component';
 import { CategoryService } from '../service/category.service';
 import { Category } from '../class/category';
-import { Subcategory } from '../class/subcategory';
 import { globals } from '../environtments';
 import { HostListener } from '@angular/core';
 import { DataService } from '../service/data.service';
-import {User} from '../class/user';
 import { CartService } from '../service/cart.service';
 import { Cart } from '../class/cart';
 @Component({
@@ -18,17 +16,17 @@ import { Cart } from '../class/cart';
 })
 export class HeaderComponent implements OnInit {
   
-  public transparentTrigger:boolean = false;
-  private img = globals.server+"/img";
-  private categoriesOfWomen: Category[] = [];
-  private categoriesOfMen: Category[] = [];
-  private contentMenu = "women"; //default is always women
-  private contentModal:string
-  private banner:Element;
-  private requireLogin:boolean = false;
-  private cartLoading:boolean = false;
-  private collections = globals.collections;
-  private numberOfCarts:number = 0;
+  transparentTrigger:boolean = false;
+  img = globals.server+"/img";
+  categoriesOfWomen: Category[] = [];
+  categoriesOfMen: Category[] = [];
+  contentMenu = "women"; //default is always women
+  contentModal:string
+  banner:Element;
+  requireLogin:boolean = false;
+  cartLoading:boolean = false;
+  collections = globals.collections;
+  numberOfCarts:number = 0;
   constructor(private router: Router,
               private modalService: NgbModal,
               private categoryService: CategoryService,
@@ -120,7 +118,7 @@ export class HeaderComponent implements OnInit {
     headerItems.item(2).classList.add("underline-item"); //about
   }
 
-  @HostListener("window:scroll", ["$event"])
+  @HostListener("window:scroll", [""])
   onWindowScroll() {
     let scrollTop = (document.documentElement.scrollTop || document.body.scrollTop);
     if(scrollTop == 0 && this.transparentTrigger == true){
@@ -131,12 +129,12 @@ export class HeaderComponent implements OnInit {
   }
   // End Desktop banner header
   // Mobile banner header
-  private openDropdown:Element;
-  private closeDropdown:Element;
-  private dropdownStatus:boolean = false;
-  private mobileDropdownMenu:Element;
-  private btnCloseDropdown:Element;
-  private currentForcusContent:Element;
+  openDropdown:Element;
+  closeDropdown:Element;
+  dropdownStatus:boolean = false;
+  mobileDropdownMenu:Element;
+  btnCloseDropdown:Element;
+  currentForcusContent:Element;
   initMobileMenu(){
     this.openDropdown = document.getElementById("openDropdown");
     this.closeDropdown = document.getElementById("closeDropdown");

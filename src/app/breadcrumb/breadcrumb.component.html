@@ -1,7 +1,11 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
-      <li class="breadcrumb-item"><a [routerLink]="['/collections',gender,'']">{{gender}}</a></li>
-      <li class="breadcrumb-item active" aria-current="page">{{subCategoryName}}</li>
+      <ng-template [ngIf]="breadcrumbs.length > 0">
+        <ng-container *ngFor="let breadcrumb of breadcrumbs | slice: 0 : breadcrumbs.length - 1 ">
+          <li class="breadcrumb-item"><a [routerLink]="['/collections',breadcrumb.gender,breadcrumb.subCategory]">{{breadcrumb.name | lineBreakToSpace }}</a></li>
+        </ng-container>
+        <li class="breadcrumb-item active" aria-current="page">{{ breadcrumbs[breadcrumbs.length - 1].name | lineBreakToSpace }}</li>
+      </ng-template>
     </ol>
 </nav>

@@ -1,5 +1,10 @@
 <div class="container app-below-header pb-1">
-    <div class="row mt-3">
+    <div class="row">
+        <div class="col-md-12">
+            <app-breadcrumb [breadcrumbs]="breadcrumbs"></app-breadcrumb>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-1 postion-relative">
             <div class="d-flex flex-column side-image-container" #sideImg [attr.style]="resetHeightOfImageContainers(sideImg)">
                 <ng-container *ngFor="let image of images; let i = index">

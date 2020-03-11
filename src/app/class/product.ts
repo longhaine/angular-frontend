@@ -13,7 +13,13 @@ export class Product{
     private _subCategory: Subcategory;
     private _productOptions: ProductOption[] = [];
     private _filtered: boolean;
-
+    private _description: String;
+    public get description(): String {
+        return this._description;
+    }
+    public set description(value: String) {
+        this._description = value;
+    }
     public get filtered(): boolean {
         if(this._filtered === undefined){
             this._filtered = true;

@@ -10,7 +10,6 @@ export class FooterComponent implements OnInit {
   openDropdown(target:Element){
     let parentTarget = target.parentElement;
     let status = target.children.item(1);
-    console.log(parentTarget.children.item(1));
     if(target.classList.contains("mobile-footer__item--active")){
       target.classList.remove("mobile-footer__item--active");
       status.textContent = "+";
@@ -24,5 +23,4 @@ export class FooterComponent implements OnInit {
   }
   ngOnInit() {
   }
-
 }

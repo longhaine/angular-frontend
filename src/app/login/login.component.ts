@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter, SystemJsNgModuleLoader 
 import { FormBuilder, FormControl, Validators, FormGroup} from '@angular/forms';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {LoginService} from '../service/login.service';
-import { User } from '../class/user';
 import { DataService } from '../service/data.service'; 
 @Component({
   selector: 'app-login',
@@ -15,8 +14,9 @@ export class LoginComponent implements OnInit {
   submitted:boolean = false;
   alert:String;
   user:string;
+  email:string;
   @Output() component: EventEmitter<any> = new EventEmitter<any>();
-  private formContent:String ="email";
+  formContent:String ="email";
   constructor(
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,

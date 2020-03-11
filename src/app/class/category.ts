@@ -7,7 +7,6 @@ export class Category {
     private _id: number;
     private _name: String;
     private _subCategories: Subcategory[] = [];
-    
     public get subCategories(): Subcategory[] {
         return this._subCategories;
     }

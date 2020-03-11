@@ -1,0 +1,59 @@
+.card{
+    min-height: 310px!important;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.btn-category{
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #757575;
+    background-color: #fff;
+    outline:none;
+}
+.--btn-category-check > div{
+    position: absolute;
+    left:50%;
+    top:50%;
+    width: 12px;
+    height: 12px;
+    background-color: #424242;
+    border-radius: 50%;
+    transform: translate(-50%,-50%);
+}
+::ng-deep .carousel-item{
+    height: 100%;
+    width: auto;
+}
+::ng-deep .carousel-control-prev span{
+    background-image: url('/assets/images/prev-icon.svg')!important;
+}
+::ng-deep .carousel-control-next span{
+    background-image: url('/assets/images/next-icon.svg')!important;
+}
+::ng-deep .carousel-indicators{
+    z-index: 9;
+}
+::ng-deep .carousel-indicators > li{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color:#424242;
+}
+::ng-deep .carousel,::ng-deep .carousel-item,::ng-deep .carousel-inner{
+    position:static;
+    outline:none;
+}
+::ng-deep .carousel-item{
+    width: 100%;
+}
+.shop-navigator{
+    position: absolute;
+    left:50%;top:50%;transform: translate(-50%,-50%);
+    cursor: pointer;
+    color: #808284;;
+}
+.shop-navigator:hover{
+    color: #4c4c4b;
+}

@@ -10,28 +10,30 @@ import { OptionWithSize } from '../class/option-with-size';
 import { CartService } from '../service/cart.service';
 import { DataService } from '../service/data.service';
 import { Cart } from '../class/cart';
+import { Breadcrumb } from '../interface/breadcrumb';
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css']
 })
 export class ProductComponent implements OnInit {
-  private link: string;
-  private collections: string = globals.collections;
-  private product: Product;
-  private selected: ProductOption;
-  private images: string[]= [];
-  private numberOfImgOfHoverColor:number;
-  private colorHovering: boolean = false;
-  private unselecteds: ProductOption[]=[];
-  private indexHover: number;
-  private selectedSize: OptionWithSize = null;
-  private sizePosition: number;
-  private sizeHovering: boolean = false;
-  private sizeHover: OptionWithSize = null;
-  private disabledBtn: boolean = false;
-  private btnStatus: string = "ADD TO BAG";
-  private SELECTASIZEPLEASE: boolean = false;
+  breadcrumbs:Breadcrumb[] = [];
+  link: string;
+  collections: string = globals.collections;
+  product: Product;
+  selected: ProductOption;
+  images: string[]= [];
+  numberOfImgOfHoverColor:number;
+  colorHovering: boolean = false;
+  unselecteds: ProductOption[]=[];
+  indexHover: number;
+  selectedSize: OptionWithSize = null;
+  sizePosition: number;
+  sizeHovering: boolean = false;
+  sizeHover: OptionWithSize = null;
+  disabledBtn: boolean = false;
+  btnStatus: string = "ADD TO BAG";
+  SELECTASIZEPLEASE: boolean = false;
   constructor(private route: ActivatedRoute,
     private router: Router,
     private productService: ProductService,
@@ -56,6 +58,14 @@ export class ProductComponent implements OnInit {
   //     }
   //   }
   // }
+  initBreadCrumb(selected:ProductOption){
+    this.breadcrumbs = [];
+    let gender = this.product.gender.toString();
+    let subCategory = this.product.subCategory.name.replace(/\s/g,'-');
+    this.breadcrumbs.push({type:"collections",name:gender,gender:gender,subCategory:"all"});
+    this.breadcrumbs.push({type:"collections",name:subCategory,gender:gender,subCategory:subCategory});
+    this.breadcrumbs.push({type:"product",name:this.link});
+  }
   navigateTo(link:string){
     this.colorHovering = false;
     this.link = link; // in order to change url and reselect selected production
@@ -100,6 +110,7 @@ export class ProductComponent implements OnInit {
       {
         this.selected = product.productOptions[i];
         this.images = this.initImages(this.selected);
+        this.initBreadCrumb(this.selected);
         break;
       }
     }
@@ -110,14 +121,16 @@ export class ProductComponent implements OnInit {
         this.disabledBtn = true;
       }
     }
+    
   }
   initImages(productOption:ProductOption):string[]{
     let numberOfImage = productOption.numberOfImage;
     let images: string[] = [];
+    let gender = this.collections +this.product.gender;
+    let subCategory = this.product.subCategory.name.replace(/\s/g,'-');
     for(let i = 1 ; i <= numberOfImage; i++)
     {
-      images.push(this.collections +this.product.gender
-        +"/"+this.product.subCategory.name.replace(/\s/g,'-') +"/"+ productOption.image+'-'+i+'.jpg');
+      images.push(gender +"/"+ subCategory +"/"+ productOption.image+'-'+i+'.jpg');
     }
     return images;
   }

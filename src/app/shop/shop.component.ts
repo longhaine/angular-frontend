@@ -1,77 +1,68 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, SimpleChanges } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TitleService} from '../service/title.service';
-import { HeaderComponent } from '../header/header.component';
 import { DataService } from '../service/data.service';
 import { globals} from '../environtments';
-import { ActivatedRoute, Router } from '@angular/router';
 import { ShopService } from '../service/shop.service';
 import { StatusService } from '../service/status.service';
 import { Product } from '../class/product';
-import { Subcategory } from '../class/subcategory';
-import { Subscription } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 import { CartService } from '../service/cart.service';
-import { TokenService } from '../service/token.service';
 import { Cart } from '../class/cart';
 import { ProductOption } from '../class/product-option';
 import { Filterable } from '../interface/filterable';
 import { OptionWithSize } from '../class/option-with-size';
 import { Intro } from '../interface/intro';
-import { KeyValue } from '@angular/common';
 @Component({
   selector: 'app-shop',
   templateUrl: './shop.component.html',
-  styleUrls: ['./shop.component.css'],
+  styleUrls: ['../collection/collection.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShopComponent implements OnInit {
   constructor(private title: Title,
               private titleService: TitleService,
-              private headerComponent:HeaderComponent,
               private dataService: DataService,
-              private route: ActivatedRoute,
-              private router: Router,
               private shopService: ShopService,
               private statusService: StatusService,
               private cartService: CartService,
-              private tokenService: TokenService,
               private changeRef: ChangeDetectorRef) { }
-  private load:boolean = false;
-  private headerSubscription:Subscription;
-  private img = globals.server+"/img";
-  private breadCrumbInformation:{gender:string, subCategoryName:string} = {gender:'', subCategoryName:''};
-  private collections:string; // used in html template
-  private filterDropdown:boolean = false; // used in html template
-  private introTemplate:Intro; // init introLine in environtments.ts
-  private gender:string;
-  private subCategoryName:string;
-  private subCategories: Subcategory[] = [];
-  private products: Product[] = [];
-  private rawJsonProducts:string;
-  private numberOfProduct:number = 0;
-  private oneSize:boolean = false;
-  private styles:Map<String,Filterable> = new Map<String,Filterable>();
-  private groupColors:Map<String,Filterable> = new Map<String,Filterable>();
-  private sizes:Map<String,Filterable> = new Map<String,Filterable>();
-  private filteredProducts:Product[];
-  private filterStyles:Set<String> = new Set<String>();
-  private filterColors:Set<String> = new Set<String>();
-  private filterSizes:Set<String> = new Set<String>();
+  @Input() gender:string;
+  @Input() subCategoryName:string;
+  @Input() introTemplate:Intro;
+  load = true;
+  img = globals.server+"/img";
+  collections:string; // used in html template
+  filterDropdown:boolean = false; // used in html template
+  products: Product[] = [];
+  rawJsonProducts:string;
+  numberOfProduct:number = 0;
+  oneSize:boolean = false;
+  styles:Map<String,Filterable> = new Map<String,Filterable>();
+  groupColors:Map<String,Filterable> = new Map<String,Filterable>();
+  sizes:Map<String,Filterable> = new Map<String,Filterable>();
+  filteredProducts:Product[];
+  filterStyles:Set<String> = new Set<String>();
+  filterColors:Set<String> = new Set<String>();
+  filterSizes:Set<String> = new Set<String>();
   ngOnInit() {
-    this.routeHandler();
   }
-  trackByProduct(index, product){
-    if(!product) return null;
-    else return product.id;
+  ngOnChanges(changes:SimpleChanges){
+    this.reset();
+    this.productHandler(this.gender,this.subCategoryName);
   }
-  trackByProductOption(index, productOption){
-    if(!productOption) return null;
-    else return productOption.id;
+  trackByS(index,item){
+    return index;
   }
-  originalOrder = (a: KeyValue<number,string>, b: KeyValue<number,string>): number => {
+  trackByM(index,item){
+    return item.key;
+  }
+  trackByFn(index, item){
+    return item.id;
+  }
+  originalOrder(){
     return 0;
-  }  
+  }
   setTitle(gender:string, subCategoryName: string){
     this.title.setTitle(this.titleService.shopComponentTitleHandler(gender,subCategoryName));
   }
@@ -80,8 +71,9 @@ export class ShopComponent implements OnInit {
     return value.replace(/\s/g,'-');
   }
   reset(){
+    this.oneSize = false;
+    this.load = true;
     this.filterDropdown = false;
-    this.load = false;
     this.numberOfProduct = 0;
     this.styles.clear();
     this.groupColors.clear();
@@ -90,40 +82,6 @@ export class ShopComponent implements OnInit {
     this.filterColors.clear();
     this.filterSizes.clear();
     this.filteredProducts = [];
-
-  }
-  scrollToElement(idName:string){
-    let element:Element = document.getElementById(idName);
-    if(element !== null){
-      element.scrollIntoView({behavior:"smooth",block:"start"});
-    }
-  }
-  initBreadCrumb(gender:string, subCategoryName:string){
-    this.breadCrumbInformation.gender = gender;
-    this.breadCrumbInformation.subCategoryName = subCategoryName;
-  }
-  routeHandler(){
-    this.route.paramMap.subscribe(params =>{
-      this.reset();
-      this.gender = params.get("gender");
-      this.subCategoryName = params.get("subCategoryName");
-      if(this.gender === "men" || this.gender === "women"){
-        this.initBreadCrumb(this.gender,this.subCategoryName);
-        this.sideSubCategoryHander(this.gender);
-        this.productHandler(this.gender,this.subCategoryName);
-      }
-      else{
-        this.router.navigate(["/404"]);
-      }
-    })
-  }
-  sideSubCategoryHander(gender:string){
-    this.shopService.sideSubCategoryByGender(gender)
-    .subscribe(res =>{
-      this.subCategories = JSON.parse(JSON.stringify(res.body));
-    }, err=>{
-      this.statusService.statusHandler(err.status);
-    })
   }
   initStyle(products:Product[]){
     let length = products.length;
@@ -199,8 +157,6 @@ export class ShopComponent implements OnInit {
     }
     this.filterStyle();
     this.scanStyles(false);
-    console.log(this.filteredProducts);
-    console.log("------------");
     this.productCount(this.filteredProducts);
   }
   toggleColor(color:String){
@@ -218,15 +174,7 @@ export class ShopComponent implements OnInit {
     else{
       this.filterColor(false);
     }
-    // if(this.filterColors.size === 0){
-    //   this.scanColors();
-    // }
-    // if(this.filterColors.size === 0 && this.filterStyles.size === 0 && this.filterSizes.size === 0){
-    //   this.resetFilterables(this.styles);
-    // }
-    // this.scanSizes();
     this.scanColors(false);
-    console.log(this.filteredProducts);
     this.productCount(this.filteredProducts);
   }
   toggleSize(size:String){
@@ -247,14 +195,7 @@ export class ShopComponent implements OnInit {
     else{
       this.filterSize(false);
     }
-    // if(this.filterColors.size === 0){
-    //   this.scanColors();
-    // }
-    // if(this.filterSizes.size === 0 && this.filterColors.size === 0 && this.filterStyles.size === 0){
-    //   this.resetFilterables(this.sizes);
-    // }
     this.scanSizes();
-    console.log(this.filteredProducts);
     this.productCount(this.filteredProducts);
   }
   resetFilteredProducts(){
@@ -276,7 +217,6 @@ export class ShopComponent implements OnInit {
     }
   }
   scanStyles(scanned:boolean){
-    console.log("SCAN STYLES");
     if(this.filterStyles.size > 0){
       this.disabledFilterables(this.groupColors);
       
@@ -294,11 +234,6 @@ export class ShopComponent implements OnInit {
         for(let j = 0 ; j < length3; j++){
           let keyColor = scannedProducts[i].productOptions[j].groupColor; 
           this.groupColors.set(keyColor,{disabled:false,check:this.groupColors.get(keyColor).check});
-          // let length4 = scannedProducts[i].productOptions[j].optionWithSizes.length;
-          // for(let k = 0; k < length4 ; k++){
-          //   let keySize = scannedProducts[i].productOptions[j].optionWithSizes[k].size.code;
-          //   this.sizes.set(keySize,{disabled:false,check:this.sizes.get(keySize).check});
-          // }
         }
       }
       if(this.filteredProducts.length > 0){
@@ -316,7 +251,6 @@ export class ShopComponent implements OnInit {
                 
                 this.sizes.set(this.filteredProducts[i].productOptions[j].optionWithSizes[k].size.code,
                 {disabled:false,check: this.sizes.get(this.filteredProducts[i].productOptions[j].optionWithSizes[k].size.code).check});
-                console.log(this.filteredProducts[i].productOptions[j].optionWithSizes[k].size.code);
                 count = count - 1;
                 if(count === 0){
                   break loop;
@@ -347,10 +281,8 @@ export class ShopComponent implements OnInit {
     if(this.filterSizes.size > 0 && this.filterStyles.size > 0){
       this.scanSizes();
     }
-    console.log("SCAN STYLES END");
   }
   scanColors(scanned:boolean){
-    console.log("SCAN COLORS");
     if(this.filterColors.size > 0){
       this.disabledFilterables(this.styles);
       let length = this.products.length;
@@ -371,14 +303,6 @@ export class ShopComponent implements OnInit {
       let length2 = scannedProducts.length;
       for(let i = 0 ; i < length2 ;i++){
         this.styles.set(scannedProducts[i].name,{disabled:false, check: this.styles.get(scannedProducts[i].name).check})
-        // let length3 = scannedProducts[i].productOptions.length;
-        // for(let j = 0 ; j < length3; j++){
-        //   let length4 = scannedProducts[i].productOptions[j].optionWithSizes.length;
-        //   for(let k = 0; k < length4 ; k++){
-        //     let key = scannedProducts[i].productOptions[j].optionWithSizes[k].size.code;
-        //     this.sizes.set(key,{disabled:false,check: this.sizes.get(key).check});
-        //   }
-        // }
       }
       if(this.filteredProducts.length > 0){
         this.disabledFilterables(this.sizes);
@@ -395,7 +319,6 @@ export class ShopComponent implements OnInit {
                 
                 this.sizes.set(this.filteredProducts[i].productOptions[j].optionWithSizes[k].size.code,
                 {disabled:false,check: this.sizes.get(this.filteredProducts[i].productOptions[j].optionWithSizes[k].size.code).check});
-                console.log(this.filteredProducts[i].productOptions[j].optionWithSizes[k].size.code);
                 count = count - 1;
                 if(count === 0){
                   break loop;
@@ -421,10 +344,8 @@ export class ShopComponent implements OnInit {
     if(this.filterStyles.size > 0 && this.filterColors.size > 0 && scanned === false){
       this.scanStyles(true);
     }
-    console.log("SCAN COLORS END");
   }
   scanSizes(){
-    console.log("SCAN SIZES");
     if(this.filterSizes.size > 0){
       if(this.filterColors.size === 0){
         this.disabledFilterables(this.styles);
@@ -453,10 +374,6 @@ export class ShopComponent implements OnInit {
         for(let i = 0; i < length2 ; i++){
           this.styles.set(scannedProducts[i].name,{disabled:false,check: this.styles.get(scannedProducts[i].name).check});
           let length3 = scannedProducts[i].productOptions.length;
-          // for(let j = 0; j < length3; j++){
-          //   let keyColor = scannedProducts[i].productOptions[j].groupColor; 
-          //   this.groupColors.set(keyColor,{disabled:false,check:this.groupColors.get(keyColor).check});
-          // }
         }
       }
       
@@ -589,11 +506,12 @@ export class ShopComponent implements OnInit {
     return null;
   }
   initProductInformation(res:HttpResponse<Object>){
-    this.filteredProducts = JSON.parse(JSON.stringify(res.body));
+    // this.filteredProducts = JSON.parse(JSON.stringify(res.body));
     this.products = JSON.parse(JSON.stringify(res.body));
     this.rawJsonProducts = JSON.stringify(res.body);
+    this.resetFilteredProducts();
+    
     this.collections = globals.collections+this.gender+"/"+this.replaceLineBreaks(this.subCategoryName)+"/";
-    this.introTemplate = this.dataService.getSubcategoryByGender(this.gender, this.subCategoryName);
     this.initStyle(this.products);
     this.initColor(this.products);
     this.initSize(this.products);
@@ -604,24 +522,17 @@ export class ShopComponent implements OnInit {
     .subscribe(res =>{
       this.setTitle(gender, subCategoryName);
       this.initProductInformation(res);
-      this.load = true;
-    },err=>{
       this.load = false;
+      this.changeRef.detectChanges();
+    },err=>{
       this.statusService.statusHandler(err.status);
+      this.changeRef.detectChanges();
     })
   }
   productCount(products:Product[]){
     this.numberOfProduct = 0;
     products.forEach((product:Product)=>{
       this.numberOfProduct = this.numberOfProduct + product.productOptions.length;
-    });
-  }
-  triggerHeaderComponent(status:string){
-    this.dataService.changeMessage("knock");
-    this.headerSubscription = this.dataService.headerMessageSubcriber.subscribe(message =>{
-      if(message === "ready"){
-        this.dataService.changeMessage(status);
-      }
     });
   }
   addCart(id:number){
@@ -637,15 +548,5 @@ export class ShopComponent implements OnInit {
       this.dataService.changeMessage("update carts");
       this.dataService.changeMessage("cart loading");
     })
-  }
-  ngAfterViewInit(){
-    this.triggerHeaderComponent("off");
-    
-  }
-  ngAfterViewChecked(){
-    this.changeRef.detectChanges();
-  }
-  ngOnDestroy(){
-    this.headerSubscription.unsubscribe();
   }
 }

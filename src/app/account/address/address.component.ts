@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormGroup, FormBuilder} from '@angular/forms';
-import { AddressService } from '../service/address.service';
-import { Address } from '../class/address';
+import { AddressService } from '../../service/address.service';
+import { Address } from '../../class/address';
 @Component({
   selector: 'app-address',
   templateUrl: './address.component.html',
   styleUrls: ['./address.component.css']
 })
 export class AddressComponent implements OnInit {
-  private loading: boolean = false;
-  private selectedAddress: Address = null;
-  private addresses: Address[] = [];
-  private addressForm: FormGroup
-  private submitted: boolean = false;
+  loading: boolean = false;
+  selectedAddress: Address = null;
+  addresses: Address[] = [];
+  addressForm: FormGroup
+  submitted: boolean = false;
   constructor(private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private addressService: AddressService) {
@@ -23,7 +23,9 @@ export class AddressComponent implements OnInit {
       phone:''
     });
   }
-
+  logOut(){
+    
+  }
   get f(){return this.addressForm.controls;}
   open(content){
     this.modalService.open(content);

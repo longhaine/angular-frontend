@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Breadcrumb } from '../interface/breadcrumb';
 
 @Component({
   selector: 'app-breadcrumb',
@@ -7,13 +8,9 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class BreadcrumbComponent implements OnInit {
 
-  @Input() breadCrumbInformation:{gender:string, subCategoryName:string};
-  private gender:string;
-  private subCategoryName:string;
+  @Input() breadcrumbs:Breadcrumb[];
   constructor() { }
 
   ngOnInit() {
-    this.gender = this.breadCrumbInformation.gender;
-    this.subCategoryName = this.breadCrumbInformation.subCategoryName.replace(/\-/g,' ');
   }
 }

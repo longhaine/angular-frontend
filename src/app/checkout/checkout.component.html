@@ -10,7 +10,7 @@
                             </p>
                         </ng-template>
                         <ng-template [ngIf]="carts.length > 0">
-                            <ng-container *ngFor="let cart of carts">
+                            <ng-container *ngFor="let cart of carts; trackBy:trackByItem">
                                 <div class="dropdown-divider mb-2"></div>
                                 <div class="row mb-2">
                                     <div class="col-md-4">

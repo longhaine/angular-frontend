@@ -13,16 +13,16 @@ import { HttpClientModule} from '@angular/common/http';
 import { ShopComponent } from './shop/shop.component';
 import { Handle404Component } from './handle404/handle404.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
-import { SpaceToLineBreakPipe } from './pipe/space-to-line-break.pipe';
+import { SpaceToLineBreakModule } from './pipe/space-to-line-break.module';
 import { ModalComponent } from './modal/modal.component';
 import {FormsModule,ReactiveFormsModule} from '@angular/forms'
 import {CookieService} from 'ngx-cookie-service';
-import { InfoComponent } from './info/info.component';
-import { OrderInfoComponent } from './order-info/order-info.component';
-import { AddressComponent } from './address/address.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { ProductComponent } from './product/product.component';
 import { ColorPipe } from './pipe/color.pipe';
+import { LineBreakToSpacePipe } from './pipe/line-break-to-space.pipe';
+import { CollectionComponent } from './collection/collection.component';
+import { Shop2Component } from './shop2/shop2.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,14 +34,13 @@ import { ColorPipe } from './pipe/color.pipe';
     ShopComponent,
     Handle404Component,
     BreadcrumbComponent,
-    SpaceToLineBreakPipe,
     ModalComponent,
-    InfoComponent,
-    OrderInfoComponent,
-    AddressComponent,
     CheckoutComponent,
     ProductComponent,
-    ColorPipe
+    ColorPipe,
+    LineBreakToSpacePipe,
+    CollectionComponent,
+    Shop2Component
   ],
   imports: [
     BrowserModule,
@@ -49,7 +48,8 @@ import { ColorPipe } from './pipe/color.pipe';
     NgbModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SpaceToLineBreakModule,
   ],
   providers: [HeaderComponent,CookieService],
   bootstrap: [AppComponent],

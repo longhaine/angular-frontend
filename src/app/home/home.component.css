@@ -99,6 +99,9 @@
 #carousel{
     transition: opacity 0.3s ease-in;
 }
+::ng-deep .carousel-indicators{
+    display: none;
+}
 ::ng-deep .carousel-control-prev{
     width: auto;
     display: inline;

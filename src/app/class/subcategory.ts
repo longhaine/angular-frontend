@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Category} from './category';
+import { Product } from './product';
 @Injectable({
     providedIn: 'root'
 })
@@ -8,7 +9,20 @@ export class Subcategory {
     private _name: String;
     private _gender: String;
     private _category: Category;
-    
+    private _products: Product[] = [];
+    private _minified: boolean;
+    public get minified(): boolean {
+        return this._minified;
+    }
+    public set minified(value: boolean) {
+        this._minified = value;
+    }
+    public get products(): Product[] {
+        return this._products;
+    }
+    public set products(value: Product[]) {
+        this._products = value;
+    }
     public get category(): Category {
         return this._category;
     }

@@ -5,7 +5,7 @@
             <img class="img-fluid mobile-home-image" src="{{img+'/home/m-home-shop.jpg'}}" alt="">
             <div class="right-intro col-md-6" style="top:45%">
                 <p class="home-image-text">The cord's back in stock</p>
-                <button class="btn btn-lg home-btn" [routerLink]="['/collections','women','pants']" ><a>Shop Now</a></button>
+                <button class="btn btn-lg home-btn" [routerLink]="['/collections','women','Pants']" ><a>Shop Now</a></button>
             </div>
         </div>
         
@@ -25,7 +25,7 @@
         </div>
         <div class="col-md-4 mb-2">
             <div class="click-able">
-                <a [routerLink]="['/collections','women','sweaters']" class="link"></a>
+                <a [routerLink]="['/collections','women','Sweaters']" class="link"></a>
                 <img class="img-fluid" src="{{img+'/home/choose-section2.jpg'}}" alt="">
                 <h4 class="mt-4">Sweaters: Choose Your Price.</h4>
                 <p>Our best-selling sweaters are selling fast.</p>
@@ -33,7 +33,7 @@
         </div>
         <div class="col-md-4 mb-2">
             <div class="click-able">
-                <a [routerLink]="['/collections','women','loafers']" class="link"></a>
+                <a [routerLink]="['/collections','women','Loafers']" class="link"></a>
                 <img class="img-fluid" src="{{img+'/home/choose-section3.jpg'}}" alt="">
                 <h4 class="mt-4">Farewell to Mordern Loafer</h4>
                 <p>Get yours before it's gone for good. Only $90</p>
@@ -48,7 +48,7 @@
                 
             </div>
             <div class="col-md-5 position-static" id="carousel">
-                <ngb-carousel *ngIf="carousels" [showNavigationArrows]="showNavigationArrows" [showNavigationIndicators]="showNavigationIndicators">
+                <ngb-carousel *ngIf="carousels">
                     <ng-template ngbSlide *ngFor="let carousel of carousels">
                         <div class="carousel-caption col-md-7 not-select-able">
                             <p class="mb-5"style="font-weight: bolder;">FROM THE PEOPLE-CUSTOMER REVIEWS</p>

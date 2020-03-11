@@ -15,11 +15,11 @@ export class HomeComponent implements OnInit {
               private title: Title,
               private dataService: DataService) {
 }
-  private headerSubscription:Subscription;
-  private img = globals.server+"/img";  
-  private showNavigationArrows = true;
-  private transition:boolean = false;
-  private screenWidth:number;
+  headerSubscription:Subscription;
+  img = globals.server+"/img";  
+  showNavigationArrows = true;
+  transition:boolean = false;
+  screenWidth:number;
   //carousel init
   cap1 = "\"Sleek, comfortable and I feel so powerful in them.\"";
   cap2 = "\"Really love the cut. Perfect length. Good amount of strecth.\"";
@@ -63,10 +63,6 @@ export class HomeComponent implements OnInit {
       this.transition = false;  
       }, 300);
   }
-  // @HostListener("window:resize", ["$event"])
-  // onWindowResize() {
-  //   this.screenWidth = window.innerWidth;
-  // }
   ngOnInit() {
     window.scrollTo(0,0);
     this.title.setTitle("Everlane | Mordern Basics");
