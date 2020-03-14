@@ -17,6 +17,7 @@ export class CollectionComponent implements OnInit {
   gender:string = "";
   navigateCheck = false;
   subCategoryName:string;
+  originSubCategoryName:string; // for side nav highlight
   breadcrumbs:Breadcrumb[] = [];
   subCategories:Subcategory[] = [];
   introTemplate:Intro;
@@ -33,7 +34,9 @@ export class CollectionComponent implements OnInit {
         this.resetBreadCrumb();
         this.initBreadCrumb(this.gender,this.subCategoryName);
         this.introTemplate = this.dataService.getSubcategoryByGender(this.gender, this.subCategoryName);
-        if(featured.has(this.subCategoryName.toLowerCase())){
+        this.originSubCategoryName = this.subCategoryName;
+        this.subCategoryName = this.subCategoryName.toLowerCase();
+        if(featured.has(this.subCategoryName)){
           this.template = "shop2";
         }
         else{

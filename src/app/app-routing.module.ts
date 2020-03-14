@@ -14,6 +14,7 @@ const routes: Routes = [
   {path:'products/:link',component:ProductComponent},
   {path:'checkout',component:CheckoutComponent},
   {path:'404', component:Handle404Component},
+  { path: 'reset', loadChildren: () => import('./reset/reset.module').then(m => m.ResetModule) },
   {path: '**', redirectTo: '/404'}
 ];
 

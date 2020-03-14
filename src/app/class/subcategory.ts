@@ -10,9 +10,16 @@ export class Subcategory {
     private _gender: String;
     private _category: Category;
     private _products: Product[] = [];
+    private _position: number;
     private _minified: boolean;
     public get minified(): boolean {
         return this._minified;
+    }
+    public get position(): number {
+        return this._position;
+    }
+    public set position(value: number) {
+        this._position = value;
     }
     public set minified(value: boolean) {
         this._minified = value;

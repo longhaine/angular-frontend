@@ -229,6 +229,11 @@ export class Shop2Component implements OnInit {
       filterable.set(key,{disabled:disabled, check: check});
     }
   }
+  clearFilterables(filterable:Map<String,Filterable>){
+    for(let key of filterable.keys()){
+      filterable.set(key,{disabled:false,check:false});
+    }
+  }
   uncheckCategory(){
     this.slides[this.slidePosition].filterable.set(this.categoryKey,{disabled:false,check:false});
   }
@@ -248,6 +253,11 @@ export class Shop2Component implements OnInit {
     this.checkCategory(0,this.categoryAll);
     this.slides3 = [];
     this.sizes.clear();
+  }
+  clearAll(){
+    this.filterColors.clear();
+    this.clearFilterables(this.groupColors);
+    this.toggleCategory(0,this.categoryAll);
   }
   toggleCategory(position:number,key:String){
     if(key === this.categoryAll && this.slides[0].filterable.get(this.categoryAll).check === false){
@@ -605,46 +615,55 @@ export class Shop2Component implements OnInit {
     }
     return false;
   }
-  minifyCategoryAll(){
-    this.filteredSubCategories = JSON.parse(this.rawJsonCategories);
+  minifyCategoryAll(jsonString:string){
+    this.filteredSubCategories = JSON.parse(jsonString);
     let length = this.filteredSubCategories.length;
     for(let i = 0 ; i < length; i++){
       let length2 = this.filteredSubCategories[i].products.length;
       let minified = false;
       let products = 0;
-      for(let j = 0; j < length2; j++){
-        products = products + this.filteredSubCategories[i].products[j].productOptions.length;
-      }
-      if(products < 6 && length2 > 1)
-      {
-        this.filteredSubCategories[i].products = this.filteredSubCategories[i].products.splice(0,2);
-        this.filteredSubCategories[i].products[0].productOptions = this.filteredSubCategories[i].products[0].productOptions.splice(0,1);
-        this.filteredSubCategories[i].products[1].productOptions = this.filteredSubCategories[i].products[1].productOptions.splice(0,1);
-        minified = true;
-      }
-      else if(products >=6 && length2 > 1)
-      {
-        this.filteredSubCategories[i].products = this.filteredSubCategories[i].products.splice(0,2);
-        this.filteredSubCategories[i].products[0].productOptions = this.filteredSubCategories[i].products[0].productOptions.splice(0,2);
-        this.filteredSubCategories[i].products[1].productOptions = this.filteredSubCategories[i].products[1].productOptions.splice(0,3);
-        minified = true;
-      }
-      else if(products > 3 && length2 === 1){
-        this.filteredSubCategories[i].products[0].productOptions = this.filteredSubCategories[i].products[0].productOptions.splice(0,2);
-        minified = true;
+      if(this.subCategoryName === "all"){
+        for(let j = 0; j < length2; j++){
+          products = products + this.filteredSubCategories[i].products[j].productOptions.length;
+        }
+        if(products < 6 && length2 > 1)
+        {
+          this.filteredSubCategories[i].products = this.filteredSubCategories[i].products.splice(0,2);
+          this.filteredSubCategories[i].products[0].productOptions = this.filteredSubCategories[i].products[0].productOptions.splice(0,1);
+          this.filteredSubCategories[i].products[1].productOptions = this.filteredSubCategories[i].products[1].productOptions.splice(0,1);
+          minified = true;
+        }
+        else if(products >=6 && length2 > 1)
+        {
+          this.filteredSubCategories[i].products = this.filteredSubCategories[i].products.splice(0,2);
+          this.filteredSubCategories[i].products[0].productOptions = this.filteredSubCategories[i].products[0].productOptions.splice(0,2);
+          this.filteredSubCategories[i].products[1].productOptions = this.filteredSubCategories[i].products[1].productOptions.splice(0,3);
+          minified = true;
+        }
+        else if(products > 3 && length2 === 1){
+          this.filteredSubCategories[i].products[0].productOptions = this.filteredSubCategories[i].products[0].productOptions.splice(0,2);
+          minified = true;
+        }
       }
       this.filteredSubCategories[i].minified = minified;
+      this.filteredSubCategories[i].position = i+1;
     }
     this.minifyJsonCategories = JSON.stringify(this.filteredSubCategories);
+    if(this.subCategoryName == "best-sellers"){ // init again
+      this.rawJsonCategories = this.minifyJsonCategories;
+    }
+    else{
+      this.rawJsonCategories = jsonString;
+    }
+    this.subCategories = JSON.parse(this.rawJsonCategories);
   }
   initProductInformation(res:HttpResponse<Object>){
-    this.subCategories = JSON.parse(JSON.stringify(res.body));
-    this.rawJsonCategories = JSON.stringify(res.body);
-    this.minifyCategoryAll();
     this.collections = globals.collections+this.gender+"/";
+    this.minifyCategoryAll(JSON.stringify(res.body));
+    this.productCount(this.subCategories);
     this.initCategory(this.subCategories);
     this.initColor(this.subCategories);
-    this.productCount(this.subCategories);
+    
   }
   productHandler(gender:string, subCategoryName:string){
     this.shopService.productByGenderAndSubCategory(gender,subCategoryName)

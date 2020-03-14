@@ -47,10 +47,10 @@
             <div class="side-menu">
                 <ul class="list-group">
                     <li class="list-group-item" [routerLink]="['/collections',gender,'all']">
-                        <a [ngClass]="{'--list-group-item-active': subCategoryName == 'All'}">{{gender}}'s all</a>
+                        <a [ngClass]="{'--list-group-item-active': subCategoryName == 'all'}">{{gender}}'s all</a>
                     </li>
                     <li class="list-group-item" [routerLink]="['/collections',gender,'']">
-                        <a [ngClass]="{'--list-group-item-active': subCategoryName == 'New-Arrivals'}">New Arrivals</a>
+                        <a [ngClass]="{'--list-group-item-active': subCategoryName == 'new-arrivals'}">New Arrivals</a>
                     </li>
                     <li class="list-group-item" [routerLink]="['/collections',gender,'']">
                         <a>Final Sale</a>
@@ -60,7 +60,7 @@
                 <ul class="list-group">
                     <ng-container *ngFor="let subCategory of subCategories">
                         <li class="list-group-item" [routerLink]="['/collections',gender,subCategory.name | spaceToLineBreak]">
-                            <a [ngClass]="{'--list-group-item-active': subCategoryName == (subCategory.name | spaceToLineBreak)}">{{subCategory.name}}</a>
+                            <a [ngClass]="{'--list-group-item-active': originSubCategoryName == (subCategory.name | spaceToLineBreak)}">{{subCategory.name}}</a>
                         </li>
                     </ng-container>
                 </ul>

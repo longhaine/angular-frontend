@@ -6,7 +6,7 @@ import { InfoComponent } from './info/info.component';
 import { OrderInfoComponent } from './order-info/order-info.component';
 
 const routes: Routes = [
-  { path: '', redirectTo:'/info',pathMatch: 'full' },
+  { path: '', redirectTo:'/account/info',pathMatch: 'full' },
   { path: 'info', component: InfoComponent },
   { path: 'orders', component: OrderInfoComponent },
   { path: 'shipping', component: AddressComponent }
