@@ -13,6 +13,9 @@
                 <div class="invalid-feedback">
                     Invalid Email
                 </div>
+                <div class="custom-invalid-feedback" [ngClass]="(notExist && submitted) ? 'd-block' : 'd-none' ">
+                    An account with this email doesn’t exist. Check your entry and try again.
+                </div>
                 <button type="submit" class="btn btn-submit btn-lg w-100 mb-2"
                 [attr.disabled]="(emailForm.value.email.length < 1) ? 'disabled': null">Send Reset Link</button>
             </form>
@@ -23,6 +26,28 @@
                 <p>We've sent an email to {{email}} with the link to reset your password. If you don't see the email, please check your spam folder.</p>
             </div>
             <button class="btn btn-submit btn-lg w-100 mb-2" [routerLink]="['/home']">Go Back Home</button>
+        </div>
+        <div class="col-md-4" *ngIf="content == 'setNewPassword'">
+            <div class="text-center mb-4">
+                <h3>Set a new Password.</h3>
+                <p>Enter your new password below.</p>
+            </div>
+            <form  [formGroup]="passForm" (ngSubmit)="setNewPassword(passForm.value)">
+                <p>New Password</p>
+                <div class="input-group mb-3">
+                    <input class="form-control" aria-label="password" aria-describedby="basic-addon2"
+                    id="password" formControlName="password" required
+                    [attr.type]="passwordHide ? 'password' : 'text'">
+                    <div class="input-group-append">
+                        <span class="input-group-text click-able" id="basic-addon2" (click)="passwordHide = !passwordHide">
+                            <i class="lar la-eye la-lg" [ngClass]="passwordHide ? 'd-block' : 'd-none'"></i>
+                            <i class="lar la-eye-slash la-lg" [ngClass]="!passwordHide ? 'd-block' : 'd-none'"></i>
+                        </span>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-submit btn-lg w-100 mb-2"
+                [attr.disabled]="(passForm.value.password.length < 1) ? 'disabled': null">Set New Password</button>
+            </form>
         </div>
     </div>
 </div>
