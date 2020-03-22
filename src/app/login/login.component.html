@@ -22,15 +22,6 @@
                     </div>
                     <button type="submit" class="btn btn-submit btn-lg w-100 mb-2">CONTINUE</button>
                 </form>
-                <p class="text-center mb-2">Or continue with</p>
-                <div class="row">
-                    <div class="col-md-6">
-                        <img class="img-fluid" src="assets/images/facebook-login.jpg" alt="">
-                    </div>
-                    <div class="col-md-6">
-                        <img class="img-fluid" src="assets/images/google-login.jpg" alt="">
-                    </div>
-                </div>   
             </ng-template>
             <ng-template [ngSwitchCase]="'login'">
                 <form  [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
@@ -45,7 +36,7 @@
                     </div>
                     <p>PASSWORD</p>
                     <input type="password" class="form-control mb-2" placeholder="Enter password" aria-label="password" aria-describedby="basic-addon1"
-                    id="password" formControlName="password"  pattern=".{3,}" required
+                    id="password" formControlName="password"  pattern=".{4,}" required
                     [ngClass]="{'is-invalid': submitted && fLogin.password.errors}">
                     <div class="invalid-feedback">
                         Password must be at least 4 characters long.

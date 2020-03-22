@@ -39,9 +39,11 @@ export class HeaderComponent implements OnInit {
     this.contentMenu = value;
   }
   reload(){
-    setTimeout(function(){
-      window.location.reload();
-    },1000);
+    window.location.reload();
+  }
+  scrollToAbout(){
+    let footer:Element = document.getElementById("footer");
+      footer.scrollIntoView({behavior:"smooth",block:"start"});
   }
   navigateToHome(){
     this.transparentTriggeringOn();

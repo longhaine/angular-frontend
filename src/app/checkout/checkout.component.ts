@@ -8,6 +8,7 @@ import { DataService } from '../service/data.service';
 import { FormBuilder, FormGroup} from '@angular/forms';
 import { AddressService } from '../service/address.service';
 import { OrderService } from '../service/order.service';
+import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
@@ -31,7 +32,8 @@ export class CheckoutComponent implements OnInit {
     private dataService: DataService,
     private formBuilder: FormBuilder,
     private addressService:AddressService,
-    private orderService: OrderService) {
+    private orderService: OrderService,
+    private title: Title) {
       this.addressForm = this.formBuilder.group({
         fullname:'',
         address:'',
@@ -170,6 +172,7 @@ export class CheckoutComponent implements OnInit {
     window.scrollTo(0,0);
     this.getCarts();
     this.hoveringBag(false);
+    this.title.setTitle("Checkout | Everlane");
   }
   hoveringBag(status: boolean){
     let bagButton = document.getElementsByClassName("bag-button").item(0);

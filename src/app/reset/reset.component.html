@@ -36,13 +36,17 @@
                 <p>New Password</p>
                 <div class="input-group mb-3">
                     <input class="form-control" aria-label="password" aria-describedby="basic-addon2"
-                    id="password" formControlName="password" required
-                    [attr.type]="passwordHide ? 'password' : 'text'">
+                    id="password" formControlName="password" pattern=".{4,}" required
+                    [attr.type]="passwordHide ? 'password' : 'text'"
+                    [ngClass]="{'is-invalid': submitted && fPass.password.errors}">
                     <div class="input-group-append">
                         <span class="input-group-text click-able" id="basic-addon2" (click)="passwordHide = !passwordHide">
                             <i class="lar la-eye la-lg" [ngClass]="passwordHide ? 'd-block' : 'd-none'"></i>
                             <i class="lar la-eye-slash la-lg" [ngClass]="!passwordHide ? 'd-block' : 'd-none'"></i>
                         </span>
+                    </div>
+                    <div class="invalid-feedback">
+                        Password must be at least 4 characters long.
                     </div>
                 </div>
                 <button type="submit" class="btn btn-submit btn-lg w-100 mb-2"

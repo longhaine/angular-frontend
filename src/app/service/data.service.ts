@@ -54,12 +54,11 @@ export class DataService {
   getTokenCookie(){
     return this.cookieService.get("token");
   }
-  setAuthorizationInfo(body:any, message:string){
+  setAuthorizationInfo(body:any){
     //set user for data service and send message to header component
     this.setEmailCookie(body.user.email);
     this.setFullNameCookie(body.user.fullName);
     this.setTokenCookie(body.token);
-    this.changeMessage(message);
     // when login and signup success
   }
   getSubcategoryByGender(gender:string, subCategoryName:string){

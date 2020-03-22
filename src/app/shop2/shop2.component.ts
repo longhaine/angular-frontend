@@ -76,6 +76,8 @@ export class Shop2Component implements OnInit {
     this.load = true;
     this.filterDropdown = false;
     this.numberOfProduct = 0;
+    this.slides = [];
+    this.slides3 = [];
     this.groupColors.clear();
     this.sizes.clear();
     this.filterSubCategory = "none";
@@ -92,6 +94,14 @@ export class Shop2Component implements OnInit {
   trackByFunction(index,item){
     if(!item) return null;
     return item.id;
+  }
+  turnOffNavigator(){
+    let show = true;
+    if(this.slides.length == 1){
+      show = false;
+    }
+    this.carousel.showNavigationArrows = show;
+    this.carousel.showNavigationIndicators = show;
   }
   initCategory(categoriesProduct:Subcategory[]){
     this.categoryAll = "All "+this.gender+"'s";
@@ -110,6 +120,7 @@ export class Shop2Component implements OnInit {
       }
       this.slides[j].filterable.set(this.subCategories[i].name,{disabled:false,check:false});
     }
+    this.turnOffNavigator(); // turn off if the slides only have 1 
   }
   initColor(categoriesProduct:Subcategory[]){
     let length = categoriesProduct.length;
@@ -649,7 +660,7 @@ export class Shop2Component implements OnInit {
       this.filteredSubCategories[i].position = i+1;
     }
     this.minifyJsonCategories = JSON.stringify(this.filteredSubCategories);
-    if(this.subCategoryName == "best-sellers"){ // init again
+    if(this.subCategoryName != "all"){
       this.rawJsonCategories = this.minifyJsonCategories;
     }
     else{

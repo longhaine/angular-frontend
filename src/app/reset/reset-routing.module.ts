@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ResetComponent } from './reset.component';
 
 const routes: Routes = [{path: '', component:ResetComponent, pathMatch: 'full'},
-{path: ':resetId', component: ResetComponent}
+{path: ':hashedPath', component: ResetComponent}
 ]
 @NgModule({
   imports: [

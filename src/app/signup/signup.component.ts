@@ -29,9 +29,8 @@ export class SignupComponent implements OnInit {
     this.submitted = true;
     if(!this.signUpForm.invalid){
       this.signUpService.signUp(value.email, value.password, value.fullname).subscribe(res =>{
-        let body = JSON.parse(JSON.stringify(res.body))
-        let message = "user signup";
-        this.dataService.setAuthorizationInfo(body,message);
+        let body = JSON.parse(JSON.stringify(res.body));
+        this.dataService.setAuthorizationInfo(body);
         this.activeModal.close('success');
       },error =>{
         if(error.status === 404){

@@ -57,8 +57,7 @@ export class LoginComponent implements OnInit {
     if(!this.loginForm.invalid){
       this.loginService.login(value.email,value.password).subscribe(res=>{
         let body = JSON.parse(JSON.stringify(res.body));
-        let message = "user login";
-        this.dataService.setAuthorizationInfo(body,message);
+        this.dataService.setAuthorizationInfo(body);
         this.activeModal.close('success'); // send to header component
       },error=>{
         if(error.status === 401){

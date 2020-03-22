@@ -1,13 +1,19 @@
 <div id="desktop-banner" (mouseover)="headerOnHover()" (mouseout)="headerOutHover()">
 <div class="d-flex justify-content-between header-banner dropdown">
     <div class="left-banner d-flex justify-content-start">
-        <div class="header-item underline-item mr-5" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (mouseover)="setContentMenu('women')">
+        <div class="header-item underline-item mr-5" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+        (mouseover)="setContentMenu('women')"
+        [routerLink]="['/collections','women','all']">
             Women
         </div>
-        <div class="header-item underline-item mr-5" (mouseover)="setContentMenu('men')">
+        <div class="header-item underline-item mr-5"
+        (mouseover)="setContentMenu('men')"
+        [routerLink]="['/collections','men','all']">
             Men
         </div>
-        <div class="header-item underline-item" (mouseover)="setContentMenu('about')">
+        <div class="header-item underline-item"
+        (mouseover)="setContentMenu('about')"
+        (click)="scrollToAbout()">
             About
         </div>
         <div class="dropdown-menu" aria-labelledby="dropdownMenu"

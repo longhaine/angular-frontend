@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators, FormGroup} from '@angular/forms';
+import { FormBuilder, FormGroup} from '@angular/forms';
 import { InfoService } from '../../service/info.service';
 import { DataService } from '../../service/data.service';
 import { CookieService } from 'ngx-cookie-service';
+import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-info',
   templateUrl: './info.component.html',
@@ -19,7 +20,8 @@ export class InfoComponent implements OnInit {
   constructor(private formBuilder:FormBuilder,
     private infoService: InfoService,
     private dataService: DataService,
-    private cookieService:CookieService) {
+    private cookieService:CookieService,
+    private title: Title) {
     this.form = this.formBuilder.group({
       fullName:'',
       email:'',
@@ -27,7 +29,8 @@ export class InfoComponent implements OnInit {
     })
   }
   logOut(){
-    
+    this.dataService.deleteAllCookies();
+    document.location.href="/";
   }
   get f(){return this.form.controls;}
   updateToken(email:string, fullName:string){
@@ -65,11 +68,12 @@ export class InfoComponent implements OnInit {
     }
   }
   ngOnInit() {
+    this.title.setTitle("Account | Everlane");
     if(this.cookieService.check("email")){
       this.email = this.dataService.getEmailCookie();
       this.fullName = this.dataService.getFullNameCookie();
     }
-    if(!this.email){
+    else{
       this.dataService.changeMessage("require login");// user hasn't login yet
     }
   }

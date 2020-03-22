@@ -1,5 +1,5 @@
 <div class="app-below-header">
-    <div class="container">
+    <div class="container" [ngClass]="verified ? 'd-block' : 'd-none'">
         <div class="row">
             <div class="col-md-2 side-list-container text-center justify-content-around">
                 <ul class="side-list">
@@ -12,36 +12,36 @@
             <div class="col-md-10">
                 <h2 style="font-weight: 500;">Orders Information</h2>
                 <h5 style="color: #a3a5a7;">Tracking. Details. If it has to do with your orders, it’s probably right here.</h5>
-                
-                <ng-template [ngIf]="orders.length > 0">
-                    <ul class="order-list mt-3">
-                        <li class="order-list__item mb-4" *ngFor="let order of orders">
-                            <p class="primary-info">{{order.date}}</p>
-                            <div class="dropdown-divider"></div>
-                            <div class="row justify-content-between">
-                                <div class="col-2">
-                                    <p>Order Number</p>
-                                    <p class="secondary-info">{{order.orderNumber}}</p>
-                                </div>
-                                <div class="col-3">
-                                    <p>Shipping Address</p>
-                                    <p class="secondary-info">{{order.address}}</p>
-                                </div>
-                                <div class="col-2">
-                                    <p>Order Total</p>
-                                    <p class="secondary-info">${{order.price}}</p>
-                                </div>
-                                <div class="col-2">
-                                    <p>Order Status</p>
-                                    <p class="secondary-info">{{order.status}}</p>
-                                </div>
-                                <div class="col-3">
-                                    <button (click)="openScrollableContent(longContent,order)"class="btn-order-details">View Order Details</button>
-                                </div>
+                <ul class="order-list mt-3">
+                    <li class="text-center pt-5 pb-5" style="background-color: #f7f7f8;"[ngClass]="( orders.length === 0 ) ? 'd-block' : 'd-none' ">
+                        You haven't placed any orders yet.
+                    </li>
+                    <li class="order-list__item mb-4" *ngFor="let order of orders">
+                        <p class="primary-info">{{order.date}}</p>
+                        <div class="dropdown-divider"></div>
+                        <div class="row justify-content-between">
+                            <div class="col-2">
+                                <p>Order Number</p>
+                                <p class="secondary-info">{{order.orderNumber}}</p>
                             </div>
-                        </li>
-                    </ul>       
-                </ng-template>
+                            <div class="col-3">
+                                <p>Shipping Address</p>
+                                <p class="secondary-info">{{order.address}}</p>
+                            </div>
+                            <div class="col-2">
+                                <p>Order Total</p>
+                                <p class="secondary-info">${{order.price}}</p>
+                            </div>
+                            <div class="col-2">
+                                <p>Order Status</p>
+                                <p class="secondary-info">{{order.status}}</p>
+                            </div>
+                            <div class="col-3">
+                                <button (click)="openScrollableContent(longContent,order)"class="btn-order-details">View Order Details</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>       
             </div>
         </div>
     </div>

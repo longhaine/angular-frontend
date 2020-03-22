@@ -134,7 +134,10 @@
         </div>
     </div>
 </div>
-<div class="pt-5 pb-5" [ngClass]="(numberOfProduct == 0 && load === false) ? 'd-block' : 'd-none'">
+<div *ngIf="subCategories.length == 0 && load == false">
+    There are no products, please visit later.
+</div>
+<div class="pt-5 pb-5" [ngClass]="(numberOfProduct == 0 && load === false && subCategories.length > 0 ) ? 'd-block' : 'd-none'">
     <p>Filters don't match any product, <span style="text-decoration: underline;cursor: pointer;">Clear All</span></p> 
 </div>
 <ng-template [ngIf]="subCategoryName == 'all'">

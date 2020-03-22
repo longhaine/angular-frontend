@@ -10,7 +10,7 @@ export class Handle404Component implements OnInit {
   constructor(private title: Title) { }
 
   ngOnInit() {
-    this.title.setTitle("Page Not Found | Elliana");
+    this.title.setTitle("Page Not Found | Everlane");
   }
 
 }

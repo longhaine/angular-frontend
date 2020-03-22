@@ -6,7 +6,7 @@ export const globals = {
     collections: "http://localhost:8080/api/img/collections/",
     origin: "http://localhost:4200"
 }
-export const featured:Set<string> = new Set(["best-sellers","new arrivals","all"]);
+export const featured:Set<string> = new Set(["back-in-stock","best-sellers","new-arrivals","all"]);
 export const introLine2:Map<string,Map<string,Intro>> = new Map([
     ['women',new Map([
         ['sweaters',{
@@ -164,13 +164,29 @@ export const introLine2:Map<string,Map<string,Intro>> = new Map([
             productPerColumn:"col-md-4"
         }],
         ['all',{
-            heading:["Flats","T-Shirts","Tops"],
+            heading:["Boots & Booties","Flats","T-Shirts","Tops"],
             headingPerColumn:3,
             title:null,
             content:null,
             color:null,
             position:null,
             productPerColumn:"col-md-4"
+        }],
+        ['new-arrivals',{
+            heading:null,
+            title:null,
+            content: "Proof that silk doesn't have to look stuffy.",
+            color: "white-text-intro",
+            position: 'left-intro',
+            productPerColumn:"col-md-4"
+        }],
+        ['back-in-stock',{
+            heading:null,
+            title:null,
+            content: "Because your butt should look good in cord too.",
+            color: "white-text-intro",
+            position: "right-intro",
+            productPerColumn: "col-md-4"
         }]
     ])]
 ])

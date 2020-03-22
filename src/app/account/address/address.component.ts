@@ -3,6 +3,8 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormGroup, FormBuilder} from '@angular/forms';
 import { AddressService } from '../../service/address.service';
 import { Address } from '../../class/address';
+import { DataService } from '../../service/data.service';
+import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-address',
   templateUrl: './address.component.html',
@@ -14,9 +16,12 @@ export class AddressComponent implements OnInit {
   addresses: Address[] = [];
   addressForm: FormGroup
   submitted: boolean = false;
+  verified:boolean = false;
   constructor(private modalService: NgbModal,
     private formBuilder: FormBuilder,
-    private addressService: AddressService) {
+    private addressService: AddressService,
+    private dataService: DataService,
+    private title: Title) {
     this.addressForm = this.formBuilder.group({
       fullname:'',
       address:'',
@@ -24,7 +29,8 @@ export class AddressComponent implements OnInit {
     });
   }
   logOut(){
-    
+    this.dataService.deleteAllCookies();
+    document.location.href="/";
   }
   get f(){return this.addressForm.controls;}
   open(content){
@@ -77,7 +83,14 @@ export class AddressComponent implements OnInit {
     });
   }
   ngOnInit() {
-    this.getAddresses();
+    this.title.setTitle("Shipping Info | Everlane");
+    if(this.dataService.checkCookieObject("email")){
+      this.verified = true;
+      this.getAddresses();
+    }
+    else{
+      this.dataService.changeMessage("require login");
+    }
   }
 
 }

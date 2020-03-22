@@ -10,6 +10,7 @@ import { ResetService } from '../service/reset.service';
   styleUrls: ['./reset.component.css']
 })
 export class ResetComponent implements OnInit {
+  hashedPath:string;
   emailForm:FormGroup;
   passForm:FormGroup;
   submitted:boolean = false;
@@ -33,12 +34,20 @@ export class ResetComponent implements OnInit {
       });
       this.route.paramMap.subscribe(params =>{
         this.title.setTitle("Reset Password | Everlane");
-        let resetId = params.get("resetId");
-        if(resetId === null){
+        this.hashedPath = params.get("hashedPath");
+        if(this.hashedPath === null){
           this.content = "sendResetLink";
         }
         else{
-          this.content = "setNewPassword";
+          this.resetService.checkResetLink(this.hashedPath).subscribe(res=>{
+            if(res.body === true){
+              this.content = "setNewPassword";
+            }
+            else{
+              router.navigate(['/home']);
+            }
+          })
+          
         }
       });
     }
@@ -47,6 +56,7 @@ export class ResetComponent implements OnInit {
     }
   }
   get fEmail(){return this.emailForm.controls;}
+  get fPass(){return this.passForm.controls;}
   sendResetLink(value:any){
     this.notExist = false;
     this.submitted = true;
@@ -66,7 +76,17 @@ export class ResetComponent implements OnInit {
     }
   }
   setNewPassword(value:any){
-
+    this.submitted = true;
+    if(this.passForm.valid){
+      this.resetService.resetPassword(this.hashedPath,value.password).subscribe(res=>{
+        let body = JSON.parse(JSON.stringify(res.body));
+        this.dataService.setAuthorizationInfo(body);
+        window.location.reload();
+      },error =>{
+        console.log(error)
+      });
+      this.router.navigate(['/home']);
+    }
   }
   ngOnInit() {
   }

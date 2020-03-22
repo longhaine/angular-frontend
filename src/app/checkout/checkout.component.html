@@ -221,6 +221,24 @@
                         <p>${{order.price}}</p>
                     </div>
                 </div>
+                <ul class="d-flex flex-row flex-wrap col-8 mt-3" style="padding-inline-start: 0; list-style-type: none;">
+                    <ng-container *ngFor="let detail of order.orderDetails">
+                        <li class="container mb-2">
+                            <div class="row p-0">
+                                <div class="col-3">
+                                    <img class="img-fluid" src="{{collections + detail.optionWithSize.productOption.product.gender +'/'+ (detail.optionWithSize.productOption.product.subCategory.name | spaceToLineBreak) +'/'+ detail.optionWithSize.productOption.image +'-' + detail.optionWithSize.productOption.numberOfImage +'.jpg'}}" alt="">
+                                </div>
+                                <div class="col-9">
+                                    <p>{{detail.optionWithSize.productOption.name}}</p>
+                                    <p>Color: {{detail.optionWithSize.productOption.color}}</p>
+                                    <p>Size: {{detail.optionWithSize.size.name}}</p>
+                                    <p>Qty: {{detail.quantity}}</p>
+                                    <p>Price: {{detail.price}}</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ng-container>
+                </ul>
             </ng-template>
         </ng-template>
     </div>
