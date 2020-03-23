@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, Validators, FormGroup} from '@angular/forms';
 import { Title }  from '@angular/platform-browser';
 import { DataService } from '../service/data.service';
 import { ResetService } from '../service/reset.service';
+import { CartService } from '../service/cart.service';
 @Component({
   selector: 'app-reset',
   templateUrl: './reset.component.html',
@@ -24,7 +25,8 @@ export class ResetComponent implements OnInit {
   private title:Title,
   private dataService:DataService,
   private formBuilder:FormBuilder,
-  private resetService:ResetService) {
+  private resetService:ResetService,
+  private cartService:CartService) {
     if(this.dataService.getEmailCookie().length === 0){
       this.emailForm = this.formBuilder.group({
         email:''
@@ -81,9 +83,10 @@ export class ResetComponent implements OnInit {
       this.resetService.resetPassword(this.hashedPath,value.password).subscribe(res=>{
         let body = JSON.parse(JSON.stringify(res.body));
         this.dataService.setAuthorizationInfo(body);
-        window.location.reload();
+        this.cartService.merge().subscribe(res =>{
+          window.location.reload();
+        });
       },error =>{
-        console.log(error)
       });
       this.router.navigate(['/home']);
     }

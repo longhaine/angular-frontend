@@ -69,9 +69,6 @@ export class HeaderComponent implements OnInit {
           this.reload()
         });
       }
-      else{
-        this.reload();
-      }
     },reason=>{
       if(this.requireLogin){
         this.requireLogin = false; // set to default variable

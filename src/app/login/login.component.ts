@@ -2,7 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter, SystemJsNgModuleLoader 
 import { FormBuilder, FormControl, Validators, FormGroup} from '@angular/forms';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {LoginService} from '../service/login.service';
-import { DataService } from '../service/data.service'; 
+import { DataService } from '../service/data.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -21,7 +22,8 @@ export class LoginComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
     private loginService:LoginService,
-    private dataService:DataService){ 
+    private dataService:DataService,
+    private router:Router){ 
     this.emailForm = this.formBuilder.group({
     email:''
     });
@@ -68,6 +70,13 @@ export class LoginComponent implements OnInit {
     else{
       return false;
     }
+  }
+  transferToSignUp(){
+    this.component.emit("signup");
+  }
+  navigateToReset(){
+    this.activeModal.close('navigating');
+    this.router.navigate(['/reset']);
   }
   ngOnInit() {
     this.dataService.deleteAllCookies();
