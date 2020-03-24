@@ -64,11 +64,17 @@ export class HeaderComponent implements OnInit {
     modalRef.componentInstance.component = component;
     modalRef.result.then(res=>{
       // if guest has carts then merge the guest carts into user carts when user logins succesfully
-      if(res === "success" && this.numberOfCarts > 0){
-        this.cartService.merge().subscribe(res=>{
-          this.reload()
-        });
+      if(res === "success"){
+        if(this.numberOfCarts > 0){
+          this.cartService.merge().subscribe(res=>{
+            this.reload();
+          });
+        }
+        else{
+          this.reload();
+        }
       }
+
     },reason=>{
       if(this.requireLogin){
         this.requireLogin = false; // set to default variable
