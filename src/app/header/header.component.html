@@ -198,12 +198,58 @@
                             </div>
                         </div>
                     </ng-template>
+                    <ng-template [ngSwitchCase]="'about'">
+                        <div class="sub-category-menu d-flex flex-column col-12">
+                            <div class="menu-item mb-5">
+                                <div class="menu-header-item">
+                                    Stores
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <div class="menu-sub-item">
+                                    <a>Valencia Street</a>
+                                </div>
+                                <div class="menu-sub-item">
+                                    <a>Stanford Shopping Center</a>
+                                </div>
+                                <div class="menu-sub-item">
+                                    <a>Abbot Kinney</a>
+                                </div>
+                                <div class="menu-sub-item">
+                                    <a>Prince Street</a>
+                                </div>
+                                <div class="menu-sub-item">
+                                    <a>Williamsburg</a>
+                                </div>
+                            </div>
+                            <div class="menu-item mb-5">
+                                <div class="menu-header-item">
+                                    Connect
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <div class="menu-sub-item">
+                                    <a>Instagram</a>
+
+                                </div>
+                                <div class="menu-sub-item">
+                                    <a>Twitter</a>
+                                </div>
+                                <div class="menu-sub-item">
+                                    <a>Affiliates</a>
+                                </div>
+                                <div class="menu-sub-item">
+                                    <a>Bulk Orders</a>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
                 </ng-container>
 
                 <div class="user-menu d-flex flex-column col-12">
                     <div class="menu-item">
-                        <div class="menu-header-item underline-item" (click)="openModal('login')">Login</div>
-                        <div class="menu-header-item underline-item" (click)="openModal('signup')">Sign Up</div>
+                        <div class="menu-header-item click-able mb-2" (click)="interactMobileMenu(false)" [routerLink]="['/account/orders']" style="font-size: 1.2rem;">Orders Info</div>
+                        <div *ngIf="!userName" class="menu-header-item click-able mb-2" (click)="openModal('login')" style="font-size: 1.2rem;">Login</div>
+                        <div *ngIf="!userName" class="menu-header-item click-able mb-2" (click)="openModal('signup')" style="font-size: 1.2rem;">Sign Up</div>  
+                        <div *ngIf="userName" class="menu-header-item click-able mb-2" (click)="logOut()" style="font-size: 1.2rem;">Log out</div>
                     </div>
                 </div>
             </div>
