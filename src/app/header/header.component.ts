@@ -222,6 +222,12 @@ export class HeaderComponent implements OnInit {
       if(message === "off"){
         this.transparentTriggeringOff();
       }
+      if(message === "login"){
+        this.openModal("login");
+      }
+      if(message === "signup"){
+        this.openModal("signup");
+      }
       if(message === "require login"){
         this.requireLogin = true;
         this.openModal("login");

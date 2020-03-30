@@ -22,6 +22,13 @@ export class FooterComponent implements OnInit {
       parentTarget.children.item(1).classList.add("mobile-footer__sub-item--active");
     }
   }
+  openModal(component:string){
+    this.dataService.changeMessage(component);
+  }
+  logOut(){
+    this.dataService.deleteAllCookies();
+    window.location.reload();
+  }
   ngOnInit() {
     this.userName = this.dataService.getEmailCookie();
   }

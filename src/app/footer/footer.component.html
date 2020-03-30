@@ -58,10 +58,10 @@
                     <p class="click-able">-</p>
                 </li>
                 <li class="mobile-footer__sub-item mobile-footer__sub-item--active">
-                    <a href="javascript:void(0);">Login</a>
-                    <a href="javascript:void(0);">Sign up</a>
-                    <a href="javascript:void(0);">Orders & Returns</a>
-                    <a href="javascript:void(0);">Redeem a Gift card</a>
+                    <a *ngIf="!userName" href="javascript:void(0);" (click)="openModal('login')">Login</a>
+                    <a *ngIf="!userName" href="javascript:void(0);" (click)="openModal('signup')">Sign up</a>
+                    <a href="javascript:void(0);" [routerLink]="['/account/orders']">Orders Info</a>
+                    <a *ngIf="userName" href="javascript:void(0);" (click)="logOut()">Logout</a>
                 </li>
             </ul>
             <ul class="mobile-footer__list">
