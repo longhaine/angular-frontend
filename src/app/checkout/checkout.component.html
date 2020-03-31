@@ -13,10 +13,10 @@
                             <ng-container *ngFor="let cart of carts; trackBy:trackByItem">
                                 <div class="dropdown-divider mb-2"></div>
                                 <div class="row mb-2">
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 col-6">
                                         <img class="img-fluid" src="{{collections + cart.optionWithSize.productOption.product.gender +'/'+ (cart.optionWithSize.productOption.product.subCategory.name | spaceToLineBreak) +'/'+ cart.optionWithSize.productOption.image + '-first.jpg'}}" alt="">
                                     </div>
-                                    <div class="col-md-8 position-relative">
+                                    <div class="col-md-8 col-6 position-relative">
                                         <p class="mb-1 pr-2">{{cart.optionWithSize.productOption.name}}</p>
                                         <p class="secondary-info">Size: {{cart.optionWithSize.size.code}}</p>
                                         <p class="secondary-info">Color: {{cart.optionWithSize.productOption.color}}</p>
@@ -205,36 +205,29 @@
                 </p>
             </div>
             <ng-template [ngIf]="order">
-                <div class="d-flex flex-row col-8 p-0 mt-3 text-center">
-                    <div class="col-2 p-0">
-                        <h5>DATE</h5>
-                        <div class="dropdown-divider"></div>
-                        <p style="font-weight: bold;">{{order.date}}</p>
+                <div class="d-flex flex-column col-md-8 col-12 p-0 mt-3 text-center">
+                    <div class="d-flex flex-row flex-wrap justify-content-between">
+                        <h5 class="col-2">DATE</h5>
+                        <h5 class="col-4">SHIPPING ADDRESS</h5>
+                        <h5 class="col-3">ORDER & DETAILS</h5>
+                        <h5 class="col-3">TOTAL</h5>
                     </div>
-                    <div class="col-3 p-0">
-                        <h5>SHIPPING ADDRESS</h5>
-                        <div class="dropdown-divider"></div>
-                        <P>{{order.address}}</P>
-                    </div>
-                    <div class="col-5 p-0">
-                        <h5>ORDER & DETAILS</h5>
-                        <div class="dropdown-divider"></div>
-                        <p>Order number: {{order.orderNumber}}</p>
-                    </div>
-                    <div class="col-2 p-0">
-                        <h5>TOTAL</h5>
-                        <div class="dropdown-divider"></div>
-                        <p>${{order.price}}</p>
+                    <div class="dropdown-divider"></div>
+                    <div class="d-flex flex-row flex-wrap justify-content-between">
+                        <p class="col-2" style="font-weight: bold;">{{order.date}}</p>
+                        <p class="col-4">{{order.address}}</p>
+                        <p class="col-3">Order number: {{order.orderNumber}}</p>
+                        <p class="col-3">${{order.price}}</p>
                     </div>
                 </div>
-                <ul class="d-flex flex-row flex-wrap col-8 mt-3" style="padding-inline-start: 0; list-style-type: none;">
+                <ul class="d-flex flex-row flex-wrap col-md-8 mt-3" style="padding-inline-start: 0; list-style-type: none;">
                     <ng-container *ngFor="let detail of order.orderDetails">
                         <li class="container mb-2">
                             <div class="row p-0">
-                                <div class="col-3">
+                                <div class="col-md-3 col-6">
                                     <img class="img-fluid" src="{{collections + detail.optionWithSize.productOption.product.gender +'/'+ (detail.optionWithSize.productOption.product.subCategory.name | spaceToLineBreak) +'/'+ detail.optionWithSize.productOption.image +'-' + detail.optionWithSize.productOption.numberOfImage +'.jpg'}}" alt="">
                                 </div>
-                                <div class="col-9">
+                                <div class="col-md-9 col-6">
                                     <p>{{detail.optionWithSize.productOption.name}}</p>
                                     <p>Color: {{detail.optionWithSize.productOption.color}}</p>
                                     <p>Size: {{detail.optionWithSize.size.name}}</p>

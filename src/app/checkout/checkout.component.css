@@ -1,6 +1,6 @@
 .app-below-header{
-    padding-top: 100px;
-    padding-bottom: 100px;
+    padding-top: 50px;
+    padding-bottom: 50px;
 }
 .checkout-container{
     position: sticky;
@@ -41,4 +41,10 @@
 }
 #credit-radio:checked ~ .credit-form{
     display: block;
+}
+@media(min-width:768px){
+    .app-below-header{
+        padding-top: 100px;
+        padding-bottom: 100px;
+    }
 }

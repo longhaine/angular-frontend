@@ -8,6 +8,22 @@
         padding-right: 3rem;
     }
 }
+@Media(min-width:1px) and (max-width:767px){
+    .--mobile{
+        display: block;
+    }
+    .--desktop{
+        display: none;
+    }
+}
+@Media(min-width:768px){
+    .--mobile{
+        display: none;
+    }
+    .--desktop{
+        display: block;
+    }
+}
 .logo{
     color: #808284;
     fill: #808284;
