@@ -1,5 +1,10 @@
 .app-below-header{
-    padding-top: 100px;
+    padding-top: 50px;
+}
+@media(min-width:768px){
+    .app-below-header{
+        padding-top: 100px;
+    }
 }
 .side-list-container{
     background:#f7f7f8;
