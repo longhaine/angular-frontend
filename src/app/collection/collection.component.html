@@ -4,7 +4,7 @@
             <app-breadcrumb [breadcrumbs]="breadcrumbs"></app-breadcrumb>
         </div>
         <ng-template [ngIf]="introTemplate">
-            <div *ngIf="introTemplate.heading" class="col-md-12 mb-3 heading-image position-relative" style="margin-top: -1em;">
+            <div *ngIf="introTemplate.heading" class="col-md-12 mb-3 heading-image position-relative --desktop" style="margin-top: -1em;">
                 <div class="row" *ngIf="introTemplate.headingPerColumn === 1">
                     <div class="col-md-12">
                         <img class="img-fluid" src="{{img+'/intro/'+gender+'-'+ (subCategoryName | spaceToLineBreak) +'-intro.jpg'}}" alt="">

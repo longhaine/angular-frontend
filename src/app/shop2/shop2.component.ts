@@ -42,6 +42,7 @@ export class Shop2Component implements OnInit {
   collections:string; // used in html template
   filterDropdown:boolean = false; // used in html template
   subCategories: Subcategory[] = [];
+  originSubCategoryCount:number = 0;
   rawJsonCategories:string;
   minifyJsonCategories:string;
   numberOfProduct:number = 0;
@@ -56,6 +57,7 @@ export class Shop2Component implements OnInit {
   filterSubCategory:String = "none";
   filterColors:Set<String> = new Set<String>();
   filterSizes:Set<String> = new Set<String>();
+  filterCount:number = 0;
   categoryAll:String;
   slidePosition:number;
   categoryKey:String;
@@ -91,7 +93,7 @@ export class Shop2Component implements OnInit {
   trackByKey(index,item){
     return item.key;
   }
-  trackByFunction(index,item){
+  trackById(index,item){
     if(!item) return null;
     return item.id;
   }
@@ -201,10 +203,23 @@ export class Shop2Component implements OnInit {
     this.carousel3.showNavigationArrows = controller;
     this.carousel3.showNavigationIndicators = controller;
   }
+  countFilters(){
+    this.filterCount = this.filterColors.size + this.filterSizes.size;
+    if(this.filterSubCategory != "none"){
+      this.filterCount++;
+    }
+  }
   toggleFilterables(key:String,filterable:Map<String,Filterable>){
     let disabled = filterable.get(key).disabled;
     let check = filterable.get(key).check;
     filterable.set(key,{disabled:disabled,check: !check });
+  }
+  toggleFilter(){
+    this.filterDropdown = !this.filterDropdown;
+    if(window.innerWidth < 768 && this.filterDropdown == true){
+      let element: Element = document.getElementById("filter-dropdown-section");
+      element.scrollIntoView({block:"start"});
+    }
   }
   toggleFilters(key:String,filter:Set<String>){
     if(filter.has(key) == false)
@@ -269,6 +284,7 @@ export class Shop2Component implements OnInit {
     this.filterColors.clear();
     this.clearFilterables(this.groupColors);
     this.toggleCategory(0,this.categoryAll);
+    this.filterCount = 0;
   }
   toggleCategory(position:number,key:String){
     if(key === this.categoryAll && this.slides[0].filterable.get(this.categoryAll).check === false){
@@ -307,12 +323,14 @@ export class Shop2Component implements OnInit {
     else{
       this.filterCategory();
     }
-    if(key === this.categoryAll){
+    console.log(key);
+    if(this.filterSubCategory === "none"){
       this.productCount(this.subCategories);
     }
     else{
       this.productCount(this.filteredSubCategories);
     }
+    this.countFilters();
   }
   toggleColor(key:String){
     this.toggleFilterables(key,this.groupColors);
@@ -336,6 +354,7 @@ export class Shop2Component implements OnInit {
       }
     }
     this.productCount(this.filteredSubCategories);
+    this.countFilters();
   }
   removeSize(key:String){
     let position = 0;
@@ -366,6 +385,7 @@ export class Shop2Component implements OnInit {
       this.scanSizes();
     }
     this.productCount(this.filteredSubCategories);
+    this.countFilters();
   }
   disabledSildes(slides:Slide[]){
     slides.forEach(slide =>{
@@ -688,14 +708,17 @@ export class Shop2Component implements OnInit {
       this.statusService.statusHandler(err.status);
     });
   }
-  productCount(categoriesProduct:Subcategory[]){
+  productCount(subCategories:Subcategory[]){
     this.numberOfProduct = 0;
-    let length = categoriesProduct.length;
+    let length = subCategories.length;
     for(let i = 0 ; i < length; i++){
-      let length2 = categoriesProduct[i].products.length;
+      let length2 = subCategories[i].products.length;
       for(let j = 0; j < length2; j++){
-        this.numberOfProduct = this.numberOfProduct + categoriesProduct[i].products[j].productOptions.length;
+        this.numberOfProduct = this.numberOfProduct + subCategories[i].products[j].productOptions.length;
       }
+    }
+    if(this.originSubCategoryCount == 0){
+      this.originSubCategoryCount = this.numberOfProduct;
     }
   }
   disabledBtnColor(colorKey:String,colorDisabled:boolean){
@@ -706,6 +729,9 @@ export class Shop2Component implements OnInit {
       return "--disabled-color";
     }
     if(this.groupColors.get(colorKey).check === true){
+      if(window.innerWidth < 768){
+        return "filter-item-check";
+      }
       return "--select-item2";
     }
     return null;

@@ -33,7 +33,7 @@ export class ShopComponent implements OnInit {
   load = true;
   img = globals.server+"/img";
   collections:string; // used in html template
-  filterDropdown:boolean = false; // used in html template
+  filterDropdown:boolean = false;
   products: Product[] = [];
   rawJsonProducts:string;
   numberOfProduct:number = 0;
@@ -45,19 +45,20 @@ export class ShopComponent implements OnInit {
   filterStyles:Set<String> = new Set<String>();
   filterColors:Set<String> = new Set<String>();
   filterSizes:Set<String> = new Set<String>();
+  filterCount:number = 0;
   ngOnInit() {
   }
   ngOnChanges(changes:SimpleChanges){
     this.reset();
     this.productHandler(this.gender,this.subCategoryName);
   }
-  trackByS(index,item){
+  trackByIndex(index,item){
     return index;
   }
-  trackByM(index,item){
+  trackByKey(index,item){
     return item.key;
   }
-  trackByFn(index, item){
+  trackById(index, item){
     return item.id;
   }
   originalOrder(){
@@ -66,9 +67,15 @@ export class ShopComponent implements OnInit {
   setTitle(gender:string, subCategoryName: string){
     this.title.setTitle(this.titleService.shopComponentTitleHandler(gender,subCategoryName));
   }
-
   replaceLineBreaks(value:string){
     return value.replace(/\s/g,'-');
+  }
+  toggleFilter(){
+    this.filterDropdown = !this.filterDropdown;
+    if(window.innerWidth < 768 && this.filterDropdown == true){
+      let element: Element = document.getElementById("filter-dropdown-section");
+      element.scrollIntoView({block:"start"});
+    }
   }
   reset(){
     this.oneSize = false;
@@ -131,6 +138,9 @@ export class ShopComponent implements OnInit {
       filterable.set(key,{disabled:false,check:false});
     }
   }
+  countFilters(){
+    this.filterCount = this.filterStyles.size + this.filterColors.size + this.filterSizes.size;
+  }
   clearAll(){
     this.clearFilterables(this.styles);
     this.clearFilterables(this.groupColors);
@@ -140,6 +150,7 @@ export class ShopComponent implements OnInit {
     this.filterSizes.clear();
     this.resetFilteredProducts();
     this.productCount(this.filteredProducts);
+    this.filterCount = 0;
   }
   toggleFilterables(key:String,filterable:Map<String,Filterable>){
     let disabled = filterable.get(key).disabled;
@@ -158,6 +169,7 @@ export class ShopComponent implements OnInit {
     this.filterStyle();
     this.scanStyles(false);
     this.productCount(this.filteredProducts);
+    this.countFilters();
   }
   toggleColor(color:String){
     this.toggleFilterables(color,this.groupColors);
@@ -176,6 +188,7 @@ export class ShopComponent implements OnInit {
     }
     this.scanColors(false);
     this.productCount(this.filteredProducts);
+    this.countFilters();
   }
   toggleSize(size:String){
     this.toggleFilterables(size,this.sizes);
@@ -197,6 +210,7 @@ export class ShopComponent implements OnInit {
     }
     this.scanSizes();
     this.productCount(this.filteredProducts);
+    this.countFilters();
   }
   resetFilteredProducts(){
     this.filteredProducts = JSON.parse(this.rawJsonProducts);
@@ -501,6 +515,9 @@ export class ShopComponent implements OnInit {
       return "--disabled-color";
     }
     if(this.groupColors.get(colorKey).check === true){
+      if(window.innerWidth < 768){
+        return "filter-item-check";
+      }
       return "--select-item2";
     }
     return null;

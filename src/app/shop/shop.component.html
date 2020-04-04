@@ -1,25 +1,31 @@
 <div class="row">
     <ng-template [ngIf]="introTemplate">
-        <div *ngIf="!introTemplate?.heading" class="col-md-12 mb-3 position-relative">
+        <div *ngIf="!introTemplate?.heading" class="col-12 mb-3 position-relative --desktop">
             <img class="img-fluid"
                 src="{{img+'/intro/'+gender+'-'+ (subCategoryName | spaceToLineBreak) +'-intro.jpg'}}" alt="">
-            <div class="col-md-6 {{introTemplate.position}}">
+            <div class="col-6 {{introTemplate.position}} --desktop">
                 <p *ngIf="introTemplate.title" class="title-intro {{introTemplate.color}}">{{introTemplate.title}}</p>
                 <p class="content-intro {{introTemplate.color}}">{{introTemplate.content}}</p>
             </div>
         </div>
     </ng-template>
-    <div class="col-md-12 mb-3">
+    <div class="filter-section col-12 mb-3">
         <div class="row">
-            <div class="col-md-10">
-                <button *ngIf="introTemplate" type="button" class="filter-btn btn btn-lg float-left"
-                    (click)="filterDropdown = !filterDropdown">
-                    <span>Filter</span>
+            <div class="col-md-10 col-8 --p-0-mobile">
+                <button *ngIf="introTemplate" type="button" class="filter-btn btn btn-lg float-left text-nowrap"
+                    (click)="toggleFilter()">
+                    <span style="margin-right:10px">Filter</span>
+                    <span style="margin-left:-10px"[ngClass]="(filterCount > 0) ? 'd-none d-sm-inline-block d-md-none' : 'd-none'">({{filterCount}})</span>
                     <i *ngIf="!filterDropdown" class="las la-angle-down"></i>
                     <i *ngIf="filterDropdown" class="las la-angle-up"></i>
                 </button>
-                <ul class="d-flex flex-row flex-wrap" style="padding-inline-start: 0;list-style-type: none;">
-                    <ng-container *ngFor="let style of filterStyles; trackBy: trackByS">
+                <p class="click-able" [ngClass]="(filterCount > 0) ? 'd-inline --mobile' : 'd-none'"
+                style="padding: 5px 10px;"
+                (click)="clearAll()">
+                    Clear All
+                </p>
+                <ul class="d-flex flex-row flex-wrap --flex-desktop" style="padding-inline-start: 0;list-style-type: none;">
+                    <ng-container *ngFor="let style of filterStyles; trackBy: trackByIndex">
                         <li class="filter-item">
                             <span class="mr-1">{{style}}</span>
                             <button (click)="toggleStyle(style)" type="button" class="filter-item-close"
@@ -28,7 +34,7 @@
                             </button>
                         </li>
                     </ng-container>
-                    <ng-container *ngFor="let color of filterColors; trackBy: trackByS">
+                    <ng-container *ngFor="let color of filterColors; trackBy: trackByIndex">
                         <li class="filter-item">
                             <button class="filter-item-color --btn-color-lg {{color | color}}">
 
@@ -40,7 +46,7 @@
                             </button>
                         </li>
                     </ng-container>
-                    <ng-container *ngFor="let size of filterSizes; trackBy: trackByS">
+                    <ng-container *ngFor="let size of filterSizes; trackBy: trackByIndex">
                         <li class="filter-item">
                             <span class="mr-1">{{size}}</span>
                             <button (click)="toggleSize(size)" type="button" class="filter-item-close"
@@ -49,26 +55,26 @@
                             </button>
                         </li>
                     </ng-container>
-                    <ng-template [ngIf]="filterStyles.size > 0 || filterColors.size > 0 || filterSizes.size > 0">
+                    <ng-template [ngIf]="filterCount > 0">
                         <li class="filter-item --clear-all"><span (click)="clearAll()">Clear All</span></li>
                     </ng-template>
                 </ul>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-2 col-4 --p-0-mobile">
                 <span class="float-right">{{numberOfProduct}} Products</span>
             </div>
         </div>
-
     </div>
-    <div [ngClass]="filterDropdown ? 'd-block' : 'd-none'" class="filter-dropdown col-md-12">
-        <div class="row">
-            <div class="filter-dropdown-item col-md-4" *ngIf="introTemplate?.heading">
+    <div class="col-md-12">
+        <div id="filter-dropdown-section"></div>
+        <div class="row filter-dropdown" [ngClass]="filterDropdown ? 'filter-dropdown--open' : null">
+            <div class="filter-dropdown-item col-md-4 d-none d-lg-block" *ngIf="introTemplate?.heading">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Style</h5>
                         <ng-template [ngIf]="styles">
                             <ul class="d-flex flex-column" style="list-style-type: none; padding-inline-start: 0;">
-                                <ng-container *ngFor="let style of styles | keyvalue: originalOrder;trackBy :trackByM">
+                                <ng-container *ngFor="let style of styles | keyvalue: originalOrder; trackBy :trackByKey">
                                     <li class="mb-2" [ngClass]="style.value.disabled ? '--disabled-style' : '' ">
                                         <button class="btn-style" (click)="toggleStyle(style.key)"
                                             [ngClass]="style.value.check ? '--btn-style-check' : ''"
@@ -83,13 +89,13 @@
                     </div>
                 </div>
             </div>
-            <div class="filter-dropdown-item col-md-4">
+            <div class="filter-dropdown-item col-md-4 d-none d-lg-block">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Color</h5>
                         <ng-template [ngIf]="groupColors">
                             <ul class="color-list justify-content-start">
-                                <ng-container *ngFor="let color of groupColors | keyvalue;trackBy: trackByM">
+                                <ng-container *ngFor="let color of groupColors | keyvalue; trackBy: trackByKey">
                                     <li class="color-item --color-item-xl mr-1 ml-1 click-able mb-3"
                                         [ngClass]="disabledBtnColor(color.key,color.value.disabled)"
                                         (click)="toggleColor(color.key)">
@@ -103,12 +109,12 @@
                     </div>
                 </div>
             </div>
-            <div class="filter-dropdown-item col-md-4" *ngIf="oneSize === false">
+            <div class="filter-dropdown-item col-md-4 d-none d-lg-block" *ngIf="oneSize === false">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Size</h5>
                         <ul class="filter-size-list">
-                            <ng-container *ngFor="let size of sizes | keyvalue: originalOrder ; let i = index;trackBy:trackByM">
+                            <ng-container *ngFor="let size of sizes | keyvalue: originalOrder ; let i = index;trackBy:trackByKey">
                                 <ng-template [ngIf]="size.key !== 'SEPARATE'">
                                     <li class="mr-1 mb-2" [ngClass]="size.value.disabled ? '--disabled-size' : ''">
                                         <button class="filter-size-item" (click)="toggleSize(size.key)"
@@ -126,59 +132,114 @@
                                 </ng-template>
                             </ng-container>
                         </ul>
-
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-<ng-template [ngIf]="numberOfProduct == 0 && load === false">
-    <div>There are no products, please visit later</div>
-</ng-template>
-<div class="row mb-4 product-container" *ngFor="let product of filteredProducts; trackBy: trackByFn">
-    <div class="col-md-12 mb-5 pt-2" id="{{product.name}}"></div>
-    <div class="product-title col-md-12 mb-3">
-        <p>{{product.name}}</p>
-    </div>
-    <div class="{{introTemplate.productPerColumn}} col-sm-4 col-8 product-option mb-4"
-        *ngFor="let productOption of product.productOptions; trackBy: trackByFn">
-        <div class="product-image-container">
-            <a [routerLink]="['/products',productOption.link]" class="link"></a>
-            <img class="product-image img-fluid" src="{{collections + productOption.image+'-first.jpg'}}">
-            <img class="product-image-hover img-fluid" src="{{collections +productOption.image+'-second.jpg'}}"
-                alt="">
-            <div class="quick-add-container">
-                <div class="label-container">
-                    <p class="label-item">+ Quick Add</p>
-                </div>
-            </div>
-            <div class="size-container">
-                <div class="row justify-content-center pl-1 pr-1 text-center">
-                    <ng-container *ngFor="let optionWithSize of productOption.optionWithSizes">
-                        <ng-template [ngIf]="optionWithSize.quantity == 0">
-                            <div class="col-2 size-item --unavailable-size-item">
-                                <p class="size-item-text">{{optionWithSize.size.code}}</p>
-                            </div>
-                        </ng-template>
-                        <ng-template [ngIf]="optionWithSize.quantity > 0">
-                            <div class="col-2 size-item --available-size-item" (click)="addCart(optionWithSize.id)">
-                                <p class="size-item-text">{{optionWithSize.size.code}}</p>
-                            </div>
-                        </ng-template>
-                    </ng-container>
 
+            <div class="d-flex flex-column flex-nowrap text-nowrap overflow-x-auto  d-flex d-lg-none">
+                <div class="mb-3" *ngIf="introTemplate?.heading">
+                    <p class="mb-1">Style</p>
+                    <div class="d-flex flex-row flex-nowrap overflow-x-auto">
+                        <ng-container *ngFor="let style of styles | keyvalue: originalOrder; trackBy:trackByKey">
+                            <button class="filter-item-mobile mr-3"
+                            (click)="toggleStyle(style.key)"
+                            [ngClass]="style.value.check ? 'filter-item-check' : null"
+                            [attr.disabled]="style.value.disabled ? 'disabled' : null">
+                                <span [ngClass]="style.value.disabled ? '--disabled-style' : null">{{style.key}}</span>
+                            </button>
+                        </ng-container>
+
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <p class="mb-1">Color</p>
+                    <div class="d-flex flex-row flex-nowrap overflow-x-auto">
+                        <ng-container *ngFor="let color of groupColors | keyvalue: originalOrder; trackBy:trackByKey">
+                            <button class="filter-item-mobile mr-3"
+                            (click)="toggleColor(color.key)"
+                            [ngClass]="disabledBtnColor(color.key,color.value.disabled)"
+                            [attr.disabled]="color.value.disabled ? 'disabled' : null">
+                                <button class="filter-item-color btn-color-mobile --btn-color-lg {{color.key | color}} mr-3"></button>
+                                <span [ngClass]="color.value.disabled ? '--disabled-style' : null">{{color.key}}</span>
+                            </button>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="mb-1">
+                    <p class="mb-1">Size</p>
+                    <div class="d-flex flex-row flex-nowrap overflow-x-auto">
+                        <ng-container *ngFor="let size of sizes | keyvalue: originalOrder; trackBy:trackByKey">
+                            <div *ngIf="size.key != 'SEPARATE'" 
+                            class="mr-1"
+                            [ngClass]="size.value.disabled ? '--disabled-size' : ''">
+                                <button class="filter-size-item"
+                                    [ngClass]="size.value.check ? '--filter-size-item-check' : null"
+                                    [attr.disabled]="size.value.disabled ? 'disabled' : null"
+                                    (click)="toggleSize(size.key)">
+                                    <p class="size-item-text"
+                                        [ngClass]="size.value.disabled ? '--sold-out' : ''">{{size.key}}</p>
+                                </button>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="dropdown-divider"></div>
+            </div>
+        </div>
+    </div>
+    <ng-template [ngIf]="numberOfProduct == 0 && load === false && groupColors.size === 0">
+        <div class="col-12">There are no products, please visit later</div>
+    </ng-template>
+    <ng-template [ngIf]="numberOfProduct == 0 && load === false && groupColors.size > 0">
+        <div class="col-12"><p>Filters don't match any product, <span style="text-decoration: underline;cursor: pointer;"(click)="clearAll()">Clear All</span></p></div>
+    </ng-template>
+    <div class="mb-4 mt-3" style="width: 100%;" *ngFor="let product of filteredProducts; trackBy: trackById">
+        <div class="col-md-12 invisible" id="{{product.name}}"></div>
+        <div class="product-title col-md-12 mb-3 --p-0-mobile">
+            <p>{{product.name}}</p>
+        </div>
+        <div class="product-container">
+            <div class="{{introTemplate.productPerColumn}} col-sm-5 col-8 product-option mb-4"
+            *ngFor="let productOption of product.productOptions; trackBy: trackById">
+                <div class="product-image-container">
+                    <a [routerLink]="['/products',productOption.link]" class="link"></a>
+                    <img class="product-image img-fluid" src="{{collections + productOption.image+'-first.jpg'}}">
+                    <img class="product-image-hover img-fluid" src="{{collections +productOption.image+'-second.jpg'}}"
+                        alt="">
+                    <div class="quick-add-container">
+                        <div class="label-container">
+                            <p class="label-item">+ Quick Add</p>
+                        </div>
+                    </div>
+                    <div class="size-container">
+                        <div class="row justify-content-center pl-1 pr-1 text-center">
+                            <ng-container *ngFor="let optionWithSize of productOption.optionWithSizes">
+                                <ng-template [ngIf]="optionWithSize.quantity == 0">
+                                    <div class="col-2 size-item --unavailable-size-item">
+                                        <p class="size-item-text">{{optionWithSize.size.code}}</p>
+                                    </div>
+                                </ng-template>
+                                <ng-template [ngIf]="optionWithSize.quantity > 0">
+                                    <div class="col-2 size-item --available-size-item" (click)="addCart(optionWithSize.id)">
+                                        <p class="size-item-text">{{optionWithSize.size.code}}</p>
+                                    </div>
+                                </ng-template>
+                            </ng-container>
+    
+                        </div>
+                    </div>
+                </div>
+                <div class="product-description click-able">
+                    <div class="d-flex justify-content-between">
+                        <p class="product-name">{{productOption.name}}</p>
+                        <p class="product-price">${{productOption.price}}</p>
+                    </div>
+                    <p class="product-option-name text-secondary" style="display:block;">{{productOption.color}}</p>
+                    <p class="product-option-quantity" style="display:block;">{{product.productOptions.length}} colors
+                        available</p>
                 </div>
             </div>
         </div>
-        <div class="product-description click-able">
-            <div class="d-flex justify-content-between">
-                <p class="product-name">{{productOption.name}}</p>
-                <p class="product-price">${{productOption.price}}</p>
-            </div>
-            <p class="product-option-name text-secondary" style="display:block;">{{productOption.color}}</p>
-            <p class="product-option-quantity" style="display:block;">{{product.productOptions.length}} colors
-                available</p>
-        </div>
     </div>
 </div>
+

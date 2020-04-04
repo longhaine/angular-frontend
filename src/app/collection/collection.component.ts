@@ -77,7 +77,7 @@ export class CollectionComponent implements OnInit {
   scrollToElement(idName:string){
     let element:Element = document.getElementById(idName);
     if(element !== null){
-      element.scrollIntoView({behavior:"smooth",block:"start"});
+      element.scrollIntoView({behavior:"smooth",block:"start",inline:"start"});
     }
   }
   ngOnInit() {
