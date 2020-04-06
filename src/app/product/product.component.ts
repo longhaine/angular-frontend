@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener} from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList} from '@angular/core';
 import { DomSanitizer} from '@angular/platform-browser';
 import { Location } from '@angular/common';
 import { globals } from '../environtments';
@@ -11,6 +11,7 @@ import { CartService } from '../service/cart.service';
 import { DataService } from '../service/data.service';
 import { Cart } from '../class/cart';
 import { Breadcrumb } from '../interface/breadcrumb';
+import { Subscription } from 'rxjs/internal/Subscription';
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -34,6 +35,10 @@ export class ProductComponent implements OnInit {
   disabledBtn: boolean = false;
   btnStatus: string = "ADD TO BAG";
   SELECTASIZEPLEASE: boolean = false;
+  @ViewChildren('carouselItem') carouselItems:QueryList<any>;
+  carouselObserver: Subscription
+  observer:IntersectionObserver;
+  carouselItemActive:number = 0;
   constructor(private route: ActivatedRoute,
     private router: Router,
     private productService: ProductService,
@@ -46,18 +51,31 @@ export class ProductComponent implements OnInit {
     window.scrollTo(0,0);
     this.routeHandler();
   }
-  // @HostListener("window:scroll", ["$event"])
-  // onWindowScroll() {
-  //   let length = this.images.length;
-  //   if(length > 0){
-  //     for(let i = 0; i < length ; i++){
-  //       let bounding = document.getElementById(i.toString()).getBoundingClientRect();
-  //       if (bounding.top >= 0 && bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight)) {
-  //         document.getElementById("side_"+i).classList.add("--item-link-active");
-  //       }
-  //     }
-  //   }
-  // }
+  ngAfterViewInit(){
+    this.observer = new IntersectionObserver(entries =>{
+      entries.forEach(entry=>{
+        if(entry.intersectionRatio > 0.1 && (this.carouselItems.length == this.images.length)){
+          this.carouselItemActive = parseInt(entry.target.id);
+        }
+      });
+    },{root:null,threshold:0.1});
+    this.carouselObserver = this.carouselItems.changes.subscribe(()=>{
+      if(this.carouselItems.length == this.images.length){
+        this.carouselItems.forEach((item) =>{
+          this.observer.observe(item.nativeElement);
+        });
+      }
+    });
+  }
+  ngOnDestroy(){
+    this.carouselItems.forEach(item=>{
+      this.observer.unobserve(item.nativeElement);
+    })
+    this.carouselObserver.unsubscribe();
+  }
+  trackByIndex(index,item){
+    return index;
+  }
   initBreadCrumb(selected:ProductOption){
     this.breadcrumbs = [];
     let gender = this.product.gender.toString();
@@ -78,10 +96,13 @@ export class ProductComponent implements OnInit {
     }
   }
   scrollToElement(idName:string){
-    let element:Element = document.getElementById(idName);
+    let element:Element = document.getElementById("main"+idName);
     element.scrollIntoView({behavior:"smooth",block:"start"});
   }
-
+  scrollToFirstMobileImage(){
+    let element:Element = document.getElementById('0');
+    element.scrollIntoView();
+  }
   // RESET THE HEIGHT TWO IMAGE CONTAINERS WHEN HOVER COLOR
   resetHeightOfImageContainers(target:Element){
     if(this.colorHovering == true){

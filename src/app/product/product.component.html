@@ -1,11 +1,27 @@
-<div class="container app-below-header pb-1">
+<div class="container app-below-header">
     <div class="row">
         <div class="col-md-12">
             <app-breadcrumb [breadcrumbs]="breadcrumbs"></app-breadcrumb>
         </div>
     </div>
+</div>
+<div class="cus-carousel d-block d-md-none mb-2">
+    <div class="cus-carousel-slides">
+        <ng-container *ngFor="let image of images; let i = index; trackBy:trackByIndex">
+            <img #carouselItem class="cus-carousel__item img-fluid" id="{{i}}" src="{{image}}">
+        </ng-container>
+    </div>
+    <ul class="cus-carousel-indicators">
+        <ng-container *ngFor="let image of images; let i = index; trackBy:trackByIndex">
+            <li class="cus-carousel-indicators__item"
+            [ngClass]="(carouselItemActive == i) ? 'cus-carousel-indicators__item--active' : null"></li>
+        </ng-container>
+        
+    </ul>
+</div>
+<div class="container">
     <div class="row">
-        <div class="col-1 postion-relative">
+        <div class="col-1 postion-relative d-none d-md-block">
             <div class="d-flex flex-column side-image-container" #sideImg [attr.style]="resetHeightOfImageContainers(sideImg)">
                 <ng-container *ngFor="let image of images; let i = index">
                     <div class="mb-3 position-relative"
@@ -34,10 +50,10 @@
                 </ng-template>
             </div>
         </div>
-        <div class="col-7 main-image-container" #mainImg [attr.style]="resetHeightOfImageContainers(mainImg)">
+        <div class="col-7 main-image-container d-none d-md-block" #mainImg [attr.style]="resetHeightOfImageContainers(mainImg)">
             <ng-container *ngFor="let image of images; let i = index;">
                 <div class="mb-3" [ngClass]="colorHovering ? 'invisible' : 'visible'">
-                    <img class="img-fluid" src="{{image}}" id="{{i}}">
+                    <img class="img-fluid" src="{{image}}" id="main{{i}}">
                 </div>
             </ng-container>
             <ng-template [ngIf]="unselecteds.length > 0 ">
@@ -56,7 +72,7 @@
                 </div>
             </ng-template>
         </div>
-        <div class="col-4 mb-3">
+        <div class="col-md-4 mb-3">
             <ng-template [ngIf]="product">
                 <div class="product-description-container">
                     <h4 class="font-weight-lighter">{{selected.name}} — ${{selected.price}}</h4>
