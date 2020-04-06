@@ -5,7 +5,7 @@
         </div>
     </div>
 </div>
-<div class="cus-carousel d-block d-md-none mb-2">
+<div class="cus-carousel d-block d-md-none mb-2" id="cus-carousel">
     <div class="cus-carousel-slides">
         <ng-container *ngFor="let image of images; let i = index; trackBy:trackByIndex">
             <img #carouselItem class="cus-carousel__item img-fluid" id="{{i}}" src="{{image}}">

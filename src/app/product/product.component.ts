@@ -39,6 +39,7 @@ export class ProductComponent implements OnInit {
   carouselObserver: Subscription
   observer:IntersectionObserver;
   carouselItemActive:number = 0;
+  doneObserver:boolean = false;
   constructor(private route: ActivatedRoute,
     private router: Router,
     private productService: ProductService,
@@ -53,24 +54,25 @@ export class ProductComponent implements OnInit {
   }
   ngAfterViewInit(){
     this.observer = new IntersectionObserver(entries =>{
+      console.log(entries);
       entries.forEach(entry=>{
-        if(entry.intersectionRatio > 0.1 && (this.carouselItems.length == this.images.length)){
+        if(entry.isIntersecting == true && this.doneObserver == true){
           this.carouselItemActive = parseInt(entry.target.id);
+          console.log(this.carouselItemActive);
         }
       });
-    },{root:null,threshold:0.1});
+    },{root:document.getElementById("cus-carousel"),threshold:0.25});
     this.carouselObserver = this.carouselItems.changes.subscribe(()=>{
       if(this.carouselItems.length == this.images.length){
         this.carouselItems.forEach((item) =>{
           this.observer.observe(item.nativeElement);
         });
+        setTimeout(()=>{this.doneObserver = true},500);
       }
     });
   }
   ngOnDestroy(){
-    this.carouselItems.forEach(item=>{
-      this.observer.unobserve(item.nativeElement);
-    })
+    this.observer.disconnect();
     this.carouselObserver.unsubscribe();
   }
   trackByIndex(index,item){
