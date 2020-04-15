@@ -23,6 +23,7 @@ import { ColorPipe } from './pipe/color.pipe';
 import { LineBreakToSpacePipe } from './pipe/line-break-to-space.pipe';
 import { CollectionComponent } from './collection/collection.component';
 import { Shop2Component } from './shop2/shop2.component';
+import { FrCarouselModule } from 'fr-carousel';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,6 +51,7 @@ import { Shop2Component } from './shop2/shop2.component';
     FormsModule,
     ReactiveFormsModule,
     SpaceToLineBreakModule,
+    FrCarouselModule
   ],
   providers: [HeaderComponent,CookieService],
   bootstrap: [AppComponent],

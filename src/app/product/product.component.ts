@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChildren, QueryList} from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { DomSanitizer} from '@angular/platform-browser';
 import { Location } from '@angular/common';
 import { globals } from '../environtments';
@@ -11,7 +11,7 @@ import { CartService } from '../service/cart.service';
 import { DataService } from '../service/data.service';
 import { Cart } from '../class/cart';
 import { Breadcrumb } from '../interface/breadcrumb';
-import { Subscription } from 'rxjs/internal/Subscription';
+import { FrCarousel } from 'fr-carousel';
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -35,11 +35,7 @@ export class ProductComponent implements OnInit {
   disabledBtn: boolean = false;
   btnStatus: string = "ADD TO BAG";
   SELECTASIZEPLEASE: boolean = false;
-  @ViewChildren('carouselItem') carouselItems:QueryList<any>;
-  carouselObserver: Subscription
-  observer:IntersectionObserver;
-  carouselItemActive:number = 0;
-  doneObserver:boolean = false;
+  @ViewChild("carousel",{static:true}) frCarousel:FrCarousel;
   constructor(private route: ActivatedRoute,
     private router: Router,
     private productService: ProductService,
@@ -53,27 +49,7 @@ export class ProductComponent implements OnInit {
     this.routeHandler();
   }
   ngAfterViewInit(){
-    this.observer = new IntersectionObserver(entries =>{
-      console.log(entries);
-      entries.forEach(entry=>{
-        if(entry.isIntersecting == true && this.doneObserver == true){
-          this.carouselItemActive = parseInt(entry.target.id);
-          console.log(this.carouselItemActive);
-        }
-      });
-    },{root:document.getElementById("cus-carousel"),threshold:0.25});
-    this.carouselObserver = this.carouselItems.changes.subscribe(()=>{
-      if(this.carouselItems.length == this.images.length){
-        this.carouselItems.forEach((item) =>{
-          this.observer.observe(item.nativeElement);
-        });
-        setTimeout(()=>{this.doneObserver = true},500);
-      }
-    });
-  }
-  ngOnDestroy(){
-    this.observer.disconnect();
-    this.carouselObserver.unsubscribe();
+    this.frCarousel.pause();
   }
   trackByIndex(index,item){
     return index;
@@ -144,7 +120,6 @@ export class ProductComponent implements OnInit {
         this.disabledBtn = true;
       }
     }
-    
   }
   initImages(productOption:ProductOption):string[]{
     let numberOfImage = productOption.numberOfImage;

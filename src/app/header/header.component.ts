@@ -1,11 +1,10 @@
-import { Component, OnInit, Input, SimpleChanges} from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges,NgZone} from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {ModalComponent} from '../modal/modal.component';
 import { CategoryService } from '../service/category.service';
 import { Category } from '../class/category';
 import { globals } from '../environtments';
-import { HostListener } from '@angular/core';
 import { DataService } from '../service/data.service';
 import { CartService } from '../service/cart.service';
 import { Cart } from '../class/cart';
@@ -31,7 +30,8 @@ export class HeaderComponent implements OnInit {
               private modalService: NgbModal,
               private categoryService: CategoryService,
               private dataService: DataService,
-              private cartService: CartService){
+              private cartService: CartService,
+              private ngZone:NgZone){
   }
   @Input() userName:string;
   @Input() carts:Cart[] = [];
@@ -122,8 +122,6 @@ export class HeaderComponent implements OnInit {
     headerItems.item(1).classList.add("underline-item"); //men
     headerItems.item(2).classList.add("underline-item"); //about
   }
-
-  @HostListener("window:scroll", [""])
   onWindowScroll() {
     let scrollTop = (document.documentElement.scrollTop || document.body.scrollTop);
     if(scrollTop == 0 && this.transparentTrigger == true){
@@ -170,6 +168,9 @@ export class HeaderComponent implements OnInit {
   }
   ngOnInit() {
     this.getHeader();
+    this.ngZone.runOutsideAngular(()=>{
+      document.addEventListener('scroll',this.onWindowScroll.bind(this));
+    });
   }
   increaseCart(id:number){
     this.cartService.add(id).subscribe(res=>{
