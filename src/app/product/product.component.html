@@ -7,11 +7,9 @@
 </div>
 <div class="d-block d-md-none mb-2">
     <fr-carousel #carousel [showNavigationArrows]="false">
-        <ng-container *ngFor="let image of images">
-            <ng-template Slide>
-                <img [src]="image" class="img-fluid" alt="">
-            </ng-template>
-        </ng-container>
+        <ng-template FrSlide *ngFor="let image of images">
+            <img [src]="image" class="img-fluid" alt="">
+        </ng-template>
     </fr-carousel>
 </div>
 <div class="container">
